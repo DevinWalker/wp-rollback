@@ -73,6 +73,9 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 				self::$instance->setup_constants();
 
 				add_action( 'plugins_loaded', array( self::$instance, 'load_textdomain' ) );
+				add_action( 'admin_menu', array( self::$instance, 'admin_menu' ), 20);
+				add_action( 'pre_current_active_plugins', array( self::$instance, 'pre_current_active_plugins' ), 20, 1);
+				add_filter( 'plugin_action_links', array( self::$instance, 'plugin_action_links' ), 20, 4);
 
 				self::$instance->includes();
 
@@ -185,6 +188,151 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 				// Load the default language files
 				load_plugin_textdomain( 'wpr', false, $wpr_lang_dir );
 			}
+		}
+
+		public function html(){
+			include dirname(__FILE__) . '/views/rollback-menu.php';
+		}
+
+		public function admin_menu() {
+			
+			// update admin page
+			$page = add_plugins_page( 'WP Rollback', 'WP Rollback', 'update_plugins', 'wp-rollback', array( self::$instance, 'html' ) );
+			
+			/*
+			// vars
+			$plugin_version = acf_get_setting('version');
+			$acf_version = get_option('acf_version');
+
+			
+			// bail early if a new install
+			if( empty($acf_version) ) {
+			
+				update_option('acf_version', $plugin_version );
+				return;
+				
+			}
+			
+			
+			// bail early if $acf_version is >= $plugin_version
+			if( version_compare( $acf_version, $plugin_version, '>=') ) {
+			
+				return;
+				
+			}
+			
+			
+			// bail early if no updates available
+			$updates = acf_get_updates();
+			if( empty($updates) ) {
+				
+				update_option('acf_version', $plugin_version );
+				return;
+				
+			}
+			
+			
+			// actions
+			add_action( 'admin_notices', array( $this, 'admin_notices'), 1 );
+			
+			
+			
+			/*
+			
+			// vars
+			$l10n = array(
+				'h4'	=> __('Data Upgrade Required', 'acf'),
+				'p'		=> sprintf(__('%s %s requires some updates to the database', 'acf'), acf_get_setting('name'), $plugin_version),
+				'a'		=> __( 'Run the updater', 'acf' )
+			);
+			
+			
+			
+	// add notice
+			$message = '
+			<h4>' . $l10n['h4'] . '</h4>
+			<p>' . $l10n['p'] . '
+				<a id="acf-run-the-updater" href="' . admin_url('edit.php?post_type=acf-field-group&page=acf-upgrade') . '" class="acf-button blue">
+					' . $l10n['a'] . '
+				</a>
+			</p>
+			<script type="text/javascript">
+			(function($) {
+				
+				$("#acf-run-the-updater").on("click", function(){
+			
+					var answer = confirm("'. __( 'It is strongly recommended that you backup your database before proceeding. Are you sure you wish to run the updater now?', 'acf' ) . '");
+					return answer;
+			
+				});
+				
+			})(jQuery);
+			</script>';
+			
+			acf_add_admin_notice( $message, 'acf-update-notice', '' );
+	*/
+			
+			
+		}
+
+		public function pre_current_active_plugins( $plugins ) {
+			$updated = $plugins;
+			foreach($updated as $key => $value) {
+				$updated[$key] = $value;
+				$updated[$key]['rollback'] = true;
+			}
+			
+			return $updated;
+		}
+
+		public function plugin_action_links( $actions, $plugin_file, $plugin_data, $context ) {
+			$actions['rollback'] = '<a href="?page=wp-rollback&plugin_file='.$plugin_file.'">Rollback</a>';
+			return $actions;
+		}
+
+		public function plugin_row_meta( $plugin_meta, $plugin_file, $plugin_data, $status ) {
+			return $plugin_meta;
+		}
+
+		public function inject_downgrade( $transient ) {
+			
+			// bail early if no plugins are being checked
+			if( empty($transient->checked) )  {
+			
+				return $transient;
+				
+			}
+
+			// bail early if no nonce
+			if( empty($_GET['_acfrollback']) ) {
+				
+				return $transient;
+				
+			}
+
+			// vars
+			$rollback = get_option('acf_version');
+			
+			
+			// bail early if nonce is not correct
+			if( !wp_verify_nonce( $_GET['_acfrollback'], 'rollback-acf_' . $rollback ) ) {
+				
+				return $transient;
+				
+			}
+
+			// create new object for update
+			$obj = new stdClass();
+			$obj->slug = $_GET['plugin'];
+			$obj->new_version = $rollback;
+			$obj->url = 'https://wordpress.org/plugins/advanced-custom-fields';
+			$obj->package = 'http://downloads.wordpress.org/plugin/advanced-custom-fields.' . $rollback . '.zip';;
+
+			// add to transient
+			$transient->response[ $_GET['plugin'] ] = $obj;
+
+			// return 
+			return $transient;
 		}
 	}
 }
