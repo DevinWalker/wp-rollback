@@ -51,6 +51,12 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 		 */
 		public $wpr_settings;
 
+		public $plugins_repo = 'http://plugins.svn.wordpress.org';
+
+		public $plugin_slug;
+
+		public $versions;
+
 
 		/**
 		 * Main WP_Rollback Instance
@@ -71,6 +77,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 			if ( ! isset( self::$instance ) && ! ( self::$instance instanceof WP_Rollback ) ) {
 				self::$instance = new WP_Rollback;
 				self::$instance->setup_constants();
+				self::$instance->setup_vars();
 
 				add_action( 'plugins_loaded', array( self::$instance, 'load_textdomain' ) );
 				add_action( 'admin_menu', array( self::$instance, 'admin_menu' ), 20);
@@ -146,6 +153,13 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 			}
 		}
 
+		private function setup_vars() {
+			$this->set_plugin_slug();
+			$svn_tags = $this->get_svn_tags();
+			$this->set_svn_versions_data( $svn_tags );
+
+		}
+
 		/**
 		 * Include required files
 		 *
@@ -192,6 +206,80 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 
 		public function html(){
 			include dirname(__FILE__) . '/views/rollback-menu.php';
+		}
+
+		private function get_svn_tags() {
+
+			$plugin_slug = $this->plugin_slug;
+		
+			$response = wp_remote_get( $this->plugins_repo . '/' . $plugin_slug .'/tags/');
+
+			if( 200 !== wp_remote_retrieve_response_code( $response ) ) {
+				return null;
+			}
+
+			return wp_remote_retrieve_body( $response );
+		}
+
+		private function set_svn_versions_data( $html ) {
+
+			if( !$html )
+				return false;
+
+			$DOM = new DOMDocument;
+			$DOM->loadHTML( $html );
+
+			$versions = array();
+			
+			$items = $DOM->getElementsByTagName('a');
+			foreach ($items as $item ) {
+				$href = str_replace('/', '', $item->getAttribute( 'href' ) );
+				if( 0 != intval( $href[0] ) ) {
+					$versions[] = $href;
+				}
+			}
+			$this->versions = $versions;
+			return $versions;
+		}
+
+		public function versions_select() {
+
+			if( !$this->versions )
+				return false;
+
+			$versions_html = '<select name="plugin_version">';
+
+			$versions = $this->versions;
+
+			foreach ($versions as $version ) {
+				if( 0 != intval( $version[0] ) ) {
+					$versions_html .= '<option value="' . $version . '">' . $version . '</option>';
+				}
+			}
+
+			$versions_html .= '</select>';
+
+			return $versions_html;
+		}
+
+		public function set_plugin_slug() {
+			if( !isset( $_GET['plugin_file'] ) )
+				return false;
+
+			include_once ABSPATH . 'wp-admin/includes/plugin.php';
+
+			$plugin_file = WP_PLUGIN_DIR . '/' . $_GET['plugin_file'];
+		
+			$plugin_data = get_plugin_data( $plugin_file, $markup = true, $translate = true );
+
+			$plugin_path_array = array_reverse( array_filter( explode('/', $plugin_data['PluginURI'] ) ) );
+
+			$plugin_slug = $plugin_path_array[0];
+
+			$this->plugin_slug = $plugin_slug;
+
+			return $plugin_slug;
+
 		}
 
 		public function admin_menu() {
@@ -326,7 +414,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 			$obj->slug = $_GET['plugin'];
 			$obj->new_version = $rollback;
 			$obj->url = 'https://wordpress.org/plugins/advanced-custom-fields';
-			$obj->package = 'http://downloads.wordpress.org/plugin/advanced-custom-fields.' . $rollback . '.zip';;
+			$obj->package = 'http://downloads.wordpress.org/plugin/advanced-custom-fields.' . $rollback . '.zip';
 
 			// add to transient
 			$transient->response[ $_GET['plugin'] ] = $obj;

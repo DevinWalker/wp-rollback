@@ -1,19 +1,19 @@
 <?php
+
+$RB = WP_Rollback();
 $plugins = get_plugins();
 $selected = '';
 ?><div class="wrap">
 	<h2>WP Rollback</h2>
 	<p>Page for information relevant to rollback.</p>
 	<?php if( isset($_GET['plugin_file']) && in_array($_GET['plugin_file'], array_keys($plugins) ) ) { 
-
-		$plugin_file = WP_PLUGIN_DIR . '/' . $_GET['plugin_file'];
 		
-		$plugin_data = get_plugin_data( $plugin_file, $markup = true, $translate = true );
-
 		$selected = $_GET['plugin_file'];
+		
+		$versions = $RB->versions_select();
 
-		var_dump($plugin_data);
-
+		if( !empty( $versions ) )
+			echo $versions;
 		}
 
 
