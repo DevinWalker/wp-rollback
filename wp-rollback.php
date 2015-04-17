@@ -53,6 +53,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 
 		public $plugins_repo = 'http://plugins.svn.wordpress.org';
 
+		public $plugin_file;
 		public $plugin_slug;
 
 		public $versions;
@@ -204,8 +205,26 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 			}
 		}
 
-		public function html(){
-			include dirname(__FILE__) . '/views/rollback-menu.php';
+		public function html() {
+
+			if ( ! current_user_can('update_plugins') )
+				wp_die(__('You do not have sufficient permissions to update plugins for this site.'));
+
+			$defaults = array(
+				'page' => 'wp-rollback',
+				'plugin_file' => "",
+				'action' => "",
+				'plugin_version'=> '',
+				'plugin'=> ''
+			);
+
+			$args = wp_parse_args( $_GET, $defaults );
+
+			if ( !empty( $args['plugin_version'] ) ) {
+				include dirname(__FILE__) . '/views/rollback-action.php';
+			}else{
+				include dirname(__FILE__) . '/views/rollback-menu.php';
+			}
 		}
 
 		private function get_svn_tags() {
@@ -252,7 +271,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 			$versions = $this->versions;
 
 			foreach ($versions as $version ) {
-				if( 0 != intval( $version[0] ) ) {
+				if( 0 != $version[0] ) {
 					$versions_html .= '<option value="' . $version . '">' . $version . '</option>';
 				}
 			}
@@ -262,7 +281,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 			return $versions_html;
 		}
 
-		public function set_plugin_slug() {
+		private function set_plugin_slug() {
 			if( !isset( $_GET['plugin_file'] ) )
 				return false;
 
@@ -270,12 +289,13 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 
 			$plugin_file = WP_PLUGIN_DIR . '/' . $_GET['plugin_file'];
 		
-			$plugin_data = get_plugin_data( $plugin_file, $markup = true, $translate = true );
+			$plugin_data = get_plugin_data( $plugin_file );
 
 			$plugin_path_array = array_reverse( array_filter( explode('/', $plugin_data['PluginURI'] ) ) );
 
 			$plugin_slug = $plugin_path_array[0];
 
+			$this->plugin_file = $plugin_file;
 			$this->plugin_slug = $plugin_slug;
 
 			return $plugin_slug;
@@ -283,84 +303,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 		}
 
 		public function admin_menu() {
-			
-			// update admin page
 			$page = add_plugins_page( 'WP Rollback', 'WP Rollback', 'update_plugins', 'wp-rollback', array( self::$instance, 'html' ) );
-			
-			/*
-			// vars
-			$plugin_version = acf_get_setting('version');
-			$acf_version = get_option('acf_version');
-
-			
-			// bail early if a new install
-			if( empty($acf_version) ) {
-			
-				update_option('acf_version', $plugin_version );
-				return;
-				
-			}
-			
-			
-			// bail early if $acf_version is >= $plugin_version
-			if( version_compare( $acf_version, $plugin_version, '>=') ) {
-			
-				return;
-				
-			}
-			
-			
-			// bail early if no updates available
-			$updates = acf_get_updates();
-			if( empty($updates) ) {
-				
-				update_option('acf_version', $plugin_version );
-				return;
-				
-			}
-			
-			
-			// actions
-			add_action( 'admin_notices', array( $this, 'admin_notices'), 1 );
-			
-			
-			
-			/*
-			
-			// vars
-			$l10n = array(
-				'h4'	=> __('Data Upgrade Required', 'acf'),
-				'p'		=> sprintf(__('%s %s requires some updates to the database', 'acf'), acf_get_setting('name'), $plugin_version),
-				'a'		=> __( 'Run the updater', 'acf' )
-			);
-			
-			
-			
-	// add notice
-			$message = '
-			<h4>' . $l10n['h4'] . '</h4>
-			<p>' . $l10n['p'] . '
-				<a id="acf-run-the-updater" href="' . admin_url('edit.php?post_type=acf-field-group&page=acf-upgrade') . '" class="acf-button blue">
-					' . $l10n['a'] . '
-				</a>
-			</p>
-			<script type="text/javascript">
-			(function($) {
-				
-				$("#acf-run-the-updater").on("click", function(){
-			
-					var answer = confirm("'. __( 'It is strongly recommended that you backup your database before proceeding. Are you sure you wish to run the updater now?', 'acf' ) . '");
-					return answer;
-			
-				});
-				
-			})(jQuery);
-			</script>';
-			
-			acf_add_admin_notice( $message, 'acf-update-notice', '' );
-	*/
-			
-			
 		}
 
 		public function pre_current_active_plugins( $plugins ) {
@@ -380,47 +323,6 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 
 		public function plugin_row_meta( $plugin_meta, $plugin_file, $plugin_data, $status ) {
 			return $plugin_meta;
-		}
-
-		public function inject_downgrade( $transient ) {
-			
-			// bail early if no plugins are being checked
-			if( empty($transient->checked) )  {
-			
-				return $transient;
-				
-			}
-
-			// bail early if no nonce
-			if( empty($_GET['_acfrollback']) ) {
-				
-				return $transient;
-				
-			}
-
-			// vars
-			$rollback = get_option('acf_version');
-			
-			
-			// bail early if nonce is not correct
-			if( !wp_verify_nonce( $_GET['_acfrollback'], 'rollback-acf_' . $rollback ) ) {
-				
-				return $transient;
-				
-			}
-
-			// create new object for update
-			$obj = new stdClass();
-			$obj->slug = $_GET['plugin'];
-			$obj->new_version = $rollback;
-			$obj->url = 'https://wordpress.org/plugins/advanced-custom-fields';
-			$obj->package = 'http://downloads.wordpress.org/plugin/advanced-custom-fields.' . $rollback . '.zip';
-
-			// add to transient
-			$transient->response[ $_GET['plugin'] ] = $obj;
-
-			// return 
-			return $transient;
 		}
 	}
 }
@@ -446,3 +348,69 @@ function WP_Rollback() {
 
 // Get Give Running
 WP_Rollback();
+
+
+include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
+
+class WP_Rollback_Plugin_Upgrader extends Plugin_Upgrader {
+
+	public function rollback( $plugin, $args = array() ) {
+
+		$defaults = array(
+			'clear_update_cache' => true,
+		);
+		$parsed_args = wp_parse_args( $args, $defaults );
+
+		$this->init();
+		$this->upgrade_strings();
+
+
+		// TODO: Add final check to make sure plugin exists
+		if ( 0 ) {
+			$this->skin->before();
+			$this->skin->set_result(false);
+			$this->skin->error('up_to_date');
+			$this->skin->after();
+			return false;
+		}
+
+		$plugin_slug = $this->skin->plugin;
+
+		$plugin_version = $this->skin->options['version'];
+
+		$download_endpoint = 'https://downloads.wordpress.org/plugin/';
+
+		$url = $download_endpoint . $plugin_slug . '.' . $plugin_version . '.zip';
+
+		//$plugin_data = get_plugin_data( $plugin );
+
+		add_filter('upgrader_pre_install', array($this, 'deactivate_plugin_before_upgrade'), 10, 2);
+		add_filter('upgrader_clear_destination', array($this, 'delete_old_plugin'), 10, 4);
+		//'source_selection' => array($this, 'source_selection'), //there's a trac ticket to move up the directory for zip's which are made a bit differently, useful for non-.org plugins.
+
+		$this->run( array(
+			'package' => $url,
+			'destination' => WP_PLUGIN_DIR,
+			'clear_destination' => true,
+			'clear_working' => true,
+			'hook_extra' => array(
+				'plugin' => $plugin,
+				'type' => 'plugin',
+				'action' => 'update',
+			),
+		) );
+
+		// Cleanup our hooks, in case something else does a upgrade on this connection.
+		remove_filter('upgrader_pre_install', array($this, 'deactivate_plugin_before_upgrade'));
+		remove_filter('upgrader_clear_destination', array($this, 'delete_old_plugin'));
+
+		if ( ! $this->result || is_wp_error($this->result) )
+			return $this->result;
+
+		// Force refresh of plugin update information
+		wp_clean_plugins_cache( $parsed_args['clear_update_cache'] );
+
+		return true;
+	}
+
+}
