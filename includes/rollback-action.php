@@ -1,4 +1,7 @@
 <?php
+/**
+ * Rollback Action
+ */
 
 include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
 
