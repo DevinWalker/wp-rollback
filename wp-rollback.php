@@ -81,9 +81,12 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 				self::$instance->setup_vars();
 
 				add_action( 'plugins_loaded', array( self::$instance, 'load_textdomain' ) );
-				add_action( 'admin_menu', array( self::$instance, 'admin_menu' ), 20);
-				add_action( 'pre_current_active_plugins', array( self::$instance, 'pre_current_active_plugins' ), 20, 1);
-				add_filter( 'plugin_action_links', array( self::$instance, 'plugin_action_links' ), 20, 4);
+				add_action( 'admin_menu', array( self::$instance, 'admin_menu' ), 20 );
+				add_action( 'pre_current_active_plugins', array(
+					self::$instance,
+					'pre_current_active_plugins'
+				), 20, 1 );
+				add_filter( 'plugin_action_links', array( self::$instance, 'plugin_action_links' ), 20, 4 );
 
 				self::$instance->includes();
 
@@ -207,33 +210,34 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 
 		public function html() {
 
-			if ( ! current_user_can('update_plugins') )
-				wp_die(__('You do not have sufficient permissions to update plugins for this site.'));
+			if ( ! current_user_can( 'update_plugins' ) ) {
+				wp_die( __( 'You do not have sufficient permissions to update plugins for this site.' ) );
+			}
 
 			$defaults = array(
-				'page' => 'wp-rollback',
-				'plugin_file' => "",
-				'action' => "",
-				'plugin_version'=> '',
-				'plugin'=> ''
+				'page'           => 'wp-rollback',
+				'plugin_file'    => "",
+				'action'         => "",
+				'plugin_version' => '',
+				'plugin'         => ''
 			);
 
 			$args = wp_parse_args( $_GET, $defaults );
 
-			if ( !empty( $args['plugin_version'] ) ) {
-				include dirname(__FILE__) . '/views/rollback-action.php';
-			}else{
-				include dirname(__FILE__) . '/views/rollback-menu.php';
+			if ( ! empty( $args['plugin_version'] ) ) {
+				include dirname( __FILE__ ) . '/views/rollback-action.php';
+			} else {
+				include dirname( __FILE__ ) . '/views/rollback-menu.php';
 			}
 		}
 
 		private function get_svn_tags() {
 
 			$plugin_slug = $this->plugin_slug;
-		
-			$response = wp_remote_get( $this->plugins_repo . '/' . $plugin_slug .'/tags/');
 
-			if( 200 !== wp_remote_retrieve_response_code( $response ) ) {
+			$response = wp_remote_get( $this->plugins_repo . '/' . $plugin_slug . '/tags/' );
+
+			if ( 200 !== wp_remote_retrieve_response_code( $response ) ) {
 				return null;
 			}
 
@@ -242,36 +246,39 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 
 		private function set_svn_versions_data( $html ) {
 
-			if( !$html )
+			if ( ! $html ) {
 				return false;
+			}
 
 			$DOM = new DOMDocument;
 			$DOM->loadHTML( $html );
 
 			$versions = array();
-			
-			$items = $DOM->getElementsByTagName('a');
-			foreach ($items as $item ) {
-				$href = str_replace('/', '', $item->getAttribute( 'href' ) );
-				if( 0 != intval( $href[0] ) ) {
+
+			$items = $DOM->getElementsByTagName( 'a' );
+			foreach ( $items as $item ) {
+				$href = str_replace( '/', '', $item->getAttribute( 'href' ) );
+				if ( 0 != intval( $href[0] ) ) {
 					$versions[] = $href;
 				}
 			}
 			$this->versions = $versions;
+
 			return $versions;
 		}
 
 		public function versions_select() {
 
-			if( !$this->versions )
+			if ( ! $this->versions ) {
 				return false;
+			}
 
 			$versions_html = '<select name="plugin_version">';
 
 			$versions = $this->versions;
 
-			foreach ($versions as $version ) {
-				if( 0 != $version[0] ) {
+			foreach ( $versions as $version ) {
+				if ( 0 != $version[0] ) {
 					$versions_html .= '<option value="' . $version . '">' . $version . '</option>';
 				}
 			}
@@ -282,16 +289,17 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 		}
 
 		private function set_plugin_slug() {
-			if( !isset( $_GET['plugin_file'] ) )
+			if ( ! isset( $_GET['plugin_file'] ) ) {
 				return false;
+			}
 
 			include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
 			$plugin_file = WP_PLUGIN_DIR . '/' . $_GET['plugin_file'];
-		
+
 			$plugin_data = get_plugin_data( $plugin_file );
 
-			$plugin_path_array = array_reverse( array_filter( explode('/', $plugin_data['PluginURI'] ) ) );
+			$plugin_path_array = array_reverse( array_filter( explode( '/', $plugin_data['PluginURI'] ) ) );
 
 			$plugin_slug = $plugin_path_array[0];
 
@@ -303,21 +311,25 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 		}
 
 		public function admin_menu() {
-			$page = add_plugins_page( 'WP Rollback', 'WP Rollback', 'update_plugins', 'wp-rollback', array( self::$instance, 'html' ) );
+			$page = add_plugins_page( 'WP Rollback', 'WP Rollback', 'update_plugins', 'wp-rollback', array(
+				self::$instance,
+				'html'
+			) );
 		}
 
 		public function pre_current_active_plugins( $plugins ) {
 			$updated = $plugins;
-			foreach($updated as $key => $value) {
-				$updated[$key] = $value;
-				$updated[$key]['rollback'] = true;
+			foreach ( $updated as $key => $value ) {
+				$updated[ $key ]             = $value;
+				$updated[ $key ]['rollback'] = true;
 			}
-			
+
 			return $updated;
 		}
 
 		public function plugin_action_links( $actions, $plugin_file, $plugin_data, $context ) {
-			$actions['rollback'] = '<a href="?page=wp-rollback&plugin_file='.$plugin_file.'">Rollback</a>';
+			$actions['rollback'] = '<a href="?page=wp-rollback&plugin_file=' . $plugin_file . '">Rollback</a>';
+
 			return $actions;
 		}
 
@@ -356,7 +368,7 @@ class WP_Rollback_Plugin_Upgrader extends Plugin_Upgrader {
 
 	public function rollback( $plugin, $args = array() ) {
 
-		$defaults = array(
+		$defaults    = array(
 			'clear_update_cache' => true,
 		);
 		$parsed_args = wp_parse_args( $args, $defaults );
@@ -368,9 +380,10 @@ class WP_Rollback_Plugin_Upgrader extends Plugin_Upgrader {
 		// TODO: Add final check to make sure plugin exists
 		if ( 0 ) {
 			$this->skin->before();
-			$this->skin->set_result(false);
-			$this->skin->error('up_to_date');
+			$this->skin->set_result( false );
+			$this->skin->error( 'up_to_date' );
 			$this->skin->after();
+
 			return false;
 		}
 
@@ -384,28 +397,29 @@ class WP_Rollback_Plugin_Upgrader extends Plugin_Upgrader {
 
 		//$plugin_data = get_plugin_data( $plugin );
 
-		add_filter('upgrader_pre_install', array($this, 'deactivate_plugin_before_upgrade'), 10, 2);
-		add_filter('upgrader_clear_destination', array($this, 'delete_old_plugin'), 10, 4);
+		add_filter( 'upgrader_pre_install', array( $this, 'deactivate_plugin_before_upgrade' ), 10, 2 );
+		add_filter( 'upgrader_clear_destination', array( $this, 'delete_old_plugin' ), 10, 4 );
 		//'source_selection' => array($this, 'source_selection'), //there's a trac ticket to move up the directory for zip's which are made a bit differently, useful for non-.org plugins.
 
 		$this->run( array(
-			'package' => $url,
-			'destination' => WP_PLUGIN_DIR,
+			'package'           => $url,
+			'destination'       => WP_PLUGIN_DIR,
 			'clear_destination' => true,
-			'clear_working' => true,
-			'hook_extra' => array(
+			'clear_working'     => true,
+			'hook_extra'        => array(
 				'plugin' => $plugin,
-				'type' => 'plugin',
+				'type'   => 'plugin',
 				'action' => 'update',
 			),
 		) );
 
 		// Cleanup our hooks, in case something else does a upgrade on this connection.
-		remove_filter('upgrader_pre_install', array($this, 'deactivate_plugin_before_upgrade'));
-		remove_filter('upgrader_clear_destination', array($this, 'delete_old_plugin'));
+		remove_filter( 'upgrader_pre_install', array( $this, 'deactivate_plugin_before_upgrade' ) );
+		remove_filter( 'upgrader_clear_destination', array( $this, 'delete_old_plugin' ) );
 
-		if ( ! $this->result || is_wp_error($this->result) )
+		if ( ! $this->result || is_wp_error( $this->result ) ) {
 			return $this->result;
+		}
 
 		// Force refresh of plugin update information
 		wp_clean_plugins_cache( $parsed_args['clear_update_cache'] );
