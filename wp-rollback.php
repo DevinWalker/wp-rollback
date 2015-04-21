@@ -328,6 +328,8 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 		 * @return bool
 		 */
 		private function set_plugin_slug() {
+
+
 			if ( ! isset( $_GET['plugin_file'] ) ) {
 				return false;
 			}
@@ -384,6 +386,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 
 			return $updated;
 		}
+
 
 		public function plugin_action_links( $actions, $plugin_file, $plugin_data, $context ) {
 			$actions['rollback'] = '<a href="index.php?page=wp-rollback&plugin_file=' . $plugin_file . '">Rollback</a>';
