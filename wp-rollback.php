@@ -20,7 +20,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Give. If not, see <http://www.gnu.org/licenses/>.
+ * along with WP Rollback. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -54,6 +54,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 		public $plugins_repo = 'http://plugins.svn.wordpress.org';
 
 		public $plugin_file;
+
 		public $plugin_slug;
 
 		public $versions;
@@ -62,7 +63,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 		/**
 		 * Main WP_Rollback Instance
 		 *
-		 * Insures that only one instance of Give exists in memory at any one
+		 * Insures that only one instance of WP Rollback exists in memory at any one
 		 * time. Also prevents needing to define globals all over the place.
 		 *
 		 * @since     1.0
@@ -107,7 +108,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 		 */
 		public function __clone() {
 			// Cloning instances of the class is forbidden
-			_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'give' ), '1.0' );
+			_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'wpr' ), '1.0' );
 		}
 
 		/**
@@ -119,7 +120,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 		 */
 		public function __wakeup() {
 			// Unserializing instances of the class is forbidden
-			_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'give' ), '1.0' );
+			_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'wpr' ), '1.0' );
 		}
 
 		/**
@@ -151,17 +152,18 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 				define( 'WP_ROLLBACK_PLUGIN_FILE', __FILE__ );
 			}
 
-			// Make sure CAL_GREGORIAN is defined
-			if ( ! defined( 'CAL_GREGORIAN' ) ) {
-				define( 'CAL_GREGORIAN', 1 );
-			}
 		}
 
+		/**
+		 * Setup Variables
+		 *
+		 * @access     private
+		 * @description:
+		 */
 		private function setup_vars() {
 			$this->set_plugin_slug();
 			$svn_tags = $this->get_svn_tags();
 			$this->set_svn_versions_data( $svn_tags );
-
 		}
 
 		/**
@@ -189,12 +191,12 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 			$wpr_lang_dir = apply_filters( 'wpr_languages_directory', $wpr_lang_dir );
 
 			// Traditional WordPress plugin locale filter
-			$locale = apply_filters( 'plugin_locale', get_locale(), 'give' );
-			$mofile = sprintf( '%1$s-%2$s.mo', 'give', $locale );
+			$locale = apply_filters( 'plugin_locale', get_locale(), 'wpr' );
+			$mofile = sprintf( '%1$s-%2$s.mo', 'wpr', $locale );
 
 			// Setup paths to current locale file
 			$mofile_local  = $wpr_lang_dir . $mofile;
-			$mofile_global = WP_LANG_DIR . '/give/' . $mofile;
+			$mofile_global = WP_LANG_DIR . '/wp-rollback/' . $mofile;
 
 			if ( file_exists( $mofile_global ) ) {
 				// Look in global /wp-content/languages/wpr folder
@@ -208,6 +210,12 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 			}
 		}
 
+		/**
+		 * HTML
+		 *
+		 * @description: FILL ME IN
+		 *
+		 */
 		public function html() {
 
 			if ( ! current_user_can( 'update_plugins' ) ) {
@@ -216,8 +224,8 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 
 			$defaults = array(
 				'page'           => 'wp-rollback',
-				'plugin_file'    => "",
-				'action'         => "",
+				'plugin_file'    => '',
+				'action'         => '',
 				'plugin_version' => '',
 				'plugin'         => ''
 			);
@@ -225,25 +233,46 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 			$args = wp_parse_args( $_GET, $defaults );
 
 			if ( ! empty( $args['plugin_version'] ) ) {
-				include dirname( __FILE__ ) . '/views/rollback-action.php';
+				include WP_ROLLBACK_PLUGIN_DIR . '/includes/rollback-action.php';
 			} else {
-				include dirname( __FILE__ ) . '/views/rollback-menu.php';
+				include WP_ROLLBACK_PLUGIN_DIR . '/includes/rollback-menu.php';
 			}
+
 		}
 
+
+		/**
+		 * Get Subversion Tags
+		 *
+		 * @description cURLs wp.org repo to get the proper tags
+		 *
+		 * @return null|string
+		 */
 		private function get_svn_tags() {
 
 			$plugin_slug = $this->plugin_slug;
 
 			$response = wp_remote_get( $this->plugins_repo . '/' . $plugin_slug . '/tags/' );
 
-			if ( 200 !== wp_remote_retrieve_response_code( $response ) ) {
+			//Do we have an error?
+			if ( wp_remote_retrieve_response_code( $response ) !== 200 ) {
 				return null;
 			}
 
+			//Nope: Return that bad boy
 			return wp_remote_retrieve_body( $response );
+
 		}
 
+		/**
+		 * Set SVN Version Data
+		 *
+		 * @description FILL ME IN
+		 *
+		 * @param $html
+		 *
+		 * @return array|bool
+		 */
 		private function set_svn_versions_data( $html ) {
 
 			if ( ! $html ) {
@@ -267,6 +296,11 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 			return $versions;
 		}
 
+		/**
+		 * Versions Select
+		 *
+		 * @return bool|string
+		 */
 		public function versions_select() {
 
 			if ( ! $this->versions ) {
@@ -288,6 +322,11 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 			return $versions_html;
 		}
 
+		/**
+		 * Set Plugin Slug
+		 *
+		 * @return bool
+		 */
 		private function set_plugin_slug() {
 			if ( ! isset( $_GET['plugin_file'] ) ) {
 				return false;
@@ -310,13 +349,32 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 
 		}
 
+		/**
+		 * Admin Menu
+		 *
+		 * @description: Adds a 'hidden' menu item that is activated when the user elects to rollback
+		 */
 		public function admin_menu() {
-			$page = add_plugins_page( 'WP Rollback', 'WP Rollback', 'update_plugins', 'wp-rollback', array(
+
+			//Only show menu item when necessary (user is interacting with plugin, ie rolling back something)
+			if(!isset($_GET['page']) && $_GET['page'] !== 'wp-rollback') {
+				return;
+			}
+
+			//Add it in a native WP way, like WP updates do... (a dashboard page)
+			add_dashboard_page( __('Rollback', 'wpr'), __('Rollback', 'wpr'), 'update_plugins', 'wp-rollback', array(
 				self::$instance,
 				'html'
 			) );
 		}
 
+		/**
+		 * Pre-Current Active Plugins
+		 *
+		 * @param $plugins
+		 *
+		 * @return mixed
+		 */
 		public function pre_current_active_plugins( $plugins ) {
 			$updated = $plugins;
 			foreach ( $updated as $key => $value ) {
@@ -328,7 +386,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 		}
 
 		public function plugin_action_links( $actions, $plugin_file, $plugin_data, $context ) {
-			$actions['rollback'] = '<a href="?page=wp-rollback&plugin_file=' . $plugin_file . '">Rollback</a>';
+			$actions['rollback'] = '<a href="index.php?page=wp-rollback&plugin_file=' . $plugin_file . '">Rollback</a>';
 
 			return $actions;
 		}
@@ -343,88 +401,20 @@ endif; // End if class_exists check
 
 
 /**
- * The main function responsible for returning the one true Give
+ * The main function responsible for returning the one true WP Rollback
  * Instance to functions everywhere.
  *
  * Use this function like you would a global variable, except without needing
  * to declare the global.
  *
- * Example: <?php $give = Give(); ?>
+ * Example: <?php $wp_rollback = WP_Rollback(); ?>
  *
  * @since 1.0
- * @return object The one true Give Instance
+ * @return object The one true WP Rollback Instance
  */
 function WP_Rollback() {
 	return WP_Rollback::instance();
 }
 
-// Get Give Running
+// Get WP Rollback Running
 WP_Rollback();
-
-
-include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
-
-class WP_Rollback_Plugin_Upgrader extends Plugin_Upgrader {
-
-	public function rollback( $plugin, $args = array() ) {
-
-		$defaults    = array(
-			'clear_update_cache' => true,
-		);
-		$parsed_args = wp_parse_args( $args, $defaults );
-
-		$this->init();
-		$this->upgrade_strings();
-
-
-		// TODO: Add final check to make sure plugin exists
-		if ( 0 ) {
-			$this->skin->before();
-			$this->skin->set_result( false );
-			$this->skin->error( 'up_to_date' );
-			$this->skin->after();
-
-			return false;
-		}
-
-		$plugin_slug = $this->skin->plugin;
-
-		$plugin_version = $this->skin->options['version'];
-
-		$download_endpoint = 'https://downloads.wordpress.org/plugin/';
-
-		$url = $download_endpoint . $plugin_slug . '.' . $plugin_version . '.zip';
-
-		//$plugin_data = get_plugin_data( $plugin );
-
-		add_filter( 'upgrader_pre_install', array( $this, 'deactivate_plugin_before_upgrade' ), 10, 2 );
-		add_filter( 'upgrader_clear_destination', array( $this, 'delete_old_plugin' ), 10, 4 );
-		//'source_selection' => array($this, 'source_selection'), //there's a trac ticket to move up the directory for zip's which are made a bit differently, useful for non-.org plugins.
-
-		$this->run( array(
-			'package'           => $url,
-			'destination'       => WP_PLUGIN_DIR,
-			'clear_destination' => true,
-			'clear_working'     => true,
-			'hook_extra'        => array(
-				'plugin' => $plugin,
-				'type'   => 'plugin',
-				'action' => 'update',
-			),
-		) );
-
-		// Cleanup our hooks, in case something else does a upgrade on this connection.
-		remove_filter( 'upgrader_pre_install', array( $this, 'deactivate_plugin_before_upgrade' ) );
-		remove_filter( 'upgrader_clear_destination', array( $this, 'delete_old_plugin' ) );
-
-		if ( ! $this->result || is_wp_error( $this->result ) ) {
-			return $this->result;
-		}
-
-		// Force refresh of plugin update information
-		wp_clean_plugins_cache( $parsed_args['clear_update_cache'] );
-
-		return true;
-	}
-
-}
