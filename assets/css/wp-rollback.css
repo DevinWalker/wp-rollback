@@ -6,6 +6,15 @@
 	max-width: 765px;
 }
 
+.wpr-content-wrap h2:before {
+	content: '\f316';
+	display: inline-block;
+	-webkit-font-smoothing: antialiased;
+	font: normal 28px/1 'dashicons';
+	vertical-align: middle;
+	padding-right: 6px;
+}
+
 .wpr-content-wrap p {
 	font-size: 18px;
 	margin-top: 10px;
@@ -32,7 +41,10 @@
 }
 
 .wpr-submit-wrap {
-	margin: 10px 0 0;
+	margin: 25px 0 0;
+	border-top: 1px solid #DADADA;
+	padding: 20px 0 30px;
+	max-width: 765px;
 }
 
 .rollback-form .current-version {
@@ -78,4 +90,9 @@
 .wpr-error p {
 	margin: 0.5em 0;
 	padding: 2px;
+}
+
+.wpr-rollback-intro {
+	font-size: 18px;
+	margin-top: 0;
 }

@@ -352,6 +352,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 
 			$versions_html = '';
 
+
 			//Loop through versions and output in a radio list
 			foreach ( $this->versions as $version ) {
 				if ( $version[0] != 0 ) {
@@ -367,7 +368,6 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 
 				}
 			}
-
 
 			return $versions_html;
 		}

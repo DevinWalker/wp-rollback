@@ -70,11 +70,12 @@ jQuery.noConflict();
 		} );
 
 		//Modal Close
-		$( '.wpr-close' ).on( 'click', function () {
+		$( '.wpr-close' ).on( 'click', function (e) {
+			e.preventDefault();
 			$.magnificPopup.close();
 		} );
 		//Modal Confirm (GO! GO! GO!)
-		$( '.wpr-go' ).on( 'click', function () {
+		$( '.wpr-go' ).on( 'click', function (e) {
 			//submit form
 			form.submit();
 		} );
