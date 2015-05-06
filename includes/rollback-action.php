@@ -3,10 +3,6 @@
  * Rollback Action
  */
 
-include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
-
-wp_enqueue_script( 'updates' );
-
 $nonce   = 'upgrade-plugin_' . $this->plugin_slug;
 $url     = 'index.php?page=wp-rollback&plugin_file=' . $args['plugin_file'] . 'action=upgrade-plugin';
 $plugin  = $this->plugin_slug;

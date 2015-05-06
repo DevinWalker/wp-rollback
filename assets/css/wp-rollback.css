@@ -2,6 +2,21 @@
  * WP Rollback Styles
  */
 
+.wpr-content-wrap {
+	max-width: 765px;
+}
+
+.wpr-content-wrap p {
+	font-size: 18px;
+	margin-top: 10px;
+}
+
+.wpr-content-wrap p span {
+	font-style: italic;
+	color: #000;
+	font-weight: 600;
+}
+
 .rollback-form {
 
 }
@@ -20,14 +35,47 @@
 	margin: 10px 0 0;
 }
 
-.current-version {
+.rollback-form .current-version {
 	text-transform: lowercase;
 	font-size: 12px;
 	font-style: italic;
-	color: #2EA2CC;
+	color: #AEAEAE;
 	margin-left: 14px;
 }
 
 .wpr-selected {
 	font-weight: bold;
+}
+
+.wpr-rollback-disabled {
+	opacity: 0.6;
+	cursor: default;
+}
+
+.button-primary {
+	margin-right: 5px !important;
+}
+
+/* Modal */
+
+#wpr-modal-confirm {
+
+}
+
+#wpr-modal-confirm .button-primary {
+	margin-right: 5px;
+}
+
+.wpr-error {
+	background: #fff;
+	border-left: 4px solid #FFB800;
+	-webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
+	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
+	margin: 20px 0;
+	padding: 1px 12px;
+}
+
+.wpr-error p {
+	margin: 0.5em 0;
+	padding: 2px;
 }

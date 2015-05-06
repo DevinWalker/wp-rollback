@@ -7,9 +7,6 @@
  * @since      : 1.0.0
  */
 
-//Get the necessary class
-include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
-
 //kick things off
 class WP_Rollback_Plugin_Upgrader extends Plugin_Upgrader {
 
