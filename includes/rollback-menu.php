@@ -25,11 +25,21 @@ $plugins = get_plugins();
 		<form name="check_for_rollbacks" class="rollback-form" action="<?php echo admin_url( '/index.php' ); ?>">
 			<?php
 			//Output Versions
-			if ( ! empty( $versions ) ) {
-				do_action( 'wpr_pre_versions' );
-				echo $versions;
-				do_action( 'wpr_post_version' );
-			} ?>
+			if ( ! empty( $versions ) ) { ?>
+
+				<div class="wpr-versions-wrap">
+
+					<?php
+
+					do_action( 'wpr_pre_versions' );
+
+					echo apply_filters( 'wpr_versions_output', $versions );
+
+					do_action( 'wpr_post_version' ); ?>
+
+				</div>
+
+			<?php } ?>
 
 			<div class="wpr-submit-wrap">
 				<a href="#wpr-modal-confirm" class="magnific-popup button-primary wpr-rollback-disabled"><?php _e( 'Rollback', 'wpr' ); ?></a>
