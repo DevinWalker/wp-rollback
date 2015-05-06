@@ -7,7 +7,7 @@ Stable tag: 1.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Rollback any WordPress.org plugin or theme, even WordPress Core like a boss.
+Rollback any WordPress.org plugin or theme like a boss.
 
 == Description ==
 

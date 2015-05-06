@@ -2,7 +2,7 @@
 /**
  * Plugin Name: WP Rollback
  * Plugin URI: http://wordimpress.com
- * Description:
+ * Description: Rollback any WordPress.org plugin or theme like a boss.
  * Author: WordImpress
  * Author URI: http://wordimpress.com
  * Version: 1.0
