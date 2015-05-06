@@ -209,9 +209,8 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 
 			//Localize for i18n notifications
 			wp_localize_script( 'wp_rollback_script', 'wpr_vars', array(
-				'ajaxurl'         => give_get_ajax_url(),
-				'version_missing' => __( 'Please select a version number to perform a rollback.', 'give' ),
-				'give_version'    => GIVE_VERSION
+				'ajaxurl'         => admin_url(),
+				'version_missing' => __( 'Please select a version number to perform a rollback.', 'wpr' ),
 			) );
 
 		}
