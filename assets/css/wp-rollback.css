@@ -1,0 +1,33 @@
+/**
+ * WP Rollback Styles
+ */
+
+.rollback-form {
+
+}
+
+.rollback-form label {
+	display: block;
+	padding: 8px 0;
+	font-size: 16px;
+}
+
+.rollback-form label input {
+	margin-right: 5px;
+}
+
+.wpr-submit-wrap {
+	margin: 10px 0 0;
+}
+
+.current-version {
+	text-transform: lowercase;
+	font-size: 12px;
+	font-style: italic;
+	color: #2EA2CC;
+	margin-left: 14px;
+}
+
+.wpr-selected {
+	font-weight: bold;
+}

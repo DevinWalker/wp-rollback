@@ -59,6 +59,8 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 
 		public $versions;
 
+		public $current_version;
+
 
 		/**
 		 * Main WP_Rollback Instance
@@ -81,7 +83,10 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 				self::$instance->setup_constants();
 				self::$instance->setup_vars();
 
+				//i18n
 				add_action( 'plugins_loaded', array( self::$instance, 'load_textdomain' ) );
+				//Admin
+				add_action( 'admin_enqueue_scripts', array( self::$instance, 'scripts' ) );
 				add_action( 'admin_menu', array( self::$instance, 'admin_menu' ), 20 );
 				add_action( 'pre_current_active_plugins', array(
 					self::$instance,
@@ -178,6 +183,27 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 		}
 
 		/**
+		 * Enqueue Admin Scripts
+		 *
+		 * @access private
+		 * @since  1.0
+		 *
+		 * @param $hook
+		 *
+		 * @return void
+		 *
+		 */
+		public function scripts( $hook ) {
+
+			if ( $hook !== 'dashboard_page_wp-rollback' ) {
+				return;
+			}
+			wp_enqueue_style( 'wp_rollback_css', plugin_dir_url( __FILE__ ) . 'assets/css/wp-rollback.css' );
+			wp_enqueue_script( 'wp_rollback_script', plugin_dir_url( __FILE__ ) . 'assets/js/wp-rollback.js', array( 'jquery' ) );
+
+		}
+
+		/**
 		 * Loads the plugin language files
 		 *
 		 * @access public
@@ -233,8 +259,10 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 			$args = wp_parse_args( $_GET, $defaults );
 
 			if ( ! empty( $args['plugin_version'] ) ) {
+				//This does the rolling back
 				include WP_ROLLBACK_PLUGIN_DIR . '/includes/rollback-action.php';
 			} else {
+				//This is the menu
 				include WP_ROLLBACK_PLUGIN_DIR . '/includes/rollback-menu.php';
 			}
 
@@ -250,9 +278,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 		 */
 		private function get_svn_tags() {
 
-			$plugin_slug = $this->plugin_slug;
-
-			$response = wp_remote_get( $this->plugins_repo . '/' . $plugin_slug . '/tags/' );
+			$response = wp_remote_get( $this->plugins_repo . '/' . $this->plugin_slug . '/tags/' );
 
 			//Do we have an error?
 			if ( wp_remote_retrieve_response_code( $response ) !== 200 ) {
@@ -286,12 +312,12 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 
 			$items = $DOM->getElementsByTagName( 'a' );
 			foreach ( $items as $item ) {
-				$href = str_replace( '/', '', $item->getAttribute( 'href' ) );
+				$href = str_replace( '/', '', $item->getAttribute( 'href' ) ); //Remove trailing slach
 				if ( 0 != intval( $href[0] ) ) {
 					$versions[] = $href;
 				}
 			}
-			$this->versions = $versions;
+			$this->versions = array_reverse( $versions );
 
 			return $versions;
 		}
@@ -307,17 +333,24 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 				return false;
 			}
 
-			$versions_html = '<select name="plugin_version">';
+			$versions_html = '';
 
-			$versions = $this->versions;
+			//Loop through versions and output in a radio list
+			foreach ( $this->versions as $version ) {
+				if ( $version[0] != 0 ) {
+					$versions_html .= '<label><input type="radio" value="' . $version . '" name="plugin_version">' . $version;
 
-			foreach ( $versions as $version ) {
-				if ( 0 != $version[0] ) {
-					$versions_html .= '<option value="' . $version . '">' . $version . '</option>';
+					//Is this the current version?
+					if ( $version === $this->current_version ) {
+						$versions_html .= '<span class="current-version">' . __( 'Current Version', 'wpr' ) . '</span>';
+					}
+
+					$versions_html .= '</label>';
+
+
 				}
 			}
 
-			$versions_html .= '</select>';
 
 			return $versions_html;
 		}
@@ -329,20 +362,21 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 		 */
 		private function set_plugin_slug() {
 
-
 			if ( ! isset( $_GET['plugin_file'] ) ) {
 				return false;
+			}
+
+			if ( isset( $_GET['current_version'] ) ) {
+				$this->current_version = $_GET['current_version'];
 			}
 
 			include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
 			$plugin_file = WP_PLUGIN_DIR . '/' . $_GET['plugin_file'];
 
-			$plugin_data = get_plugin_data( $plugin_file );
+			$plugin_data = get_plugin_data( $plugin_file, false, false );
 
-			$plugin_path_array = array_reverse( array_filter( explode( '/', $plugin_data['PluginURI'] ) ) );
-
-			$plugin_slug = $plugin_path_array[0];
+			$plugin_slug = sanitize_title( $plugin_data['Name'] );
 
 			$this->plugin_file = $plugin_file;
 			$this->plugin_slug = $plugin_slug;
@@ -359,12 +393,12 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 		public function admin_menu() {
 
 			//Only show menu item when necessary (user is interacting with plugin, ie rolling back something)
-			if(!isset($_GET['page']) && $_GET['page'] !== 'wp-rollback') {
+			if ( ! isset( $_GET['page'] ) && $_GET['page'] !== 'wp-rollback' ) {
 				return;
 			}
 
 			//Add it in a native WP way, like WP updates do... (a dashboard page)
-			add_dashboard_page( __('Rollback', 'wpr'), __('Rollback', 'wpr'), 'update_plugins', 'wp-rollback', array(
+			add_dashboard_page( __( 'Rollback', 'wpr' ), __( 'Rollback', 'wpr' ), 'update_plugins', 'wp-rollback', array(
 				self::$instance,
 				'html'
 			) );
@@ -388,12 +422,45 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 		}
 
 
+		/**
+		 * Plugin Action Links
+		 *
+		 * @description Adds a "rollback" link into the plugins listing page w/ appropriate query strings
+		 *
+		 * @param $actions
+		 * @param $plugin_file
+		 * @param $plugin_data
+		 * @param $context
+		 *
+		 * @return mixed
+		 */
 		public function plugin_action_links( $actions, $plugin_file, $plugin_data, $context ) {
-			$actions['rollback'] = '<a href="index.php?page=wp-rollback&plugin_file=' . $plugin_file . '">Rollback</a>';
+
+			//Base rollback URL
+			$rollback_url = 'index.php?page=wp-rollback&plugin_file=' . $plugin_file;
+
+			//Add in the current version for later reference
+			if ( isset( $plugin_data['Version'] ) ) {
+				$rollback_url = add_query_arg( 'current_version', urlencode( $plugin_data['Version'] ), $rollback_url );
+			}
+
+			//Final Output
+			$actions['rollback'] = '<a href="' . esc_url( $rollback_url ) . '">' . __( 'Rollback', 'wpr' ) . '</a>';
 
 			return $actions;
+
 		}
 
+		/**
+		 * Plugin Row Meta
+		 *
+		 * @param $plugin_meta
+		 * @param $plugin_file
+		 * @param $plugin_data
+		 * @param $status
+		 *
+		 * @return mixed
+		 */
 		public function plugin_row_meta( $plugin_meta, $plugin_file, $plugin_data, $status ) {
 			return $plugin_meta;
 		}
