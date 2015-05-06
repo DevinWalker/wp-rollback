@@ -2,7 +2,7 @@
 Contributors: wordimpress, dlocc, webdevmattcrom
 Tags: rollback, revert, downgrade, version
 Requires at least: 3.8
-Tested up to: 4.1.2
+Tested up to: 4.2.1
 Stable tag: 1.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -11,7 +11,7 @@ Rollback any WordPress.org plugin or theme like a boss.
 
 == Description ==
 
-Quickly and easily rollback any theme or plugin on WordPress.org to a previous version without any of the manual fuss. Works just like the plugin updater, except you're rolling back to a specific version. No need for manually downloading and FTPing up the files, this plugin takes care of that for you.
+Quickly and easily rollback any theme or plugin on WordPress.org to a previous version without any of the manual fuss. Works just like the plugin updater, except you're rolling back (or forward) to a specific version. No need for manually downloading and FTPing the files, this plugin takes care of the trouble for you.
 
 = Rollback WordPress Core, Plugins, Themes =
 

@@ -14,7 +14,7 @@ jQuery.noConflict();
 	$( function () {
 
 		var form = $( '.rollback-form' );
-		var form_labels = $( '> label', form.get( 0 ) );
+		var form_labels = $( 'label', form.get( 0 ) );
 		var form_submit_btn = $( '.magnific-popup' );
 
 		//On Element Click

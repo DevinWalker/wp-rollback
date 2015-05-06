@@ -11,8 +11,13 @@
 	display: inline-block;
 	-webkit-font-smoothing: antialiased;
 	font: normal 28px/1 'dashicons';
-	vertical-align: middle;
-	padding-right: 6px;
+	vertical-align: top;
+	margin-right: 9px;
+	-ms-transform: rotate(90deg); /* IE9 */
+	-moz-transform: rotate(90deg); /* FF3.5/3.6 */
+	-o-transform: rotate(90deg); /* Opera 10.5 */
+	-webkit-transform: rotate(90deg); /* Saf3.1+ */
+	transform: rotate(90deg); /* Newer browsers */
 }
 
 .wpr-content-wrap p {
@@ -28,6 +33,10 @@
 
 .rollback-form {
 
+}
+
+.wpr-versions-wrap {
+	padding-left: 20px;
 }
 
 .rollback-form label {
