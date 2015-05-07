@@ -454,6 +454,9 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 			//Base rollback URL
 			$rollback_url = 'index.php?page=wp-rollback&plugin_file=' . $plugin_file;
 
+			//Filter for other devs
+			$plugin_data = apply_filters( 'wpr_plugin_data', $plugin_data );
+
 			//If plugin is missing package data do not output Rollback option
 			if ( ! isset( $plugin_data['package'] ) ) {
 				return $actions;
@@ -468,9 +471,9 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 			}
 
 			//Final Output
-			$actions['rollback'] = '<a href="' . esc_url( $rollback_url ) . '">' . __( 'Rollback', 'wpr' ) . '</a>';
+			$actions['rollback'] = apply_filters( 'wpr_plugin_markup', '<a href="' . esc_url( $rollback_url ) . '">' . __( 'Rollback', 'wpr' ) . '</a>' );
 
-			return $actions;
+			return apply_filters('wpr_plugin_action_links', $actions);
 
 		}
 
