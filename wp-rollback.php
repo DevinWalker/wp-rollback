@@ -447,19 +447,24 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 		 * @param $plugin_data
 		 * @param $context
 		 *
-		 * @return mixed
+		 * @return array $actions
 		 */
 		public function plugin_action_links( $actions, $plugin_file, $plugin_data, $context ) {
 
 			//Base rollback URL
 			$rollback_url = 'index.php?page=wp-rollback&plugin_file=' . $plugin_file;
 
+			//If plugin is missing package data do not output Rollback option
+			if ( ! isset( $plugin_data['package'] ) ) {
+				return $actions;
+			}
+
 			//Add in the current version for later reference
 			if ( isset( $plugin_data['Version'] ) ) {
-				$rollback_url = add_query_arg( array(
+				$rollback_url = add_query_arg( apply_filters( 'wpr_plugin_query_args', array(
 					'current_version' => urlencode( $plugin_data['Version'] ),
 					'rollback_name'   => urlencode( $plugin_data['Name'] ),
-				), $rollback_url );
+				) ), $rollback_url );
 			}
 
 			//Final Output
