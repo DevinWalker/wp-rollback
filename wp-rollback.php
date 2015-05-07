@@ -93,7 +93,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 					'pre_current_active_plugins'
 				), 20, 1 );
 				add_filter( 'plugin_action_links', array( self::$instance, 'plugin_action_links' ), 20, 4 );
-
+				//				add_filter( 'wp_prepare_themes_for_js', array( self::$instance, 'theme_action_links' ), 10, 1 );
 				self::$instance->includes();
 
 			}
@@ -194,6 +194,11 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 		 *
 		 */
 		public function scripts( $hook ) {
+
+			if ( $hook === 'themes.php' ) {
+				wp_enqueue_script( 'wp_rollback_themes_script', plugin_dir_url( __FILE__ ) . 'assets/js/themes-wp-rollback.js', array( 'jquery' ), false, true );
+
+			}
 
 			if ( $hook !== 'dashboard_page_wp-rollback' ) {
 				return;
@@ -473,7 +478,31 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 			//Final Output
 			$actions['rollback'] = apply_filters( 'wpr_plugin_markup', '<a href="' . esc_url( $rollback_url ) . '">' . __( 'Rollback', 'wpr' ) . '</a>' );
 
-			return apply_filters('wpr_plugin_action_links', $actions);
+			return apply_filters( 'wpr_plugin_action_links', $actions );
+
+		}
+
+
+		/**
+		 * Theme Action Links
+		 *
+		 * @description Adds a "rollback" button into the themes modal w/ appropriate query strings
+		 *
+		 * @return array $prepared_themes
+		 */
+		public function theme_action_links( $prepared_themes ) {
+
+
+			//Loop through themes
+			foreach ( $prepared_themes as $theme ) {
+
+				$theme['actions']['rollback']    = 'http://wprollback.dev/wp-admin/themes.php?action=activate&stylesheet=twentyfifteen&_wpnonce=78b766716b';
+				$prepared_themes[ $theme['id'] ] = $theme;
+
+			}
+
+			return $prepared_themes;
+
 
 		}
 
