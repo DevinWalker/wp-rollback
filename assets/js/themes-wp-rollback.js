@@ -29,27 +29,46 @@ jQuery.noConflict();
 		//	}
 		//
 		//} );
-		//var rollback = Backbone.View.extend( {
-		//
-		//	initialize: function () {
-		//		console.log( 'here' );
-		//	}
-		//	//var view = new themes.view.Themes();
-		//	//view.on( 'theme:expand', function ( theView ) {
-		//	//	console.log( 'here' );
-		//	//	console.log( theView );
-		//	//} );
-		//
-		//} );
-		//var rollback = _.extend({}, Backbone.Events);
-		console.log( themes );
-		//console.log( rollback );
-		$( themes.template ).on( 'click', function ( e ) {
 
-			console.log(e);
-			$( '.inactive-theme' ).append( 'Hello' );
+		var rollback = wp.Backbone.View.extend( {
+
+			events     : {
+				'click': 'addRollback'
+			},
+			addRollback: function ( e ) {
+				alert( 'here' );
+			}
+			//var view = new themes.view.Themes();
+			//view.on( 'theme:expand', function ( theView ) {
+			//	console.log( 'here' );
+			//	console.log( theView );
+			//} );
 
 		} );
+
+		var themes = new themes.Model;
+
+		//var rollback = _.extend({}, Backbone.Events);
+		console.log( themes );
+
+		//var HeaderView = themes.view.Details.extend({
+		//  initialize: function() {
+		//	  themes.view.Details.prototype.initialize.call(this);
+		//
+		//	  alert('heyo');
+		//
+		//  }
+		//});
+
+
+		//console.log( rollback );
+		//$( themes ).on( 'click', function ( e ) {
+		//	console.log( themes.template );
+		//	console.log( themes.focusedTheme );
+		//	console.log(e);
+		//	$( '.inactive-theme' ).append( 'Hello' );
+		//
+		//} );
 
 
 	} );
