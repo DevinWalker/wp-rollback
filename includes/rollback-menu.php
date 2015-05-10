@@ -30,7 +30,6 @@ $plugins = get_plugins();
 				<div class="wpr-versions-wrap">
 
 					<?php
-
 					do_action( 'wpr_pre_versions' );
 
 					echo apply_filters( 'wpr_versions_output', $versions );

@@ -92,8 +92,11 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 					self::$instance,
 					'pre_current_active_plugins'
 				), 20, 1 );
+				add_action( 'wp_ajax_is_wordpress_theme', array( self::$instance, 'is_wordpress_theme' ) );
+
+
 				add_filter( 'plugin_action_links', array( self::$instance, 'plugin_action_links' ), 20, 4 );
-				//				add_filter( 'wp_prepare_themes_for_js', array( self::$instance, 'theme_action_links' ), 10, 1 );
+
 				self::$instance->includes();
 
 			}
@@ -484,27 +487,31 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 
 
 		/**
-		 * Theme Action Links
+		 * Is WordPress Theme?
 		 *
-		 * @description Adds a "rollback" button into the themes modal w/ appropriate query strings
-		 *
-		 * @return array $prepared_themes
+		 * @description Queryies the WordPress.org API via theme's slug to see if this theme is on WordPress
+		 * @return bool
+		 * @TODO        Set transient here to speed up future checks?
 		 */
-		public function theme_action_links( $prepared_themes ) {
+		public function is_wordpress_theme() {
 
+			$url    = add_query_arg( 'request[slug]', $_POST['theme'], 'https://api.wordpress.org/themes/info/1.1/?action=theme_information' );
+			$wp_api = wp_remote_get( $url );
 
-			//Loop through themes
-			foreach ( $prepared_themes as $theme ) {
-
-				$theme['actions']['rollback']    = 'http://wprollback.dev/wp-admin/themes.php?action=activate&stylesheet=twentyfifteen&_wpnonce=78b766716b';
-				$prepared_themes[ $theme['id'] ] = $theme;
-
+			if ( ! is_wp_error( $wp_api ) ) {
+				if ( isset( $wp_api['body'] ) && strlen( $wp_api['body'] ) > 0 && $wp_api['body'] !== 'false' ) {
+					echo 'wp';
+				} else {
+					echo 'non-wp';
+				}
+			} else {
+				echo 'error';
 			}
 
-			return $prepared_themes;
-
+			wp_die(); // this is required to terminate immediately and return a proper response
 
 		}
+
 
 		/**
 		 * Plugin Row Meta
