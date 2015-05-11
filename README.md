@@ -11,15 +11,15 @@ This is the WordImpress' official plugin entry into WordCamp Orange Country's Pl
 - [x] looking at ACF Pro + WP Rocket + TGM Plugin Activation Class
 
 
-- [ ] **Plugin Rollback Process**
+- [x] **Plugin Rollback Process**
 - [x] Integrate UI into WP admin
 - [x] Hookup UI into key plugin methods
-- [ ] Add appropriate hooks for developers
+- [x] Add appropriate hooks for developers
 
 
 - [ ] **Theme Rollback Process** 
-- [ ] Integrate UI into WP admin
-- [ ] Hookup UI into key plugin methods
+- [x] Integrate UI into WP admin
+- [x] Hookup UI into key theme methods
 - [ ] Add appropriate hooks for developers
 
 
