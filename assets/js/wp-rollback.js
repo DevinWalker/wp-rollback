@@ -20,10 +20,13 @@ jQuery.noConflict();
 		//On Element Click
 		form_labels.on( 'click', function () {
 
+			//add a selected class
 			form_labels.removeClass( 'wpr-selected' );
 			form_submit_btn.removeClass( 'wpr-rollback-disabled' );
-
 			$( this ).addClass( 'wpr-selected' );
+
+			//ensure the radio button always gets clicked
+			$( this ).find( 'input' ).prop( 'checked', true );
 
 		} );
 

@@ -4,9 +4,7 @@
  *  @description: Adds a rollback option to themes
  *  @copyright: http://opensource.org/licenses/gpl-2.0.php GNU Public License
  */
-
-
-
+var wpr_vars;
 jQuery.noConflict();
 (function ( $ ) {
 
@@ -17,12 +15,32 @@ jQuery.noConflict();
 		themes.data = _wpThemeSettings;
 
 		//On clicking a theme template
-		$( themes.template ).on( 'click', function ( e ) {
+		$( themes.template, 'button.left', 'button.right' ).on( 'click', function ( e ) {
 
 			//get theme name that was clicked
 			var clicked_theme = wpr_get_parameter_by_name( 'theme' );
 
-			//check that rollback button hasn't been put in place
+			//check that rollback button hasn't been placed
+			if ( is_rollback_btn_there() ) {
+				//button is there, bail
+				return false;
+			}
+
+			//pass off to rollback function
+			wpr_theme_rollback( clicked_theme );
+
+
+		} );
+
+		//@TODO: Get left and right buttons working when navgating themes
+		$( 'body' ).on( 'click', 'button.left, button.right', function ( e ) {
+
+			console.log( 'here' );
+
+			//get theme name that was clicked
+			var clicked_theme = wpr_get_parameter_by_name( 'theme' );
+
+			//check that rollback button hasn't been placed
 			if ( is_rollback_btn_there() ) {
 				//button is there, bail
 				return false;
@@ -57,6 +75,8 @@ jQuery.noConflict();
 		 *
 		 */
 		function wpr_theme_rollback( theme ) {
+
+
 			var data = {
 				action: 'is_wordpress_theme',
 				theme : theme
@@ -71,12 +91,15 @@ jQuery.noConflict();
 					//Get the data for this theme
 					var theme_data = wpr_get_theme_data( theme );
 
-					//console.log( theme_data );
 
 					//Form the rollback uri
-					var rollback_btn_html = '<a href="' + encodeURI( 'index.php?page=wp-rollback&type=theme&theme=' + theme + '&current_version=' + theme_data.version + '&rollback_name=' + theme_data.name + '' ) + '" class="button wpr-theme-rollback">Rollback</a>';
+					var rollback_btn_html = '<a href="' + encodeURI( 'index.php?page=wp-rollback&type=theme&theme=' + theme + '&current_version=' + theme_data.version + '&rollback_name=' + theme_data.name + '' ) + '" style="position:absolute;right: 80px; bottom: 5px;" class="button wpr-theme-rollback">' + wpr_vars.text_rollback_label + '</a>';
 
-					$( '.inactive-theme' ).append( rollback_btn_html );
+					$( '.theme-actions' ).append( rollback_btn_html );
+
+				} else {
+					//Can't roll back this theme, display the
+					$( '.theme-actions' ).append( '<span class="no-rollback" style="position: absolute;left: 23px;bottom: 16px;font-size: 12px;font-style: italic;color: rgb(181, 181, 181);">' + wpr_vars.text_not_rollbackable + '</span>' );
 
 				}
 

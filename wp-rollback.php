@@ -202,7 +202,14 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 
 			if ( $hook === 'themes.php' ) {
 				wp_enqueue_script( 'wp_rollback_themes_script', plugin_dir_url( __FILE__ ) . 'assets/js/themes-wp-rollback.js', array( 'jquery' ), false, true );
-
+//Localize for i18n
+			wp_localize_script( 'wp_rollback_themes_script', 'wpr_vars', array(
+				'ajaxurl'          => admin_url(),
+				'ajax_loader'      => admin_url( 'images/spinner.gif' ),
+				'text_rollback_label'   => __( 'Rollback', 'wpr' ),
+				'text_not_rollbackable' => __( 'No Rollback Available: This is a non-WordPress.org theme.', 'wpr' ),
+				'text_loading_rollback' => __( 'Loading...', 'wpr' ),
+			) );
 			}
 
 			if ( $hook !== 'dashboard_page_wp-rollback' ) {
@@ -217,11 +224,13 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 			wp_enqueue_script( 'wp_rollback_script', plugin_dir_url( __FILE__ ) . 'assets/js/wp-rollback.js', array( 'jquery' ) );
 			wp_enqueue_script( 'updates' );
 
-			//Localize for i18n notifications
+			//Localize for i18n
 			wp_localize_script( 'wp_rollback_script', 'wpr_vars', array(
 				'ajaxurl'         => admin_url(),
 				'version_missing' => __( 'Please select a version number to perform a rollback.', 'wpr' ),
 			) );
+
+
 
 		}
 
