@@ -5,6 +5,10 @@
  * @description Provides the rollback screen view with releases and
  *
  */
+
+//Plugin or theme update?
+
+
 $plugins = get_plugins();
 ?>
 <div class="wrap">
@@ -14,7 +18,6 @@ $plugins = get_plugins();
 		<h2><?php _e( 'WP Rollback', 'wpr' ); ?></h2>
 
 		<p><?php echo apply_filters( 'wpr_rollback_description', sprintf( __( 'Please select which version you would like to rollback to from the releases listed below. You currently have version %1$s installed of %2$s.', 'wpr' ), '<span class="current-version">' . $args['current_version'] . '</span>', '<span class="rollback-name">' . $args['rollback_name'] . '</span>' ) ); ?></p>
-
 
 	</div>
 
