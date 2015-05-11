@@ -19,7 +19,6 @@ jQuery.noConflict();
 		//On clicking a theme template
 		$( themes.template ).on( 'click', function ( e ) {
 
-
 			//get theme name that was clicked
 			var clicked_theme = wpr_get_parameter_by_name( 'theme' );
 
@@ -64,16 +63,18 @@ jQuery.noConflict();
 			};
 			$.post( ajaxurl, data, function ( response ) {
 
-				console.log( response );
+				//console.log( response );
+
 				//this theme is WordPress
 				if ( response === 'wp' ) {
 
 					//Get the data for this theme
 					var theme_data = wpr_get_theme_data( theme );
 
-					console.log( theme_data );
+					//console.log( theme_data );
 
-					var rollback_btn_html = '<a href="#" class="button wpr-theme-rollback">Rollback</a>';
+					//Form the rollback uri
+					var rollback_btn_html = '<a href="' + encodeURI( 'index.php?page=wp-rollback&type=theme&theme=' + theme + '&current_version=' + theme_data.version + '&rollback_name=' + theme_data.name + '' ) + '" class="button wpr-theme-rollback">Rollback</a>';
 
 					$( '.inactive-theme' ).append( rollback_btn_html );
 
@@ -118,6 +119,17 @@ jQuery.noConflict();
 				results = regex.exec( location.search );
 			return results === null ? "" : decodeURIComponent( results[1].replace( /\+/g, " " ) );
 		}
+
+
+		/**
+		 * Theme Rollback Button Clicked
+		 *
+		 */
+		$( 'body' ).on( 'click', '.wpr-theme-rollback', function ( e ) {
+
+			window.location = $( this ).attr( 'href' );
+
+		} );
 
 
 	} );

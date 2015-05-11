@@ -7,6 +7,11 @@
  * @since      : 1.0.0
  */
 
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 //kick things off
 class WP_Rollback_Plugin_Upgrader extends Plugin_Upgrader {
 

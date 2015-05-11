@@ -53,6 +53,8 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 
 		public $plugins_repo = 'http://plugins.svn.wordpress.org';
 
+		public $themes_repo = 'http://themes.svn.wordpress.org';
+
 		public $plugin_file;
 
 		public $plugin_slug;
@@ -170,7 +172,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 		 */
 		private function setup_vars() {
 			$this->set_plugin_slug();
-			$svn_tags = $this->get_svn_tags();
+			$svn_tags = $this->get_svn_tags( 'plugin', $this->plugin_slug );
 			$this->set_svn_versions_data( $svn_tags );
 		}
 
@@ -265,25 +267,29 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 		public function html() {
 
 			if ( ! current_user_can( 'update_plugins' ) ) {
-				wp_die( __( 'You do not have sufficient permissions to update plugins for this site.' ) );
+				wp_die( __( 'You do not have sufficient permissions to perform rollbacks for this site.', 'wpr' ) );
 			}
 
 			//Get the necessary class
 			include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
 
-			$defaults = array(
+			$defaults = apply_filters( 'wpr_rollback_html_args', array(
 				'page'           => 'wp-rollback',
 				'plugin_file'    => '',
 				'action'         => '',
 				'plugin_version' => '',
 				'plugin'         => ''
-			);
+			) );
 
 			$args = wp_parse_args( $_GET, $defaults );
 
 			if ( ! empty( $args['plugin_version'] ) ) {
-				//This does the rolling back
-				include WP_ROLLBACK_PLUGIN_DIR . '/includes/class-rollback-upgrader.php';
+				//Plugin: rolling back
+				include WP_ROLLBACK_PLUGIN_DIR . '/includes/class-rollback-plugin-upgrader.php';
+				include WP_ROLLBACK_PLUGIN_DIR . '/includes/rollback-action.php';
+			} elseif ( ! empty( $args['theme_version'] ) ) {
+				//Theme: rolling back
+				include WP_ROLLBACK_PLUGIN_DIR . '/includes/class-rollback-theme-upgrader.php';
 				include WP_ROLLBACK_PLUGIN_DIR . '/includes/rollback-action.php';
 			} else {
 				//This is the menu
@@ -298,11 +304,21 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 		 *
 		 * @description cURLs wp.org repo to get the proper tags
 		 *
+		 * @param $type
+		 * @param $slug
+		 *
 		 * @return null|string
 		 */
-		private function get_svn_tags() {
+		private function get_svn_tags( $type, $slug ) {
 
-			$response = wp_remote_get( $this->plugins_repo . '/' . $this->plugin_slug . '/tags/' );
+			$url = $this->plugins_repo . '/' . $this->plugin_slug . '/tags/';
+
+			//is this a theme svn request?
+			if ( $type == 'theme' ) {
+				$url = $this->themes_repo . '/' . $slug;
+			}
+
+			$response = wp_remote_get( $url );
 
 			//Do we have an error?
 			if ( wp_remote_retrieve_response_code( $response ) !== 200 ) {
@@ -349,9 +365,13 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 		/**
 		 * Versions Select
 		 *
+		 * @description Outputs the version radio buttons to select a rollback; types = 'plugin' or 'theme'
+		 *
+		 * @param $type
+		 *
 		 * @return bool|string
 		 */
-		public function versions_select() {
+		public function versions_select( $type ) {
 
 			if ( ! $this->versions ) {
 				return false;
@@ -359,11 +379,10 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 
 			$versions_html = '';
 
-
 			//Loop through versions and output in a radio list
 			foreach ( $this->versions as $version ) {
 				if ( $version[0] != 0 ) {
-					$versions_html .= '<label><input type="radio" value="' . $version . '" name="plugin_version">' . $version;
+					$versions_html .= '<label><input type="radio" value="' . $version . '" name="' . $type . '_version">' . $version;
 
 					//Is this the current version?
 					if ( $version === $this->current_version ) {
@@ -460,7 +479,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 		public function plugin_action_links( $actions, $plugin_file, $plugin_data, $context ) {
 
 			//Base rollback URL
-			$rollback_url = 'index.php?page=wp-rollback&plugin_file=' . $plugin_file;
+			$rollback_url = 'index.php?page=wp-rollback&type=plugin&plugin_file=' . $plugin_file;
 
 			//Filter for other devs
 			$plugin_data = apply_filters( 'wpr_plugin_data', $plugin_data );
