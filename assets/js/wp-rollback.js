@@ -20,10 +20,13 @@ jQuery.noConflict();
 		//On Element Click
 		form_labels.on( 'click', function () {
 
+			//add a selected class
 			form_labels.removeClass( 'wpr-selected' );
 			form_submit_btn.removeClass( 'wpr-rollback-disabled' );
-
 			$( this ).addClass( 'wpr-selected' );
+
+			//ensure the radio button always gets clicked
+			$( this ).find( 'input' ).prop( 'checked', true );
 
 		} );
 
@@ -33,6 +36,9 @@ jQuery.noConflict();
 			var rollback_form_vals = form.serializeArray();
 
 			var rollback_version = form.find( 'input[name="plugin_version"]:checked' ).val();
+			if ( !rollback_version ) {
+				rollback_version = form.find( 'input[name="theme_version"]:checked' ).val();
+			}
 			var installed_version = form.find( 'input[name="installed_version"]' ).val();
 			var new_version = form.find( 'input[name="new_version"]' ).val();
 			var rollback_name = form.find( 'input[name="rollback_name"]' ).val();
@@ -55,7 +61,6 @@ jQuery.noConflict();
 					callbacks     : {
 						open: function () {
 
-							console.log( rollback_version );
 							$( 'span.wpr-plugin-name' ).text( rollback_name );
 							$( 'span.wpr-installed-version' ).text( installed_version );
 							$( 'span.wpr-new-version' ).text( rollback_version );
@@ -70,12 +75,12 @@ jQuery.noConflict();
 		} );
 
 		//Modal Close
-		$( '.wpr-close' ).on( 'click', function (e) {
+		$( '.wpr-close' ).on( 'click', function ( e ) {
 			e.preventDefault();
 			$.magnificPopup.close();
 		} );
 		//Modal Confirm (GO! GO! GO!)
-		$( '.wpr-go' ).on( 'click', function (e) {
+		$( '.wpr-go' ).on( 'click', function ( e ) {
 			//submit form
 			form.submit();
 		} );
