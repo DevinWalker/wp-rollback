@@ -7,8 +7,6 @@
  */
 
 //Plugin or theme update?
-
-
 $plugins = get_plugins();
 ?>
 <div class="wrap">
