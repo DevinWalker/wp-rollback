@@ -92,6 +92,9 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 					self::$instance,
 					'pre_current_active_plugins'
 				), 20, 1 );
+				add_action( 'wp_ajax_is_wordpress_theme', array( self::$instance, 'is_wordpress_theme' ) );
+
+
 				add_filter( 'plugin_action_links', array( self::$instance, 'plugin_action_links' ), 20, 4 );
 
 				self::$instance->includes();
@@ -194,6 +197,11 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 		 *
 		 */
 		public function scripts( $hook ) {
+
+			if ( $hook === 'themes.php' ) {
+				wp_enqueue_script( 'wp_rollback_themes_script', plugin_dir_url( __FILE__ ) . 'assets/js/themes-wp-rollback.js', array( 'jquery' ), false, true );
+
+			}
 
 			if ( $hook !== 'dashboard_page_wp-rollback' ) {
 				return;
@@ -473,9 +481,37 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 			//Final Output
 			$actions['rollback'] = apply_filters( 'wpr_plugin_markup', '<a href="' . esc_url( $rollback_url ) . '">' . __( 'Rollback', 'wpr' ) . '</a>' );
 
-			return apply_filters('wpr_plugin_action_links', $actions);
+			return apply_filters( 'wpr_plugin_action_links', $actions );
 
 		}
+
+
+		/**
+		 * Is WordPress Theme?
+		 *
+		 * @description Queryies the WordPress.org API via theme's slug to see if this theme is on WordPress
+		 * @return bool
+		 * @TODO        Set transient here to speed up future checks?
+		 */
+		public function is_wordpress_theme() {
+
+			$url    = add_query_arg( 'request[slug]', $_POST['theme'], 'https://api.wordpress.org/themes/info/1.1/?action=theme_information' );
+			$wp_api = wp_remote_get( $url );
+
+			if ( ! is_wp_error( $wp_api ) ) {
+				if ( isset( $wp_api['body'] ) && strlen( $wp_api['body'] ) > 0 && $wp_api['body'] !== 'false' ) {
+					echo 'wp';
+				} else {
+					echo 'non-wp';
+				}
+			} else {
+				echo 'error';
+			}
+
+			wp_die(); // this is required to terminate immediately and return a proper response
+
+		}
+
 
 		/**
 		 * Plugin Row Meta
