@@ -14,11 +14,17 @@ jQuery.noConflict();
 		themes = wp.themes = wp.themes || {};
 		themes.data = _wpThemeSettings;
 
+		// on page load if route renders modal
+		if( $('.theme-browser.rendered').length > 0 ) {
+			var modal_theme = wpr_get_parameter_by_name( 'theme' );
+			wpr_theme_rollback( modal_theme );
+		}
+
 		//On clicking a theme template
 		$( themes.template, 'button.left', 'button.right' ).on( 'click', function ( e ) {
 
 			//get theme name that was clicked
-			var clicked_theme = wpr_get_parameter_by_name( 'theme' );
+			var clicked_theme = wpr_get_parameter_from_focused_theme();
 
 			//check that rollback button hasn't been placed
 			if ( is_rollback_btn_there() ) {
@@ -81,31 +87,18 @@ jQuery.noConflict();
 				action: 'is_wordpress_theme',
 				theme : theme
 			};
-			$.post( ajaxurl, data, function ( response ) {
 
-				//console.log( response );
+			var theme_data = wpr_get_theme_data( theme );
 
-				//this theme is WordPress
-				if ( response === 'wp' ) {
+			console.log( theme_data );
 
-					//Get the data for this theme
-					var theme_data = wpr_get_theme_data( theme );
-
-
-					//Form the rollback uri
-					var rollback_btn_html = '<a href="' + encodeURI( 'index.php?page=wp-rollback&type=theme&theme=' + theme + '&current_version=' + theme_data.version + '&rollback_name=' + theme_data.name + '' ) + '" style="position:absolute;right: 80px; bottom: 5px;" class="button wpr-theme-rollback">' + wpr_vars.text_rollback_label + '</a>';
-
-					$( '.theme-actions' ).append( rollback_btn_html );
-
-				} else {
-					//Can't roll back this theme, display the
-					$( '.theme-actions' ).append( '<span class="no-rollback" style="position: absolute;left: 23px;bottom: 16px;font-size: 12px;font-style: italic;color: rgb(181, 181, 181);">' + wpr_vars.text_not_rollbackable + '</span>' );
-
-				}
-
-				return false;
-
-			} );
+			if( theme_data.hasRollback ) {
+				var rollback_btn_html = '<a href="' + encodeURI( 'index.php?page=wp-rollback&type=theme&theme=' + theme + '&current_version=' + theme_data.version + '&rollback_name=' + theme_data.name + '' ) + '" style="position:absolute;right: 80px; bottom: 5px;" class="button wpr-theme-rollback">' + wpr_vars.text_rollback_label + '</a>';
+				$( '.theme-actions' ).append( rollback_btn_html );
+			}else{
+				//Can't roll back this theme, display the
+				$( '.theme-actions' ).append( '<span class="no-rollback" style="position: absolute;left: 23px;bottom: 16px;font-size: 12px;font-style: italic;color: rgb(181, 181, 181);">' + wpr_vars.text_not_rollbackable + '</span>' );
+			}
 
 		}
 
@@ -141,6 +134,12 @@ jQuery.noConflict();
 			var regex = new RegExp( "[\\?&]" + name + "=([^&#]*)" ),
 				results = regex.exec( location.search );
 			return results === null ? "" : decodeURIComponent( results[1].replace( /\+/g, " " ) );
+		}
+
+		function wpr_get_parameter_from_focused_theme() {
+			var focussedTheme = wp.themes.focusedTheme;
+			name = $( focussedTheme ).find('.theme-name').attr('id').replace('-name','');
+			return name;
 		}
 
 
