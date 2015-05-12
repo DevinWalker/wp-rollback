@@ -38,7 +38,7 @@ jQuery.noConflict();
 
 			}
 		}
-	}, 500 );
+	}, 150 );
 
 	//On DOM Ready
 	$( function () {
@@ -51,7 +51,6 @@ jQuery.noConflict();
 
 			//get theme name that was clicked
 			var clicked_theme = wpr_get_parameter_by_name( 'theme' );
-			console.log( clicked_theme );
 
 			//check that rollback button hasn't been placed
 			if ( is_rollback_btn_there() ) {
