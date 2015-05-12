@@ -6,18 +6,15 @@
 	max-width: 805px;
 }
 
-.wpr-content-wrap h2:before {
-	content: '\f316';
-	display: inline-block;
-	-webkit-font-smoothing: antialiased;
-	font: normal 28px/1 'dashicons';
-	vertical-align: top;
-	margin-right: 9px;
-	-ms-transform: rotate(90deg); /* IE9 */
-	-moz-transform: rotate(90deg); /* FF3.5/3.6 */
-	-o-transform: rotate(90deg); /* Opera 10.5 */
-	-webkit-transform: rotate(90deg); /* Saf3.1+ */
-	transform: rotate(90deg); /* Newer browsers */
+.wpr-content-wrap h2 {
+	padding: 0 0 25px 0;
+}
+
+.wpr-content-wrap h2 img {
+	width: 50px;
+	position: relative;
+	top: 13px;
+	margin-right: 10px;
 }
 
 .wpr-content-wrap p {
@@ -68,9 +65,15 @@
 	font-weight: bold;
 }
 
-.wpr-rollback-disabled {
+.wpr-rollback-disabled.magnific-popup.button-primary {
 	opacity: 0.6;
 	cursor: default;
+	background: #B5B5B5;
+	border-color: #6B6B6B;
+	-webkit-box-shadow: inset 0 1px 0 rgba(249, 251, 252, 0.5), 0 1px 0 rgba( 0, 0, 0, 0.15 );
+	box-shadow: inset 0 1px 0 rgba(249, 251, 252, 0.5), 0 1px 0 rgba( 0, 0, 0, 0.15 );
+	color: #777;
+	text-decoration: none;
 }
 
 .button-primary {
