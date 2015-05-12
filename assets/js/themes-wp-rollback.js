@@ -14,8 +14,8 @@ jQuery.noConflict();
 		themes = wp.themes = wp.themes || {};
 		themes.data = _wpThemeSettings;
 
-		// on page load if route renders modal
-		if( $('.theme-browser.rendered').length > 0 ) {
+		// on page load if route renders
+		if( $('.theme-overlay .theme-overlay').length > 0 ) {
 			var modal_theme = wpr_get_parameter_by_name( 'theme' );
 			wpr_theme_rollback( modal_theme );
 		}
