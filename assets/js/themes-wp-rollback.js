@@ -6,7 +6,39 @@
  */
 var wpr_vars;
 jQuery.noConflict();
+
 (function ( $ ) {
+
+	/**
+	 * Content Change DOM Event Listenter
+	 *
+	 * @see: http://stackoverflow.com/questions/3233991/jquery-watch-div/3234646#3234646
+	 * @param callback
+	 * @returns {*}
+	 */
+	jQuery.fn.contentChange = function ( callback ) {
+		var elms = jQuery( this );
+		elms.each(
+			function ( i ) {
+				var elm = jQuery( this );
+				elm.data( "lastContents", elm.html() );
+				window.watchContentChange = window.watchContentChange ? window.watchContentChange : [];
+				window.watchContentChange.push( {"element": elm, "callback": callback} );
+			}
+		);
+		return elms;
+	};
+	setInterval( function () {
+		if ( window.watchContentChange ) {
+			for ( i in window.watchContentChange ) {
+				if ( window.watchContentChange[i].element.data( "lastContents" ) != window.watchContentChange[i].element.html() ) {
+					window.watchContentChange[i].callback.apply( window.watchContentChange[i].element );
+					window.watchContentChange[i].element.data( "lastContents", window.watchContentChange[i].element.html() )
+				}
+
+			}
+		}
+	}, 500 );
 
 	//On DOM Ready
 	$( function () {
@@ -14,17 +46,12 @@ jQuery.noConflict();
 		themes = wp.themes = wp.themes || {};
 		themes.data = _wpThemeSettings;
 
-		// on page load if route renders
-		if ( $( '.theme-overlay .theme-overlay' ).length > 0 ) {
-			var modal_theme = wpr_get_parameter_by_name( 'theme' );
-			wpr_theme_rollback( modal_theme );
-		}
-
 		//On clicking a theme template
-		$( 'body' ).on( 'DOMSubtreeModified', '.theme-overlay', function ( e ) {
+		$( '.theme-overlay' ).contentChange( function ( e ) {
 
 			//get theme name that was clicked
 			var clicked_theme = wpr_get_parameter_by_name( 'theme' );
+			console.log( clicked_theme );
 
 			//check that rollback button hasn't been placed
 			if ( is_rollback_btn_there() ) {
@@ -63,7 +90,8 @@ jQuery.noConflict();
 
 			var theme_data = wpr_get_theme_data( theme );
 
-			if ( theme_data !== null && typeof theme_data.hasRollback !== 'undefined' ) {
+			//ensure this theme can be rolled back (not premium, etc)
+			if ( theme_data !== null && typeof theme_data.hasRollback !== 'undefined' && theme_data.hasRollback !== false ) {
 
 				var active_theme = $( '.theme-overlay' ).hasClass( 'active' );
 
@@ -143,6 +171,7 @@ jQuery.noConflict();
 			window.location = $( this ).attr( 'href' );
 
 		} );
+
 
 
 	} );
