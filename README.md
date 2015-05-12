@@ -29,5 +29,7 @@ WP Rollback was created to be as intuitive to the natural WordPress experience a
 We have documentation [here](https://github.com/WordImpress/WP-Rollback/wiki) as well.
 
 # About WordImpress
+
 ![](https://github.com/WordImpress/woocommerce-preview-emails/raw/master/assets/img/wordimpress_logo.png)
+
 We build impressive Plugins and Themes for your WordPress website. Find out more about us and read more great tutorials at [https://wordimpress.com](https://wordimpress.com)
