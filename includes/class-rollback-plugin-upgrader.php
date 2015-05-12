@@ -25,7 +25,6 @@ class WP_Rollback_Plugin_Upgrader extends Plugin_Upgrader {
 		$this->init();
 		$this->upgrade_strings();
 
-
 		// TODO: Add final check to make sure plugin exists
 		if ( 0 ) {
 			$this->skin->before();
@@ -44,11 +43,8 @@ class WP_Rollback_Plugin_Upgrader extends Plugin_Upgrader {
 
 		$url = $download_endpoint . $plugin_slug . '.' . $plugin_version . '.zip';
 
-		//$plugin_data = get_plugin_data( $plugin );
-
 		add_filter( 'upgrader_pre_install', array( $this, 'deactivate_plugin_before_upgrade' ), 10, 2 );
 		add_filter( 'upgrader_clear_destination', array( $this, 'delete_old_plugin' ), 10, 4 );
-		//'source_selection' => array($this, 'source_selection'), //there's a trac ticket to move up the directory for zip's which are made a bit differently, useful for non-.org plugins.
 
 		$this->run( array(
 			'package'           => $url,

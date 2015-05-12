@@ -173,6 +173,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 		 */
 		private function setup_vars() {
 			$this->set_plugin_slug();
+
 			$svn_tags = $this->get_svn_tags( 'plugin', $this->plugin_slug );
 			$this->set_svn_versions_data( $svn_tags );
 		}
@@ -360,12 +361,15 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 			$versions = array();
 
 			$items = $DOM->getElementsByTagName( 'a' );
+
 			foreach ( $items as $item ) {
-				$href = str_replace( '/', '', $item->getAttribute( 'href' ) ); //Remove trailing slach
-				if ( 0 != intval( $href[0] ) ) {
+				$href = str_replace( '/', '', $item->getAttribute( 'href' ) ); //Remove trailing slash
+
+				if ( strpos( $href, 'http' ) === false && $href !== '..' ) {
 					$versions[] = $href;
 				}
 			}
+
 			$this->versions = array_reverse( $versions );
 
 			return $versions;
@@ -390,18 +394,17 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 
 			//Loop through versions and output in a radio list
 			foreach ( $this->versions as $version ) {
-				if ( $version[0] != 0 ) {
-					$versions_html .= '<label><input type="radio" value="' . $version . '" name="' . $type . '_version">' . $version;
 
-					//Is this the current version?
-					if ( $version === $this->current_version ) {
-						$versions_html .= '<span class="current-version">' . __( 'Installed Version', 'wpr' ) . '</span>';
-					}
+				$versions_html .= '<label><input type="radio" value="' . $version . '" name="' . $type . '_version">' . $version;
 
-					$versions_html .= '</label>';
-
-
+				//Is this the current version?
+				if ( $version === $this->current_version ) {
+					$versions_html .= '<span class="current-version">' . __( 'Installed Version', 'wpr' ) . '</span>';
 				}
+
+				$versions_html .= '</label>';
+
+
 			}
 
 			return $versions_html;
@@ -419,7 +422,8 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 			}
 
 			if ( isset( $_GET['current_version'] ) ) {
-				$this->current_version = $_GET['current_version'];
+				$curr_version          = explode( ' ', $_GET['current_version'] );
+				$this->current_version = apply_filters( 'wpr_current_version', $curr_version[0] );
 			}
 
 			include_once ABSPATH . 'wp-admin/includes/plugin.php';
@@ -428,10 +432,11 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 
 			$plugin_data = get_plugin_data( $plugin_file, false, false );
 
-			$plugin_slug = sanitize_title( $plugin_data['Name'] );
+			//the plugin slug is the base directory name without the path to the main file
+			$plugin_slug = explode( '/', plugin_basename( $plugin_file ) );
 
-			$this->plugin_file = $plugin_file;
-			$this->plugin_slug = $plugin_slug;
+			$this->plugin_file = apply_filters( 'wpr_plugin_file', $plugin_file );
+			$this->plugin_slug = apply_filters( 'wpr_plugin_slug', $plugin_slug[0] );
 
 			return $plugin_slug;
 
