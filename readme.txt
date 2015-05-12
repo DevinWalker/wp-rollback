@@ -24,6 +24,10 @@ While it's considered best practice to always keep your WordPress plugins and th
 
 We provide no (zero) assurances, guarantees, or warrenties that the plugin, theme, or WordPress version you are downgrading to will work as you expect. Use this plugin at your own risk.
 
+= Translation Ready =
+
+Do you speak another language? Want to contribute in a meaninful way to WP Rollback? There's no better way than to help us translate the plugin. This plugin is translation ready. Simply use the wp-rollback.pot file and your favorite translation tool. Once finished, please reach out to us on the WordPress.org forums or better yet, submit a pull request on the [Github Repo](https://github.com/WordImpress/WP-Rollback/).
+
 = Support and Documentation =
 
 We answer all support requests [on the WordPress.org support forum](https://wordpress.org/support/plugin/wp-rollback).
@@ -78,6 +82,10 @@ Nope. We warned you in **bold** print several times in many places. And our plug
 = Where is the complete documentation located? =
 
 The documentation for this plugin is located on our [Github Wiki](https://github.com/WordImpress/WP-Rollback/wiki). This is where we make regular updates.
+
+= Can this plugin be translated? =
+
+Yes! All strings are internationalized and ready to be translated. Simply use the languages/wp-rollback.pot file and your favorite translation tool. Once finished, please reach out to us on the WordPress.org forums or better yet, submit a pull request on the [Github Repo](https://github.com/WordImpress/WP-Rollback/).
 
 == Screenshots ==
 
