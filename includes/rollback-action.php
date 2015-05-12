@@ -26,10 +26,12 @@ if ( isset( $_GET['theme_file'] ) ) {
 
 	$upgrader->rollback( $_GET['theme_file'] );
 
-} else {
+} elseif ( isset( $_GET['plugin_file'] ) ) {
 	//This is a plugin rollback
 	$upgrader = new WP_Rollback_Plugin_Upgrader( new Plugin_Upgrader_Skin( compact( 'title', 'nonce', 'url', 'plugin', 'version' ) ) );
 
 	$upgrader->rollback( $this->plugin_file );
+} else {
+	_e( 'This rollback request is missing proper query string. Please contact support.', 'wpr' );
 }
 
