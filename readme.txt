@@ -1,6 +1,6 @@
 === WP Rollback ===
 Contributors: wordimpress, dlocc, drrobotnik, webdevmattcrom
-Tags: rollback, revert, downgrade, version, plugins, themes, 
+Tags: rollback, revert, downgrade, version, plugins, themes, version, versions, backup, backups, revision, revisions
 Requires at least: 3.8
 Donate Link: https://wordimpress.com
 Tested up to: 4.2.2
