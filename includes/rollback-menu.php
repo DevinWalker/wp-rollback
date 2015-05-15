@@ -61,7 +61,7 @@ $plugins         = get_plugins();
 
 		<div class="wpr-submit-wrap">
 			<a href="#wpr-modal-confirm" class="magnific-popup button-primary wpr-rollback-disabled"><?php _e( 'Rollback', 'wpr' ); ?></a>
-			<input type="submit" value="<?php _e( 'Cancel', 'wpr' ); ?>" class="button" />
+			<input type="button" value="<?php _e( 'Cancel', 'wpr' ); ?>" class="button" onclick="location.href='<?php echo wp_get_referer(); ?>';" />
 		</div>
 		<?php do_action( 'wpr_hidden_fields' ); ?>
 		<input type="hidden" name="page" value="wp-rollback">
