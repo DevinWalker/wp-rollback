@@ -5,7 +5,7 @@
  * Description: Rollback (or forward) any WordPress.org plugin or theme like a boss.
  * Author: WordImpress
  * Author URI: http://wordimpress.com
- * Version: 1.2
+ * Version: 1.2.1
  * Text Domain: wpr
  * Domain Path: languages
  *
@@ -142,11 +142,6 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 		 * @return void
 		 */
 		private function setup_constants() {
-
-			// Plugin version
-			if ( ! defined( 'WP_ROLLBACK_VERSION' ) ) {
-				define( 'WP_ROLLBACK_VERSION', '1.0' );
-			}
 
 			// Plugin Folder Path
 			if ( ! defined( 'WP_ROLLBACK_PLUGIN_DIR' ) ) {
@@ -499,7 +494,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 			$plugin_data = apply_filters( 'wpr_plugin_data', $plugin_data );
 
 			//If plugin is missing package data do not output Rollback option
-			if ( ! isset( $plugin_data['package'] ) ) {
+			if ( ! isset( $plugin_data['package'] ) || strpos( $plugin_data['package'], 'https://downloads.wordpress.org' ) === false ) {
 				return $actions;
 			}
 

@@ -4,7 +4,7 @@ Tags: rollback, revert, downgrade, version, plugins, themes, version, versions, 
 Requires at least: 3.8
 Donate Link: https://wordimpress.com
 Tested up to: 4.2.2
-Stable tag: 1.2
+Stable tag: 1.2.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -108,6 +108,10 @@ Yes! All strings are internationalized and ready to be translated. Simply use th
 This is the first version of this plugin. It is a tool for your convenience. Rollback at your own risk!
 
 == Changelog ==
+
+= 1.2.1 =
+* Fix: Rollback link appears on non wp.org plugins https://github.com/WordImpress/WP-Rollback/issues/14 - thanks @scottopolis
+* Removed unnecessary WP_ROLLBACK_VERSION constant
 
 = 1.2 =
 * New: Swedish translation files - Thanks @WPDailyThemes
