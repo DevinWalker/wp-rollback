@@ -22,7 +22,7 @@ $plugins         = get_plugins();
 
 		<h2><img src="<?php echo WP_ROLLBACK_PLUGIN_URL; ?>/assets/images/wprb-icon-final.svg" onerror="this.onerror=null; this.src='<?php echo WP_ROLLBACK_PLUGIN_URL; ?>/assets/images/wprb-logo.png'"><?php _e( 'WP Rollback', 'wpr' ); ?></h2>
 
-		<p><?php echo apply_filters( 'wpr_rollback_description', sprintf( __( 'Please select which %1$s version you would like to rollback to from the releases listed below. You currently have version %2$s installed of %3$s.', 'wpr' ), '<span class="type">' . ( $theme_rollback == true ? 'theme' : 'plugin' ) . '</span>', '<span class="current-version">' . $args['current_version'] . '</span>', '<span class="rollback-name">' . $args['rollback_name'] . '</span>' ) ); ?></p>
+		<p><?php echo apply_filters( 'wpr_rollback_description', sprintf( __( 'Please select which %1$s version you would like to rollback to from the releases listed below. You currently have version %2$s installed of %3$s.', 'wpr' ), '<span class="type">' . ( $theme_rollback == true ? 'theme' : 'plugin' ) . '</span>', '<span class="current-version">' . esc_html( $args['current_version'] ) . '</span>', '<span class="rollback-name">' . esc_html( $args['rollback_name'] ) . '</span>' ) ); ?></p>
 
 	</div>
 
@@ -68,13 +68,13 @@ $plugins         = get_plugins();
 		<?php
 		//Important: We need the appropriate file to perform a rollback
 		if ( $plugin_rollback == true ) { ?>
-			<input type="hidden" name="plugin_file" value="<?php echo $args['plugin_file']; ?>">
+			<input type="hidden" name="plugin_file" value="<?php echo esc_attr( $args['plugin_file'] ); ?>">
 		<?php } else { ?>
-			<input type="hidden" name="theme_file" value="<?php echo $_GET['theme_file']; ?>">
+			<input type="hidden" name="theme_file" value="<?php echo esc_attr( $_GET['theme_file'] ); ?>">
 		<?php } ?>
-		<input type="hidden" name="rollback_name" value="<?php echo $args['rollback_name']; ?>">
-		<input type="hidden" name="installed_version" value="<?php echo $args['current_version']; ?>">
-
+		<input type="hidden" name="rollback_name" value="<?php echo esc_attr( $args['rollback_name'] ); ?>">
+		<input type="hidden" name="installed_version" value="<?php echo esc_attr( $args['current_version'] ); ?>">
+		<?php wp_nonce_field( 'wpr_rollback_nonce' ); ?>
 
 		<div id="wpr-modal-confirm" class="white-popup mfp-hide">
 			<div class="wpr-modal-inner">

@@ -9,12 +9,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $nonce   = 'upgrade-plugin_' . $this->plugin_slug;
-$url     = 'index.php?page=wp-rollback&plugin_file=' . $args['plugin_file'] . 'action=upgrade-plugin';
+$url     = 'index.php?page=wp-rollback&plugin_file=' . esc_url( $args['plugin_file'] ) . 'action=upgrade-plugin';
 $plugin  = $this->plugin_slug;
 $version = $args['plugin_version'];
 
 //Theme rollback
-if ( isset( $_GET['theme_file'] ) ) {
+if ( !empty( $_GET['theme_file'] ) && file_exists( WP_CONTENT_DIR . '/themes/' . $_GET['theme_file'] )  ) {
 
 	//theme specific vars
 	$nonce   = 'upgrade-theme_' . $_GET['theme_file'];
@@ -26,8 +26,8 @@ if ( isset( $_GET['theme_file'] ) ) {
 
 	$upgrader->rollback( $_GET['theme_file'] );
 
-} elseif ( isset( $_GET['plugin_file'] ) ) {
-	//This is a plugin rollback
+} elseif ( !empty( $_GET['plugin_file'] ) && file_exists( WP_PLUGIN_DIR . '/' . $_GET['plugin_file'] ) ) {
+
 	$upgrader = new WP_Rollback_Plugin_Upgrader( new Plugin_Upgrader_Skin( compact( 'title', 'nonce', 'url', 'plugin', 'version' ) ) );
 
 	$upgrader->rollback( $this->plugin_file );

@@ -95,7 +95,7 @@ jQuery.noConflict();
 				var active_theme = $( '.theme-overlay' ).hasClass( 'active' );
 
 
-				var rollback_btn_html = '<a href="' + encodeURI( 'index.php?page=wp-rollback&type=theme&theme_file=' + theme + '&current_version=' + theme_data.version + '&rollback_name=' + theme_data.name + '' ) + '" style="position:absolute;right: ' + (active_theme === true ? '5px' : '80px') + '; bottom: 5px;" class="button wpr-theme-rollback">' + wpr_vars.text_rollback_label + '</a>';
+				var rollback_btn_html = '<a href="' + encodeURI( 'index.php?page=wp-rollback&type=theme&theme_file=' + theme + '&current_version=' + theme_data.version + '&rollback_name=' + theme_data.name + '&_wpnonce=' + wpr_vars.nonce ) + '" style="position:absolute;right: ' + (active_theme === true ? '5px' : '80px') + '; bottom: 5px;" class="button wpr-theme-rollback">' + wpr_vars.text_rollback_label + '</a>';
 
 				$( '.theme-wrap' ).find( '.theme-actions' ).append( rollback_btn_html );
 
