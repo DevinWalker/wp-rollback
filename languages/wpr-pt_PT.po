@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Rollback\n"
 "POT-Creation-Date: 2015-07-29 15:50+0100\n"
-"PO-Revision-Date: 2015-07-29 15:52+0100\n"
+"PO-Revision-Date: 2015-07-29 16:03+0100\n"
 "Last-Translator: Pedro Mendonça <ped.gaspar@gmail.com>\n"
 "Language-Team: Pedro Mendonça <ped.gaspar@gmail.com>\n"
 "Language: pt_PT\n"
@@ -58,7 +58,7 @@ msgstr "Cancelar"
 
 #: includes/rollback-menu.php:82
 msgid "Are you sure you want to perform the following rollback?"
-msgstr "Tem a certeza que quer fazer esta reversão?"
+msgstr "Tem a certeza que pretende fazer esta reversão?"
 
 #: includes/rollback-menu.php:92
 msgid "Plugin Name:"
