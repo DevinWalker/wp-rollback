@@ -2,15 +2,6 @@
 # WP Rollback
 Quickly and easily rollback any theme or plugin on WordPress.org to a previous version without any of the manual fuss. Works just like the plugin updater, except you're downgrading to a specific version. No need for manually downloading and FTPing up the files, this plugin takes care of that for you.
 
-## WordCamp OC Plugin-a-Palooza
-
-This is the WordImpress' official plugin entry into [WordCamp Orange Country's Plugin-a-Palooza](https://oc.wordcamp.org/2015/plugin-a-palooza/). We're excited to be part of it and hope this plugin becomes a great utility for WordPress users worldwide.
-
-**Our Team**
-* Devin Walker ([@devinwalker](https://github.com/DevinWalker)), Lead Developer and Founder at [WordImpress.com](https://wordimpress.com)
-* Brandon Lavigne ([@drrobotnik](https://github.com/drrobotnik)), Web Developer at [Caava Design](http://caavadesign.com/)
-* Matt Cromwell ([@mathetos](https://github.com/mathetos)), Brand Ambassador and Support Guru at [WordImpress.com](https://wordimpress.com) 
-
 ## Important: Usage Disclaimer
 
 We strongly recommend you perform a test rollback on a staging site and create a complete backup of your WordPress files and database prior to performing a rollback. **We are not responsible for any misuse, deletions, white screens, fatal errors, or any other issue arising from using this plugin**.
