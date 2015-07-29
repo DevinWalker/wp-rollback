@@ -1,20 +1,21 @@
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: WP Rollback\n"
-"POT-Creation-Date: 2015-05-12 14:31-0800\n"
-"PO-Revision-Date: 2015-05-12 14:32-0800\n"
+"POT-Creation-Date: 2015-07-29 09:51-0700\n"
+"PO-Revision-Date: 2015-07-29 09:50-0700\n"
 "Last-Translator: \n"
-"Language-Team: WordImpress <info@wordimpress.com>\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.7.6\n"
+"X-Generator: Poedit 1.8.3\n"
 "X-Poedit-Basepath: ..\n"
+"X-Poedit-WPHeader: wp-rollback.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
 "esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
 "_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
@@ -29,47 +30,56 @@ msgid ""
 "support."
 msgstr ""
 
-#: includes/rollback-menu.php:23
+#. Plugin Name of the plugin/theme
+#: includes/rollback-menu.php:24
 msgid "WP Rollback"
 msgstr ""
 
-#: includes/rollback-menu.php:25
+#: includes/rollback-menu.php:27
 #, php-format
 msgid ""
 "Please select which %1$s version you would like to rollback to from the "
 "releases listed below. You currently have version %2$s installed of %3$s."
 msgstr ""
 
-#: includes/rollback-menu.php:63 includes/rollback-menu.php:121
-#: wp-rollback.php:211 wp-rollback.php:455 wp-rollback.php:515
+#: includes/rollback-menu.php:27
+msgid "theme"
+msgstr ""
+
+#: includes/rollback-menu.php:27
+msgid "plugin"
+msgstr ""
+
+#: includes/rollback-menu.php:65 includes/rollback-menu.php:123
+#: wp-rollback.php:211 wp-rollback.php:469 wp-rollback.php:531
 msgid "Rollback"
 msgstr ""
 
-#: includes/rollback-menu.php:64 includes/rollback-menu.php:122
+#: includes/rollback-menu.php:66 includes/rollback-menu.php:124
 msgid "Cancel"
 msgstr ""
 
-#: includes/rollback-menu.php:82
+#: includes/rollback-menu.php:84
 msgid "Are you sure you want to perform the following rollback?"
 msgstr ""
 
-#: includes/rollback-menu.php:92
+#: includes/rollback-menu.php:94
 msgid "Plugin Name:"
 msgstr ""
 
-#: includes/rollback-menu.php:94
+#: includes/rollback-menu.php:96
 msgid "Theme Name:"
 msgstr ""
 
-#: includes/rollback-menu.php:101
+#: includes/rollback-menu.php:103
 msgid "Installed Version:"
 msgstr ""
 
-#: includes/rollback-menu.php:107
+#: includes/rollback-menu.php:109
 msgid "New Version:"
 msgstr ""
 
-#: includes/rollback-menu.php:117
+#: includes/rollback-menu.php:119
 msgid ""
 "<strong>Notice:</strong> We strongly recommend you perform a test rollback "
 "on a staging site and create a complete backup of your WordPress files and "
@@ -78,7 +88,7 @@ msgid ""
 "from using this plugin."
 msgstr ""
 
-#: wp-rollback.php:122 wp-rollback.php:134
+#: wp-rollback.php:126 wp-rollback.php:138
 msgid "Cheatin&#8217; huh?"
 msgstr ""
 
@@ -94,24 +104,37 @@ msgstr ""
 msgid "Please select a version number to perform a rollback."
 msgstr ""
 
-#: wp-rollback.php:280
+#: wp-rollback.php:281
 msgid ""
 "You do not have sufficient permissions to perform rollbacks for this site."
 msgstr ""
 
-#: wp-rollback.php:402
+#: wp-rollback.php:412
 msgid "Installed Version"
 msgstr ""
 
-#: wp-rollback.php:627
+#: wp-rollback.php:643
 msgid ""
 "An unexpected error occurred. Something may be wrong with WordPress.org or "
 "this server&#8217;s configuration. If you continue to have problems, please "
 "try the <a href=\"https://wordpress.org/support/\">support forums</a>."
 msgstr ""
 
-#: wp-rollback.php:627
+#: wp-rollback.php:643
 msgid ""
 "(WordPress could not establish a secure connection to WordPress.org. Please "
 "contact your server administrator.)"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+#. Author URI of the plugin/theme
+msgid "http://wordimpress.com"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Rollback (or forward) any WordPress.org plugin or theme like a boss."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "WordImpress"
 msgstr ""

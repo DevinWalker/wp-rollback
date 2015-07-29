@@ -5,7 +5,7 @@
  * Description: Rollback (or forward) any WordPress.org plugin or theme like a boss.
  * Author: WordImpress
  * Author URI: http://wordimpress.com
- * Version: 1.2.2
+ * Version: 1.2.4
  * Text Domain: wpr
  * Domain Path: languages
  *
@@ -83,7 +83,11 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 			if ( ! isset( self::$instance ) && ! ( self::$instance instanceof WP_Rollback ) && is_admin() ) {
 				self::$instance = new WP_Rollback;
 				self::$instance->setup_constants();
-				self::$instance->setup_vars();
+
+				//Only setup plugin rollback on specific page
+				if(isset($_GET['plugin_file']) && $_GET['page'] == 'wp-rollback') {
+					self::$instance->setup_plugin_vars();
+				}
 
 				//i18n
 				add_action( 'plugins_loaded', array( self::$instance, 'load_textdomain' ) );
@@ -166,7 +170,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 		 * @access     private
 		 * @description:
 		 */
-		private function setup_vars() {
+		private function setup_plugin_vars() {
 			$this->set_plugin_slug();
 
 			$svn_tags = $this->get_svn_tags( 'plugin', $this->plugin_slug );
@@ -203,7 +207,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 				wp_localize_script( 'wp_rollback_themes_script', 'wpr_vars', array(
 					'ajaxurl'               => admin_url(),
 					'ajax_loader'           => admin_url( 'images/spinner.gif' ),
-					'nonce'				=> wp_create_nonce( 'wpr_rollback_nonce' ),
+					'nonce'					=> wp_create_nonce( 'wpr_rollback_nonce' ),
 					'text_rollback_label'   => __( 'Rollback', 'wpr' ),
 					'text_not_rollbackable' => __( 'No Rollback Available: This is a non-WordPress.org theme.', 'wpr' ),
 					'text_loading_rollback' => __( 'Loading...', 'wpr' ),
@@ -272,14 +276,13 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 		 */
 		public function html() {
 
+			//Permissions check
 			if ( ! current_user_can( 'update_plugins' ) ) {
 				wp_die( __( 'You do not have sufficient permissions to perform rollbacks for this site.', 'wpr' ) );
 			}
 
 			//Get the necessary class
 			include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
-
-
 
 			$defaults = apply_filters( 'wpr_rollback_html_args', array(
 				'page'           => 'wp-rollback',
@@ -301,12 +304,16 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 				include WP_ROLLBACK_PLUGIN_DIR . '/includes/rollback-action.php';
 			} elseif ( ! empty( $args['theme_version'] ) ) {
 				//Theme: rolling back
+				check_admin_referer( 'wpr_rollback_nonce' );
+
 				include WP_ROLLBACK_PLUGIN_DIR . '/includes/class-rollback-theme-upgrader.php';
 				include WP_ROLLBACK_PLUGIN_DIR . '/includes/rollback-action.php';
 			} else {
+
 				//This is the menu
 				check_admin_referer( 'wpr_rollback_nonce' );
 				include WP_ROLLBACK_PLUGIN_DIR . '/includes/rollback-menu.php';
+
 			}
 
 		}
@@ -457,11 +464,13 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 
 			//Only show menu item when necessary (user is interacting with plugin, ie rolling back something)
 			if ( isset( $_GET['page'] ) && $_GET['page'] == 'wp-rollback' ) {
+
 				//Add it in a native WP way, like WP updates do... (a dashboard page)
 				add_dashboard_page( __( 'Rollback', 'wpr' ), __( 'Rollback', 'wpr' ), 'update_plugins', 'wp-rollback', array(
 					self::$instance,
 					'html'
 				) );
+
 			}
 
 		}
@@ -514,7 +523,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 				$rollback_url = add_query_arg( apply_filters( 'wpr_plugin_query_args', array(
 					'current_version' => urlencode( $plugin_data['Version'] ),
 					'rollback_name'   => urlencode( $plugin_data['Name'] ),
-					'_wpnonce' => wp_create_nonce( 'wpr_rollback_nonce' )
+					'_wpnonce' 		  => wp_create_nonce( 'wpr_rollback_nonce' )
 				) ), $rollback_url );
 			}
 

@@ -3,8 +3,8 @@ Contributors: wordimpress, dlocc, drrobotnik, webdevmattcrom
 Tags: rollback, revert, downgrade, version, plugins, themes, version, versions, backup, backups, revision, revisions
 Requires at least: 3.8
 Donate Link: https://wordimpress.com
-Tested up to: 4.2.2
-Stable tag: 1.2.2
+Tested up to: 4.2.3
+Stable tag: 1.2.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -108,6 +108,15 @@ Yes! All strings are internationalized and ready to be translated. Simply use th
 This is the first version of this plugin. It is a tool for your convenience. Rollback at your own risk!
 
 == Changelog ==
+
+= 1.2.4 =
+* New: Portuguese translations added
+* Fix: Limit HTTP requests to Plugin page only #17 @see: https://wordpress.org/support/topic/great-plugin-but-small-issue?replies=5 and https://wordpress.org/support/topic/great-plugin-but-small-issue?replies=1#post-7234287
+
+= 1.2.3 =
+* Fixed: XSS hardening. Thanks @secupress
+* Fixed: CSRF patch regarding missing nonces. Thanks @secupress
+* Improvement: escape all of the things.
 
 = 1.2.2 =
 * New: Russian translations from @Flector - thanks!
