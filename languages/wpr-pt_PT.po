@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WP Rollback\n"
-"POT-Creation-Date: 2015-07-29 15:50+0100\n"
-"PO-Revision-Date: 2015-07-29 16:03+0100\n"
+"POT-Creation-Date: 2015-07-30 09:14+0100\n"
+"PO-Revision-Date: 2015-07-30 09:23+0100\n"
 "Last-Translator: Pedro Mendonça <ped.gaspar@gmail.com>\n"
 "Language-Team: Pedro Mendonça <ped.gaspar@gmail.com>\n"
 "Language: pt_PT\n"
@@ -34,11 +34,12 @@ msgstr ""
 "O WP Rollback não tem os parâmetros necessários para continuar. Por favor "
 "contacte o suporte."
 
-#: includes/rollback-menu.php:23
+#. Plugin Name of the plugin/theme
+#: includes/rollback-menu.php:24
 msgid "WP Rollback"
 msgstr "WP Rollback"
 
-#: includes/rollback-menu.php:25
+#: includes/rollback-menu.php:27
 #, php-format
 msgid ""
 "Please select which %1$s version you would like to rollback to from the "
@@ -47,36 +48,44 @@ msgstr ""
 "Por favor seleccione da lista abaixo qual a versão do %1$s para que pretende "
 "reverter. Actualmente tem instalada a versão %2$s de %3$s."
 
-#: includes/rollback-menu.php:63 includes/rollback-menu.php:121
-#: wp-rollback.php:207 wp-rollback.php:461 wp-rollback.php:522
+#: includes/rollback-menu.php:27
+msgid "theme"
+msgstr "tema"
+
+#: includes/rollback-menu.php:27
+msgid "plugin"
+msgstr "plugin"
+
+#: includes/rollback-menu.php:65 includes/rollback-menu.php:123
+#: wp-rollback.php:211 wp-rollback.php:469 wp-rollback.php:531
 msgid "Rollback"
 msgstr "Reverter"
 
-#: includes/rollback-menu.php:64 includes/rollback-menu.php:122
+#: includes/rollback-menu.php:66 includes/rollback-menu.php:124
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: includes/rollback-menu.php:82
+#: includes/rollback-menu.php:84
 msgid "Are you sure you want to perform the following rollback?"
 msgstr "Tem a certeza que pretende fazer esta reversão?"
 
-#: includes/rollback-menu.php:92
+#: includes/rollback-menu.php:94
 msgid "Plugin Name:"
 msgstr "Nome do plugin:"
 
-#: includes/rollback-menu.php:94
+#: includes/rollback-menu.php:96
 msgid "Theme Name:"
 msgstr "Nome do tema:"
 
-#: includes/rollback-menu.php:101
+#: includes/rollback-menu.php:103
 msgid "Installed Version:"
 msgstr "Versão instalada:"
 
-#: includes/rollback-menu.php:107
+#: includes/rollback-menu.php:109
 msgid "New Version:"
 msgstr "Nova versão:"
 
-#: includes/rollback-menu.php:117
+#: includes/rollback-menu.php:119
 msgid ""
 "<strong>Notice:</strong> We strongly recommend you perform a test rollback "
 "on a staging site and create a complete backup of your WordPress files and "
@@ -90,32 +99,32 @@ msgstr ""
 "responsáveis por qualquer má utilização, eliminação, ecrãs em branco, erros "
 "fatais ou quaisquer problemas que decorram da utilização deste plugin."
 
-#: wp-rollback.php:122 wp-rollback.php:134
+#: wp-rollback.php:126 wp-rollback.php:138
 msgid "Cheatin&#8217; huh?"
 msgstr "A fazer batota hein?"
 
-#: wp-rollback.php:208
+#: wp-rollback.php:212
 msgid "No Rollback Available: This is a non-WordPress.org theme."
 msgstr "Sem reversão disponível: este tema não é do WordPress.org."
 
-#: wp-rollback.php:209
+#: wp-rollback.php:213
 msgid "Loading..."
 msgstr "A carregar..."
 
-#: wp-rollback.php:228
+#: wp-rollback.php:232
 msgid "Please select a version number to perform a rollback."
 msgstr "Por favor seleccione o número da versão para a qual pretende reverter."
 
-#: wp-rollback.php:276
+#: wp-rollback.php:281
 msgid ""
 "You do not have sufficient permissions to perform rollbacks for this site."
 msgstr "Não tem permissões suficientes para fazer reversões neste site."
 
-#: wp-rollback.php:405
+#: wp-rollback.php:412
 msgid "Installed Version"
 msgstr "Versão instalada"
 
-#: wp-rollback.php:634
+#: wp-rollback.php:643
 msgid ""
 "An unexpected error occurred. Something may be wrong with WordPress.org or "
 "this server&#8217;s configuration. If you continue to have problems, please "
@@ -125,7 +134,7 @@ msgstr ""
 "configuração deste servidor. Se continuar a ter problemas, por favor tente "
 "os <a href=\"https://wordpress.org/support/\">fóruns de suporte</a>."
 
-#: wp-rollback.php:634
+#: wp-rollback.php:643
 msgid ""
 "(WordPress could not establish a secure connection to WordPress.org. Please "
 "contact your server administrator.)"
@@ -133,8 +142,16 @@ msgstr ""
 "(O WordPress não pôde estabelecer uma ligação segura com WordPress.org. "
 "Contacte com o administrador do seu servidor.)"
 
-#~ msgid "theme"
-#~ msgstr "tema"
+#. Plugin URI of the plugin/theme
+#. Author URI of the plugin/theme
+msgid "http://wordimpress.com"
+msgstr "http://wordimpress.com"
 
-#~ msgid "plugin"
-#~ msgstr "plugin"
+#. Description of the plugin/theme
+msgid "Rollback (or forward) any WordPress.org plugin or theme like a boss."
+msgstr ""
+"Reverta (ou adiante) a versão de qualquer plugin ou tema do WordPress.org."
+
+#. Author of the plugin/theme
+msgid "WordImpress"
+msgstr "WordImpress"
