@@ -3,7 +3,7 @@ Contributors: wordimpress, dlocc, drrobotnik, webdevmattcrom
 Tags: rollback, revert, downgrade, version, plugins, themes, version, versions, backup, backups, revision, revisions
 Requires at least: 3.8
 Donate Link: https://wordimpress.com
-Tested up to: 4.2.3
+Tested up to: 4.3.1
 Stable tag: 1.2.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -65,11 +65,9 @@ Automatic updates should work like a charm; as always though, ensure you backup 
 = Is this plugin safe to use? =
 Short answer = Yes. Longer answer = It depends on how you use it.
 
-WP Rollback is completely safe because all it does is take publicly available versions of the plugins you already have on your site and install the version that you designate. There is no other kinds of trickery or fancy offsite calls or anything.
+WP Rollback is completely safe because all it does is take publicly available versions of the plugins you already have on your site and install the version that you designate. There is no other kinds of trickery or fancy offsite calls or anything. BUT!!!
 
-**BUT!!!**
-
-It depends on you. We absolutely do NOT recommend rolling back any plugins or themes on a live site. Test the rollback locally first, have backups, use all the best practice tools available to you. This is intended to make rolling back easier, that's all.
+Safety largely depends on you. The WordPress website admin. We absolutely do NOT recommend rolling back any plugins or themes on a live site. Test the rollback locally first, have backups, use all the best practice tools available to you. This is intended to make rolling back easier, that's all.
 
 = Why isn't there a rollback button next to X plugin or theme? =
 
@@ -86,6 +84,10 @@ The documentation for this plugin is located on our [Github Wiki](https://github
 = Can this plugin be translated? =
 
 Yes! All strings are internationalized and ready to be translated. Simply use the languages/wp-rollback.pot file and your favorite translation tool. Once finished, please reach out to us on the WordPress.org forums or better yet, submit a pull request on the [Github Repo](https://github.com/WordImpress/WP-Rollback/).
+
+= Did this plugin with WordCamp Orange County's Plugin-Palooza? =
+
+Heck yes it did! The WordImpress team took home the gold.
 
 == Screenshots ==
 
