@@ -5,7 +5,7 @@
  * Description: Rollback (or forward) any WordPress.org plugin or theme like a boss.
  * Author: WordImpress
  * Author URI: http://wordimpress.com
- * Version: 1.2.4
+ * Version: 1.2.5
  * Text Domain: wpr
  * Domain Path: languages
  *
@@ -85,7 +85,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 				self::$instance->setup_constants();
 
 				//Only setup plugin rollback on specific page
-				if(isset($_GET['plugin_file']) && $_GET['page'] == 'wp-rollback') {
+				if ( isset( $_GET['plugin_file'] ) && $_GET['page'] == 'wp-rollback' ) {
 					self::$instance->setup_plugin_vars();
 				}
 
@@ -207,7 +207,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 				wp_localize_script( 'wp_rollback_themes_script', 'wpr_vars', array(
 					'ajaxurl'               => admin_url(),
 					'ajax_loader'           => admin_url( 'images/spinner.gif' ),
-					'nonce'					=> wp_create_nonce( 'wpr_rollback_nonce' ),
+					'nonce'                 => wp_create_nonce( 'wpr_rollback_nonce' ),
 					'text_rollback_label'   => __( 'Rollback', 'wpr' ),
 					'text_not_rollbackable' => __( 'No Rollback Available: This is a non-WordPress.org theme.', 'wpr' ),
 					'text_loading_rollback' => __( 'Loading...', 'wpr' ),
@@ -291,7 +291,6 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 				'plugin_version' => '',
 				'plugin'         => ''
 			) );
-
 
 
 			$args = wp_parse_args( $_GET, $defaults );
@@ -440,8 +439,9 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 
 			$plugin_file = WP_PLUGIN_DIR . '/' . $_GET['plugin_file'];
 
-			if( !file_exists( $plugin_file ) )
+			if ( ! file_exists( $plugin_file ) ) {
 				wp_die( 'Plugin you\'re referencing does not exist.' );
+			}
 
 			$plugin_data = get_plugin_data( $plugin_file, false, false );
 
@@ -523,7 +523,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 				$rollback_url = add_query_arg( apply_filters( 'wpr_plugin_query_args', array(
 					'current_version' => urlencode( $plugin_data['Version'] ),
 					'rollback_name'   => urlencode( $plugin_data['Name'] ),
-					'_wpnonce' 		  => wp_create_nonce( 'wpr_rollback_nonce' )
+					'_wpnonce'        => wp_create_nonce( 'wpr_rollback_nonce' )
 				) ), $rollback_url );
 			}
 
@@ -674,7 +674,11 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 		function wpr_prepare_themes_js( $prepared_themes ) {
 			$themes    = array();
 			$wp_themes = get_site_transient( 'rollback_themes' );
-			$rollbacks = $wp_themes->response;
+
+			if ( is_object( $wp_themes ) ) {
+				$rollbacks = $wp_themes->response;
+			}
+
 
 			foreach ( $prepared_themes as $key => $value ) {
 				$themes[ $key ]                = $prepared_themes[ $key ];
