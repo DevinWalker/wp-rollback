@@ -20,9 +20,9 @@ $plugins         = get_plugins();
 
 	<div class="wpr-content-wrap">
 
-		<h2>
+		<h1>
 			<img src="<?php echo WP_ROLLBACK_PLUGIN_URL; ?>/assets/images/wprb-icon-final.svg" onerror="this.onerror=null; this.src='<?php echo WP_ROLLBACK_PLUGIN_URL; ?>/assets/images/wprb-logo.png'"><?php _e( 'WP Rollback', 'wpr' ); ?>
-		</h2>
+		</h1>
 
 		<p><?php echo apply_filters( 'wpr_rollback_description', sprintf( __( 'Please select which %1$s version you would like to rollback to from the releases listed below. You currently have version %2$s installed of %3$s.', 'wpr' ), '<span class="type">' . ( $theme_rollback == true ? __( 'theme', 'wpr' ) : __( 'plugin', 'wpr' ) ) . '</span>', '<span class="current-version">' . esc_html( $args['current_version'] ) . '</span>', '<span class="rollback-name">' . esc_html( $args['rollback_name'] ) . '</span>' ) ); ?></p>
 
