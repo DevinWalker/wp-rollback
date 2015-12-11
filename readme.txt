@@ -1,10 +1,10 @@
 === WP Rollback ===
 Contributors: wordimpress, dlocc, drrobotnik, webdevmattcrom
 Tags: rollback, revert, downgrade, version, plugins, themes, version, versions, backup, backups, revision, revisions
-Requires at least: 3.8
+Requires at least: 4.0
 Donate Link: https://wordimpress.com
-Tested up to: 4.3.1
-Stable tag: 1.2.4
+Tested up to: 4.4
+Stable tag: 1.2.5
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -110,6 +110,11 @@ Heck yes it did! The WordImpress team took home the gold.
 This is the first version of this plugin. It is a tool for your convenience. Rollback at your own risk!
 
 == Changelog ==
+
+= 1.3 =
+* Tested compatibility with WordPress 4.4 and verified as working; bumped up compatibility
+* Fix: Trying to get property of non-object warning - https://github.com/WordImpress/WP-Rollback/issues/20
+* Improvement: Better version sorting now using usort & version_compare - https://github.com/WordImpress/WP-Rollback/issues/16
 
 = 1.2.4 =
 * New: Portuguese translations added

@@ -401,6 +401,10 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 
 			$versions_html = '';
 
+			usort( $this->versions, 'version_compare' );
+
+			$this->versions = array_reverse($this->versions);
+
 			//Loop through versions and output in a radio list
 			foreach ( $this->versions as $version ) {
 
