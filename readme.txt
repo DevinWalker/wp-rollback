@@ -4,7 +4,7 @@ Tags: rollback, revert, downgrade, version, plugins, themes, version, versions, 
 Requires at least: 4.0
 Donate Link: https://wordimpress.com
 Tested up to: 4.4.1
-Stable tag: 1.2.5
+Stable tag: 1.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
