@@ -22,7 +22,7 @@ While it's considered best practice to always keep your WordPress plugins and th
 
 **Important Disclaimer:** This plugin is not intended to be used without first taking the proper precautions to ensure zero data loss or site downtime. Always be sure you have first tested the rollback on a staging or development site prior to using WP Rollback on a live site.
 
-We provide no (zero) assurances, guarantees, or warrenties that the plugin, theme, or WordPress version you are downgrading to will work as you expect. Use this plugin at your own risk.
+We provide no (zero) assurances, guarantees, or warranties that the plugin, theme, or WordPress version you are downgrading to will work as you expect. Use this plugin at your own risk.
 
 = Translation Ready =
 
