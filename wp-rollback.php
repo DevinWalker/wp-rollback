@@ -34,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 1.0
  */
-if ( ! class_exists( 'WP Rollback' ) ) :  {
+if ( ! class_exists( 'WP Rollback' ) ) : {
 	/**
 	 * Class WP_Rollback
 	 */
@@ -424,7 +424,7 @@ if ( ! class_exists( 'WP Rollback' ) ) :  {
 		/**
 		 * Versions Select
 		 *
-		 * @description Outputs the version radio buttons to select a rollback; types = 'plugin' or 'theme'
+		 * Outputs the version radio buttons to select a rollback; types = 'plugin' or 'theme'.
 		 *
 		 * @param $type
 		 *
@@ -537,7 +537,7 @@ if ( ! class_exists( 'WP Rollback' ) ) :  {
 		/**
 		 * Plugin Action Links
 		 *
-		 * @description Adds a "rollback" link into the plugins listing page w/ appropriate query strings
+		 * Adds a "rollback" link into the plugins listing page w/ appropriate query strings
 		 *
 		 * @param $actions
 		 * @param $plugin_file
@@ -601,6 +601,7 @@ if ( ! class_exists( 'WP Rollback' ) ) :  {
 
 			// Die is required to terminate immediately and return a proper response.
 			wp_die();
+
 			return true;
 
 		}
@@ -630,11 +631,10 @@ if ( ! class_exists( 'WP Rollback' ) ) :  {
 
 			include( ABSPATH . WPINC . '/version.php' ); // include an unmodified $wp_version
 
-			//Bounce out if improperly called
+			//Bounce out if improperly called.
 			if ( defined( 'WP_INSTALLING' ) || ! is_admin() ) {
 				return false;
 			}
-
 
 			$expiration       = 12 * HOUR_IN_SECONDS;
 			$installed_themes = wp_get_themes();
@@ -682,7 +682,7 @@ if ( ! class_exists( 'WP Rollback' ) ) :  {
 
 			$raw_response = wp_remote_post( $url, $options );
 			if ( $ssl && is_wp_error( $raw_response ) ) {
-				trigger_error( __( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="https://wordpress.org/support/">support forums</a>.' ) . ' ' . __( '(WordPress could not establish a secure connection to WordPress.org. Please contact your server administrator.)' ), headers_sent() || WP_DEBUG ? E_USER_WARNING : E_USER_NOTICE );
+				trigger_error( __( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="https://wordpress.org/support/">support forums</a>.', 'wp-rollback' ) . ' ' . __( '(WordPress could not establish a secure connection to WordPress.org. Please contact your server administrator.)', 'wp-rollback' ), headers_sent() || WP_DEBUG ? E_USER_WARNING : E_USER_NOTICE );
 				$raw_response = wp_remote_post( $http_url, $options );
 			}
 
@@ -698,16 +698,19 @@ if ( ! class_exists( 'WP Rollback' ) ) :  {
 
 			$response = json_decode( wp_remote_retrieve_body( $raw_response ), true );
 
-			if ( is_array( $response ) ) {
+			if ( is_array( $response ) && isset($response['themes'])) {
 				$new_update->response = $response['themes'];
 			}
 
 			set_site_transient( 'rollback_themes', $new_update );
+
+			return true;
+
 		}
 
 
 		/**
-		 * Prepare Themes JS
+		 * Prepare Themes JS.
 		 *
 		 * @param $prepared_themes
 		 *
@@ -715,12 +718,17 @@ if ( ! class_exists( 'WP Rollback' ) ) :  {
 		 */
 		function wpr_prepare_themes_js( $prepared_themes ) {
 			$themes    = array();
+			$rollbacks = array();
 			$wp_themes = get_site_transient( 'rollback_themes' );
 
+			//Double check our transient is present.
+			if(empty($wp_themes)) {
+				$this->wpr_theme_updates_list();
+				$wp_themes = get_site_transient( 'rollback_themes' );
+			}
 			if ( is_object( $wp_themes ) ) {
 				$rollbacks = $wp_themes->response;
 			}
-
 
 			foreach ( $prepared_themes as $key => $value ) {
 				$themes[ $key ]                = $prepared_themes[ $key ];
