@@ -50,16 +50,45 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 		 */
 		public $wpr_settings;
 
+		/**
+		 * Plugins repo url.
+		 *
+		 * @var string
+		 */
 		public $plugins_repo = 'http://plugins.svn.wordpress.org';
 
+		/**
+		 * Themes repo url.
+		 * @var string
+		 */
 		public $themes_repo = 'http://themes.svn.wordpress.org';
 
+		/**
+		 * Plugin file.
+		 *
+		 * @var string
+		 */
 		public $plugin_file;
 
+		/**
+		 * Plugin slug.
+		 *
+		 * @var string
+		 */
 		public $plugin_slug;
 
+		/**
+		 * Versions.
+		 *
+		 * @var array
+		 */
 		public $versions;
 
+		/**
+		 * Current version.
+		 * 
+		 * @var string
+		 */
 		public $current_version;
 
 
@@ -228,10 +257,10 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 
 			//JS
 			wp_register_script( 'wp_rollback_modal', plugin_dir_url( __FILE__ ) . 'assets/js/jquery.magnific-popup' . $suffix . '.js', array( 'jquery' ) );
-			wp_enqueue_script( 'wp_rollback_modal');
+			wp_enqueue_script( 'wp_rollback_modal' );
 
 			wp_register_script( 'wp_rollback_script', plugin_dir_url( __FILE__ ) . 'assets/js/wp-rollback.js', array( 'jquery' ) );
-			wp_enqueue_script( 'wp_rollback_script');
+			wp_enqueue_script( 'wp_rollback_script' );
 
 			wp_enqueue_script( 'updates' );
 
@@ -551,7 +580,8 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 		/**
 		 * Is WordPress Theme?
 		 *
-		 * @description Queryies the WordPress.org API via theme's slug to see if this theme is on WordPress
+		 * Queries the WordPress.org API via theme's slug to see if this theme is on WordPress.
+		 *
 		 * @return bool
 		 * @TODO        Set transient here to speed up future checks?
 		 */
@@ -570,13 +600,14 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 				echo 'error';
 			}
 
-			wp_die(); // this is required to terminate immediately and return a proper response
+			// Die is required to terminate immediately and return a proper response.
+			wp_die();
 
 		}
 
 
 		/**
-		 * Plugin Row Meta
+		 * Plugin Row Meta.
 		 *
 		 * @param $plugin_meta
 		 * @param $plugin_file
@@ -591,9 +622,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 
 
 		/**
-		 * Updates theme list
-		 *
-		 * @description
+		 * Updates theme list.
 		 *
 		 * @return bool
 		 */
