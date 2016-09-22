@@ -3,8 +3,8 @@ Contributors: wordimpress, dlocc, drrobotnik, webdevmattcrom
 Tags: rollback, revert, downgrade, version, plugins, themes, version, versions, backup, backups, revision, revisions
 Requires at least: 4.0
 Donate Link: https://wordimpress.com
-Tested up to: 4.4.1
-Stable tag: 1.3
+Tested up to: 4.6.1
+Stable tag: 1.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -110,6 +110,10 @@ Heck yes it did! The WordImpress team took home the gold.
 This is the first version of this plugin. It is a tool for your convenience. Rollback at your own risk!
 
 == Changelog ==
+
+= 1.4 =
+* New: Updated plugin's text domain to be slug for GlotPress translations https://github.com/WordImpress/WP-Rollback/issues/27
+* Fix: Check the WP install's themes transient is present, if not fetch it to see if a theme can be rolled back. Allows rollbacks for new WP installs or in a case where the transient is not set properly. https://github.com/WordImpress/WP-Rollback/issues/27
 
 = 1.3 =
 * Tested compatibility with WordPress 4.4 and verified as working; bumped up compatibility

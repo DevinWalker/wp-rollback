@@ -100,7 +100,7 @@ jQuery.noConflict();
                 $('.theme-wrap').find('.theme-actions').append(rollback_btn_html);
 
             } else {
-                //Can't roll back this theme, display the
+                //Can't roll back this theme, display the notice.
                 $('.theme-wrap').find('.theme-actions').append('<span class="no-rollback" style="position: absolute;left: 23px;bottom: 16px;font-size: 12px;font-style: italic;color: rgb(181, 181, 181);">' + wpr_vars.text_not_rollbackable + '</span>');
             }
 

@@ -32,6 +32,6 @@ if ( ! empty( $_GET['theme_file'] ) && file_exists( WP_CONTENT_DIR . '/themes/' 
 
 	$upgrader->rollback( $this->plugin_file );
 } else {
-	_e( 'This rollback request is missing proper query string. Please contact support.', 'wpr' );
+	_e( 'This rollback request is missing proper query string. Please contact support.', 'wp-rollback' );
 }
 

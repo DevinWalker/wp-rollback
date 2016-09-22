@@ -9,7 +9,7 @@
 
 //Ensure we have our necessary query strings
 if ( ( ! isset( $_GET['type'] ) && ! isset( $_GET['theme'] ) ) || ( ! isset( $_GET['type'] ) && ! isset( $_GET['plugin_file'] ) ) ) {
-	wp_die( __( 'WP Rollback is missing necessary parameters to continue. Please contact support.', 'wpr' ) );
+	wp_die( __( 'WP Rollback is missing necessary parameters to continue. Please contact support.', 'wp-rollback' ) );
 }
 
 $theme_rollback  = $_GET['type'] == 'theme' ? true : false;
@@ -21,10 +21,10 @@ $plugins         = get_plugins();
 	<div class="wpr-content-wrap">
 
 		<h1>
-			<img src="<?php echo WP_ROLLBACK_PLUGIN_URL; ?>/assets/images/wprb-icon-final.svg" onerror="this.onerror=null; this.src='<?php echo WP_ROLLBACK_PLUGIN_URL; ?>/assets/images/wprb-logo.png'"><?php _e( 'WP Rollback', 'wpr' ); ?>
+			<img src="<?php echo WP_ROLLBACK_PLUGIN_URL; ?>/assets/images/wprb-icon-final.svg" onerror="this.onerror=null; this.src='<?php echo WP_ROLLBACK_PLUGIN_URL; ?>/assets/images/wprb-logo.png'"><?php _e( 'WP Rollback', 'wp-rollback' ); ?>
 		</h1>
 
-		<p><?php echo apply_filters( 'wpr_rollback_description', sprintf( __( 'Please select which %1$s version you would like to rollback to from the releases listed below. You currently have version %2$s installed of %3$s.', 'wpr' ), '<span class="type">' . ( $theme_rollback == true ? __( 'theme', 'wpr' ) : __( 'plugin', 'wpr' ) ) . '</span>', '<span class="current-version">' . esc_html( $args['current_version'] ) . '</span>', '<span class="rollback-name">' . esc_html( $args['rollback_name'] ) . '</span>' ) ); ?></p>
+		<p><?php echo apply_filters( 'wpr_rollback_description', sprintf( __( 'Please select which %1$s version you would like to rollback to from the releases listed below. You currently have version %2$s installed of %3$s.', 'wp-rollback' ), '<span class="type">' . ( $theme_rollback == true ? __( 'theme', 'wp-rollback' ) : __( 'plugin', 'wp-rollback' ) ) . '</span>', '<span class="current-version">' . esc_html( $args['current_version'] ) . '</span>', '<span class="rollback-name">' . esc_html( $args['rollback_name'] ) . '</span>' ) ); ?></p>
 
 	</div>
 
@@ -39,7 +39,7 @@ $plugins         = get_plugins();
 
 	} else {
 		//Fallback check
-		wp_die( 'Oh no! We\'re missing required rollback query strings. Please contact support so we can check this bug out and squash it!', 'wpr' );
+		wp_die( 'Oh no! We\'re missing required rollback query strings. Please contact support so we can check this bug out and squash it!', 'wp-rollback' );
 	}
 	?>
 
@@ -62,8 +62,8 @@ $plugins         = get_plugins();
 		<?php } ?>
 
 		<div class="wpr-submit-wrap">
-			<a href="#wpr-modal-confirm" class="magnific-popup button-primary wpr-rollback-disabled"><?php _e( 'Rollback', 'wpr' ); ?></a>
-			<input type="button" value="<?php _e( 'Cancel', 'wpr' ); ?>" class="button" onclick="location.href='<?php echo wp_get_referer(); ?>';" />
+			<a href="#wpr-modal-confirm" class="magnific-popup button-primary wpr-rollback-disabled"><?php _e( 'Rollback', 'wp-rollback' ); ?></a>
+			<input type="button" value="<?php _e( 'Cancel', 'wp-rollback' ); ?>" class="button" onclick="location.href='<?php echo wp_get_referer(); ?>';" />
 		</div>
 		<?php do_action( 'wpr_hidden_fields' ); ?>
 		<input type="hidden" name="page" value="wp-rollback">
@@ -81,7 +81,7 @@ $plugins         = get_plugins();
 		<div id="wpr-modal-confirm" class="white-popup mfp-hide">
 			<div class="wpr-modal-inner">
 				<p class="wpr-rollback-intro"><?php
-					_e( 'Are you sure you want to perform the following rollback?', 'wpr' );
+					_e( 'Are you sure you want to perform the following rollback?', 'wp-rollback' );
 					?></p>
 
 				<div class="rollback-details">
@@ -91,22 +91,22 @@ $plugins         = get_plugins();
 						<tr>
 							<td class="row-title">
 								<label for="tablecell"><?php if ( $plugin_rollback == true ) {
-										_e( 'Plugin Name:', 'wpr' );
+										_e( 'Plugin Name:', 'wp-rollback' );
 									} else {
-										_e( 'Theme Name:', 'wpr' );
+										_e( 'Theme Name:', 'wp-rollback' );
 									} ?></label>
 							</td>
 							<td><span class="wpr-plugin-name"></span></td>
 						</tr>
 						<tr class="alternate">
 							<td class="row-title">
-								<label for="tablecell"><?php _e( 'Installed Version:', 'wpr' ); ?></label>
+								<label for="tablecell"><?php _e( 'Installed Version:', 'wp-rollback' ); ?></label>
 							</td>
 							<td><span class="wpr-installed-version"></span></td>
 						</tr>
 						<tr>
 							<td class="row-title">
-								<label for="tablecell"><?php _e( 'New Version:', 'wpr' ); ?></label>
+								<label for="tablecell"><?php _e( 'New Version:', 'wp-rollback' ); ?></label>
 							</td>
 							<td><span class="wpr-new-version"></span></td>
 						</tr>
@@ -116,12 +116,12 @@ $plugins         = get_plugins();
 				</div>
 				<div class="wpr-error">
 					<p><?php
-						_e( '<strong>Notice:</strong> We strongly recommend you perform a test rollback on a staging site and create a complete backup of your WordPress files and database prior to performing a rollback. We are not responsible for any misuse, deletions, white screens, fatal errors, or any other issue arising from using this plugin.', 'wpr' );
+						_e( '<strong>Notice:</strong> We strongly recommend you perform a test rollback on a staging site and create a complete backup of your WordPress files and database prior to performing a rollback. We are not responsible for any misuse, deletions, white screens, fatal errors, or any other issue arising from using this plugin.', 'wp-rollback' );
 						?></p>
 				</div>
 				<?php do_action( 'wpr_pre_rollback_buttons' ); ?>
-				<input type="submit" value="<?php _e( 'Rollback', 'wpr' ); ?>" class="button-primary wpr-go" />
-				<a href="#" class="button wpr-close"><?php _e( 'Cancel', 'wpr' ); ?></a>
+				<input type="submit" value="<?php _e( 'Rollback', 'wp-rollback' ); ?>" class="button-primary wpr-go" />
+				<a href="#" class="button wpr-close"><?php _e( 'Cancel', 'wp-rollback' ); ?></a>
 				<?php do_action( 'wpr_post_rollback_buttons' ); ?>
 			</div>
 		</div>
