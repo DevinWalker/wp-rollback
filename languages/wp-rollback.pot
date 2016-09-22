@@ -1,0 +1,104 @@
+# Copyright (C) 2016 WP Rollback
+# This file is distributed under the same license as the WP Rollback package.
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Rollback\n"
+"Report-Msgid-Bugs-To: https://github.com/WordImpress/WP-Rollback\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2016-MO-DA HO:MI+ZONE\n"
+"Language-Team: WordImpress <info@wordimpress.com>\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+#: includes/rollback-action.php:35
+msgid "This rollback request is a missing proper query string. Please contact support."
+msgstr ""
+
+#: includes/rollback-menu.php:12
+msgid "WP Rollback is missing necessary parameters to continue. Please contact support."
+msgstr ""
+
+#: includes/rollback-menu.php:24
+msgid "WP Rollback"
+msgstr ""
+
+#: includes/rollback-menu.php:27
+msgid "Please select which %1$s version you would like to rollback to from the releases listed below. You currently have version %2$s installed of %3$s."
+msgstr ""
+
+#: includes/rollback-menu.php:27
+msgid "theme"
+msgstr ""
+
+#: includes/rollback-menu.php:27
+msgid "plugin"
+msgstr ""
+
+#: includes/rollback-menu.php:65, includes/rollback-menu.php:123, wp-rollback.php:244, wp-rollback.php:510, wp-rollback.php:510, wp-rollback.php:572
+msgid "Rollback"
+msgstr ""
+
+#: includes/rollback-menu.php:66, includes/rollback-menu.php:124
+msgid "Cancel"
+msgstr ""
+
+#: includes/rollback-menu.php:84
+msgid "Are you sure you want to perform the following rollback?"
+msgstr ""
+
+#: includes/rollback-menu.php:94
+msgid "Plugin Name:"
+msgstr ""
+
+#: includes/rollback-menu.php:96
+msgid "Theme Name:"
+msgstr ""
+
+#: includes/rollback-menu.php:103
+msgid "Installed Version:"
+msgstr ""
+
+#: includes/rollback-menu.php:109
+msgid "New Version:"
+msgstr ""
+
+#: includes/rollback-menu.php:119
+msgid "<strong>Notice:</strong> We strongly recommend you perform a test rollback on a staging site and create a complete backup of your WordPress files and database prior to performing a rollback. We are not responsible for any misuse, deletions, white screens, fatal errors, or any other issue arising from using this plugin."
+msgstr ""
+
+#: wp-rollback.php:159, wp-rollback.php:171
+msgid "Cheatin&#8217; huh?"
+msgstr ""
+
+#: wp-rollback.php:245
+msgid "No Rollback Available: This is a non-WordPress.org theme."
+msgstr ""
+
+#: wp-rollback.php:246
+msgid "Loading..."
+msgstr ""
+
+#: wp-rollback.php:275
+msgid "Please select a version number to perform a rollback."
+msgstr ""
+
+#: wp-rollback.php:321
+msgid "You do not have sufficient permissions to perform rollbacks for this site."
+msgstr ""
+
+#: wp-rollback.php:452
+msgid "Installed Version"
+msgstr ""
+
+#: wp-rollback.php:685
+msgid "An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href=\"https://wordpress.org/support/\">support forums</a>."
+msgstr ""
+
+#: wp-rollback.php:685
+msgid "(WordPress could not establish a secure connection to WordPress.org. Please contact your server administrator.)"
+msgstr ""

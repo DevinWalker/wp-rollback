@@ -1,0 +1,10 @@
+{
+  "name": "wp-rollback",
+  "private": true,
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-sort": "^2.0.0",
+    "gulp-wp-pot": "^1.2.2",
+    "gulp-checktextdomain": "^1.0.2"
+  }
+}
