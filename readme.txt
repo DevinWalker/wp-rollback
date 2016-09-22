@@ -112,8 +112,8 @@ This is the first version of this plugin. It is a tool for your convenience. Rol
 == Changelog ==
 
 = 1.4 =
-* New: Updated plugin's text domain to the plugin's slug of 'wp-rollback' to support WordPress' GlotPress translations - https://github.com/WordImpress/WP-Rollback/issues/27
-* New: Gulp automated POT file generation and text domain checker - https://github.com/WordImpress/WP-Rollback/issues/27
+* New: Updated plugin's text domain to the plugin's slug of 'wp-rollback' to support WordPress' GlotPress translations - https://github.com/WordImpress/WP-Rollback/issues/28
+* New: Gulp automated POT file generation and text domain checker - https://github.com/WordImpress/WP-Rollback/issues/28
 * Fix: Check the WP install's themes transient is present, if not fetch it to see if a theme can be rolled back. Allows rollbacks for new WP installs or in a case where the transient is not set properly - https://github.com/WordImpress/WP-Rollback/issues/27
 
 = 1.3 =
