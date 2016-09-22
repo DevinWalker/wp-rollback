@@ -21,7 +21,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with WP Rollback. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
 // Exit if accessed directly
@@ -220,13 +219,23 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 
 			$suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 
-			wp_enqueue_style( 'wp_rollback_css', plugin_dir_url( __FILE__ ) . 'assets/css/wp-rollback.css' );
-			wp_enqueue_style( 'wp_rollback_modal_css', plugin_dir_url( __FILE__ ) . 'assets/css/magnific-popup.css' );
-			wp_enqueue_script( 'wp_rollback_modal', plugin_dir_url( __FILE__ ) . 'assets/js/jquery.magnific-popup' . $suffix . '.js', array( 'jquery' ) );
-			wp_enqueue_script( 'wp_rollback_script', plugin_dir_url( __FILE__ ) . 'assets/js/wp-rollback.js', array( 'jquery' ) );
+			//CSS
+			wp_register_style( 'wp_rollback_css', plugin_dir_url( __FILE__ ) . 'assets/css/wp-rollback.css' );
+			wp_enqueue_style( 'wp_rollback_css' );
+
+			wp_register_style( 'wp_rollback_modal_css', plugin_dir_url( __FILE__ ) . 'assets/css/magnific-popup.css' );
+			wp_enqueue_style( 'wp_rollback_modal_css' );
+
+			//JS
+			wp_register_script( 'wp_rollback_modal', plugin_dir_url( __FILE__ ) . 'assets/js/jquery.magnific-popup' . $suffix . '.js', array( 'jquery' ) );
+			wp_enqueue_script( 'wp_rollback_modal');
+
+			wp_register_script( 'wp_rollback_script', plugin_dir_url( __FILE__ ) . 'assets/js/wp-rollback.js', array( 'jquery' ) );
+			wp_enqueue_script( 'wp_rollback_script');
+
 			wp_enqueue_script( 'updates' );
 
-			//Localize for i18n
+			//Localize for i18n.
 			wp_localize_script( 'wp_rollback_script', 'wpr_vars', array(
 				'ajaxurl'         => admin_url(),
 				'version_missing' => __( 'Please select a version number to perform a rollback.', 'wpr' ),
@@ -403,7 +412,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 
 			usort( $this->versions, 'version_compare' );
 
-			$this->versions = array_reverse($this->versions);
+			$this->versions = array_reverse( $this->versions );
 
 			//Loop through versions and output in a radio list
 			foreach ( $this->versions as $version ) {
