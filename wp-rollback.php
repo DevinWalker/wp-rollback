@@ -23,16 +23,21 @@
  * along with WP Rollback. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// Exit if accessed directly
+
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! class_exists( 'WP Rollback' ) ) : /**
+/**
  * Main WP Rollback Class
  *
  * @since 1.0
- */ {
+ */
+if ( ! class_exists( 'WP Rollback' ) ) :  {
+	/**
+	 * Class WP_Rollback
+	 */
 	final class WP_Rollback {
 		/** Singleton *************************************************************/
 
@@ -86,7 +91,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 
 		/**
 		 * Current version.
-		 * 
+		 *
 		 * @var string
 		 */
 		public $current_version;
@@ -308,9 +313,6 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 
 		/**
 		 * HTML
-		 *
-		 * @description: FILL ME IN
-		 *
 		 */
 		public function html() {
 
@@ -334,20 +336,17 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 			$args = wp_parse_args( $_GET, $defaults );
 
 			if ( ! empty( $args['plugin_version'] ) ) {
-				//Plugin: rolling back
+				//Plugin: rolling back.
 				check_admin_referer( 'wpr_rollback_nonce' );
-
 				include WP_ROLLBACK_PLUGIN_DIR . '/includes/class-rollback-plugin-upgrader.php';
 				include WP_ROLLBACK_PLUGIN_DIR . '/includes/rollback-action.php';
 			} elseif ( ! empty( $args['theme_version'] ) ) {
-				//Theme: rolling back
+				//Theme: rolling back.
 				check_admin_referer( 'wpr_rollback_nonce' );
-
 				include WP_ROLLBACK_PLUGIN_DIR . '/includes/class-rollback-theme-upgrader.php';
 				include WP_ROLLBACK_PLUGIN_DIR . '/includes/rollback-action.php';
 			} else {
-
-				//This is the menu
+				//This is the menu.
 				check_admin_referer( 'wpr_rollback_nonce' );
 				include WP_ROLLBACK_PLUGIN_DIR . '/includes/rollback-menu.php';
 
@@ -602,6 +601,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : /**
 
 			// Die is required to terminate immediately and return a proper response.
 			wp_die();
+			return true;
 
 		}
 
