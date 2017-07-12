@@ -66,6 +66,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 
 		/**
 		 * Themes repo url.
+		 *
 		 * @var string
 		 */
 		public $themes_repo = 'http://themes.svn.wordpress.org';
@@ -119,7 +120,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 				self::$instance = new WP_Rollback;
 				self::$instance->setup_constants();
 
-				//Only setup plugin rollback on specific page
+				// Only setup plugin rollback on specific page
 				if ( isset( $_GET['plugin_file'] ) && $_GET['page'] == 'wp-rollback' ) {
 					self::$instance->setup_plugin_vars();
 				}
@@ -206,9 +207,9 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 		 * @return void
 		 */
 		private function hooks() {
-			//i18n
+			// i18n
 			add_action( 'plugins_loaded', array( self::$instance, 'load_textdomain' ) );
-			//Admin
+			// Admin
 			add_action( 'admin_enqueue_scripts', array( self::$instance, 'scripts' ) );
 			add_action( 'admin_menu', array( self::$instance, 'admin_menu' ), 20 );
 			add_action( 'pre_current_active_plugins', array(
@@ -244,13 +245,12 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 		 * @param $hook
 		 *
 		 * @return void
-		 *
 		 */
 		public function scripts( $hook ) {
 
 			if ( 'themes.php' === $hook ) {
 				wp_enqueue_script( 'wp_rollback_themes_script', plugin_dir_url( __FILE__ ) . 'assets/js/themes-wp-rollback.js', array( 'jquery' ), false, true );
-				//Localize for i18n
+				// Localize for i18n
 				wp_localize_script( 'wp_rollback_themes_script', 'wpr_vars', array(
 					'ajaxurl'               => admin_url(),
 					'ajax_loader'           => admin_url( 'images/spinner.gif' ),
@@ -267,14 +267,14 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 
 			$suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 
-			//CSS
+			// CSS
 			wp_register_style( 'wp_rollback_css', plugin_dir_url( __FILE__ ) . 'assets/css/wp-rollback.css' );
 			wp_enqueue_style( 'wp_rollback_css' );
 
 			wp_register_style( 'wp_rollback_modal_css', plugin_dir_url( __FILE__ ) . 'assets/css/magnific-popup.css' );
 			wp_enqueue_style( 'wp_rollback_modal_css' );
 
-			//JS
+			// JS
 			wp_register_script( 'wp_rollback_modal', plugin_dir_url( __FILE__ ) . 'assets/js/jquery.magnific-popup' . $suffix . '.js', array( 'jquery' ) );
 			wp_enqueue_script( 'wp_rollback_modal' );
 
@@ -283,12 +283,11 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 
 			wp_enqueue_script( 'updates' );
 
-			//Localize for i18n.
+			// Localize for i18n.
 			wp_localize_script( 'wp_rollback_script', 'wpr_vars', array(
 				'ajaxurl'         => admin_url(),
 				'version_missing' => __( 'Please select a version number to perform a rollback.', 'wp-rollback' ),
 			) );
-
 
 		}
 
@@ -330,12 +329,12 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 		 */
 		public function html() {
 
-			//Permissions check
+			// Permissions check
 			if ( ! current_user_can( 'update_plugins' ) ) {
 				wp_die( __( 'You do not have sufficient permissions to perform rollbacks for this site.', 'wp-rollback' ) );
 			}
 
-			//Get the necessary class
+			// Get the necessary class
 			include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
 
 			$defaults = apply_filters( 'wpr_rollback_html_args', array(
@@ -349,17 +348,17 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 			$args = wp_parse_args( $_GET, $defaults );
 
 			if ( ! empty( $args['plugin_version'] ) ) {
-				//Plugin: rolling back.
+				// Plugin: rolling back.
 				check_admin_referer( 'wpr_rollback_nonce' );
 				include WP_ROLLBACK_PLUGIN_DIR . '/includes/class-rollback-plugin-upgrader.php';
 				include WP_ROLLBACK_PLUGIN_DIR . '/includes/rollback-action.php';
 			} elseif ( ! empty( $args['theme_version'] ) ) {
-				//Theme: rolling back.
+				// Theme: rolling back.
 				check_admin_referer( 'wpr_rollback_nonce' );
 				include WP_ROLLBACK_PLUGIN_DIR . '/includes/class-rollback-theme-upgrader.php';
 				include WP_ROLLBACK_PLUGIN_DIR . '/includes/rollback-action.php';
 			} else {
-				//This is the menu.
+				// This is the menu.
 				check_admin_referer( 'wpr_rollback_nonce' );
 				include WP_ROLLBACK_PLUGIN_DIR . '/includes/rollback-menu.php';
 
@@ -382,19 +381,19 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 
 			$url = $this->plugins_repo . '/' . $this->plugin_slug . '/tags/';
 
-			//is this a theme svn request?
+			// is this a theme svn request?
 			if ( 'theme' === $type ) {
 				$url = $this->themes_repo . '/' . $slug;
 			}
 
 			$response = wp_remote_get( $url );
 
-			//Do we have an error?
+			// Do we have an error?
 			if ( wp_remote_retrieve_response_code( $response ) !== 200 ) {
 				return null;
 			}
 
-			//Nope: Return that bad boy
+			// Nope: Return that bad boy
 			return wp_remote_retrieve_body( $response );
 
 		}
@@ -422,7 +421,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 			$items = $DOM->getElementsByTagName( 'a' );
 
 			foreach ( $items as $item ) {
-				$href = str_replace( '/', '', $item->getAttribute( 'href' ) ); //Remove trailing slash
+				$href = str_replace( '/', '', $item->getAttribute( 'href' ) ); // Remove trailing slash
 
 				if ( strpos( $href, 'http' ) === false && '..' !== $href ) {
 					$versions[] = $href;
@@ -455,12 +454,12 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 
 			$this->versions = array_reverse( $this->versions );
 
-			//Loop through versions and output in a radio list
+			// Loop through versions and output in a radio list
 			foreach ( $this->versions as $version ) {
 
 				$versions_html .= '<label><input type="radio" value="' . esc_attr( $version ) . '" name="' . $type . '_version">' . $version;
 
-				//Is this the current version?
+				// Is this the current version?
 				if ( $version === $this->current_version ) {
 					$versions_html .= '<span class="current-version">' . __( 'Installed Version', 'wp-rollback' ) . '</span>';
 				}
@@ -498,7 +497,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 
 			$plugin_data = get_plugin_data( $plugin_file, false, false );
 
-			//the plugin slug is the base directory name without the path to the main file
+			// the plugin slug is the base directory name without the path to the main file
 			$plugin_slug = explode( '/', plugin_basename( $plugin_file ) );
 
 			$this->plugin_file = apply_filters( 'wpr_plugin_file', $plugin_file );
@@ -515,10 +514,10 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 		 */
 		public function admin_menu() {
 
-			//Only show menu item when necessary (user is interacting with plugin, ie rolling back something)
+			// Only show menu item when necessary (user is interacting with plugin, ie rolling back something)
 			if ( isset( $_GET['page'] ) && $_GET['page'] == 'wp-rollback' ) {
 
-				//Add it in a native WP way, like WP updates do... (a dashboard page)
+				// Add it in a native WP way, like WP updates do... (a dashboard page)
 				add_dashboard_page( __( 'Rollback', 'wp-rollback' ), __( 'Rollback', 'wp-rollback' ), 'update_plugins', 'wp-rollback', array(
 					self::$instance,
 					'html',
@@ -560,18 +559,18 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 		 */
 		public function plugin_action_links( $actions, $plugin_file, $plugin_data, $context ) {
 
-			//Base rollback URL
+			// Base rollback URL
 			$rollback_url = 'index.php?page=wp-rollback&type=plugin&plugin_file=' . $plugin_file;
 
-			//Filter for other devs
+			// Filter for other devs
 			$plugin_data = apply_filters( 'wpr_plugin_data', $plugin_data );
 
-			//If plugin is missing package data do not output Rollback option
+			// If plugin is missing package data do not output Rollback option
 			if ( ! isset( $plugin_data['package'] ) || strpos( $plugin_data['package'], 'https://downloads.wordpress.org' ) === false ) {
 				return $actions;
 			}
 
-			//Add in the current version for later reference
+			// Add in the current version for later reference
 			if ( isset( $plugin_data['Version'] ) ) {
 				$rollback_url = add_query_arg( apply_filters( 'wpr_plugin_query_args', array(
 					'current_version' => urlencode( $plugin_data['Version'] ),
@@ -580,7 +579,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 				) ), $rollback_url );
 			}
 
-			//Final Output
+			// Final Output
 			$actions['rollback'] = apply_filters( 'wpr_plugin_markup', '<a href="' . esc_url( $rollback_url ) . '">' . __( 'Rollback', 'wp-rollback' ) . '</a>' );
 
 			return apply_filters( 'wpr_plugin_action_links', $actions );
@@ -643,7 +642,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 
 			include( ABSPATH . WPINC . '/version.php' ); // include an unmodified $wp_version
 
-			//Bounce out if improperly called.
+			// Bounce out if improperly called.
 			if ( defined( 'WP_INSTALLING' ) || ! is_admin() ) {
 				return false;
 			}
@@ -733,18 +732,18 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 			$rollbacks = array();
 			$wp_themes = get_site_transient( 'rollback_themes' );
 
-			//Double check our transient is present.
+			// Double check our transient is present.
 			if ( empty( $wp_themes ) || ! is_object( $wp_themes ) ) {
 				$this->wpr_theme_updates_list();
 				$wp_themes = get_site_transient( 'rollback_themes' );
 			}
 
-			//Set $rollback response variable for loop ahead.
+			// Set $rollback response variable for loop ahead.
 			if ( is_object( $wp_themes ) ) {
 				$rollbacks = $wp_themes->response;
 			}
 
-			//Loop through themes and provide a 'hasRollback' boolean key for JS.
+			// Loop through themes and provide a 'hasRollback' boolean key for JS.
 			foreach ( $prepared_themes as $key => $value ) {
 				$themes[ $key ]                = $prepared_themes[ $key ];
 				$themes[ $key ]['hasRollback'] = isset( $rollbacks[ $key ] );
@@ -755,7 +754,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 
 
 	}
-}
+	}
 
 endif; // End if class_exists check
 
