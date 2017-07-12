@@ -43,8 +43,9 @@ jQuery.noConflict();
     //On DOM Ready
     $(function () {
         var themes;
+
         themes = wp.themes = wp.themes || {};
-        themes.data = _wpThemeSettings;
+        themes.data = typeof _wpThemeSettings !== 'undefined' ? _wpThemeSettings : '';
 
         //On clicking a theme template
         $('.theme-overlay').contentChange(function (e) {
@@ -94,7 +95,6 @@ jQuery.noConflict();
 
                 var active_theme = $('.theme-overlay').hasClass('active');
 
-
                 var rollback_btn_html = '<a href="' + encodeURI('index.php?page=wp-rollback&type=theme&theme_file=' + theme + '&current_version=' + theme_data.version + '&rollback_name=' + theme_data.name + '&_wpnonce=' + wpr_vars.nonce) + '" style="position:absolute;right: ' + (active_theme === true ? '5px' : '80px') + '; bottom: 5px;" class="button wpr-theme-rollback">' + wpr_vars.text_rollback_label + '</a>';
 
                 $('.theme-wrap').find('.theme-actions').append(rollback_btn_html);
@@ -114,6 +114,7 @@ jQuery.noConflict();
          * @returns {*}
          */
         function wpr_get_theme_data(theme) {
+
             var theme_data = wp.themes.data.themes;
 
             //Loop through complete theme data to find this current theme's data
@@ -163,7 +164,7 @@ jQuery.noConflict();
         /**
          * Theme Rollback Button Clicked
          *
-         * @description Send them over to
+         * Send them over to rollback.
          */
         $('body').on('click', '.wpr-theme-rollback', function (e) {
 

@@ -224,6 +224,9 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 
 			add_action( 'network_admin_menu', array( self::$instance, 'admin_menu' ), 20 );
 			add_filter( 'network_admin_plugin_action_links', array( self::$instance, 'plugin_action_links' ), 20, 4 );
+
+			add_filter( 'theme_action_links', array( self::$instance, 'theme_action_links' ), 20, 4 );
+
 		}
 
 		/**
@@ -560,10 +563,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 		 */
 		public function plugin_action_links( $actions, $plugin_file, $plugin_data, $context ) {
 
-			// Base rollback URL
-			$rollback_url = 'index.php?page=wp-rollback&type=plugin&plugin_file=' . $plugin_file;
-
-			// Filter for other devs
+			// Filter for other devs.
 			$plugin_data = apply_filters( 'wpr_plugin_data', $plugin_data );
 
 			// If plugin is missing package data do not output Rollback option.
@@ -571,19 +571,24 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 				return $actions;
 			}
 
-			// If this is a multisite install and this is NOT the main site, don't output rollback option.
-			if ( is_multisite() && (! is_network_admin() || ! is_main_site()) ) {
+			// Multisite check.
+			if ( is_multisite() && ( ! is_network_admin() && ! is_main_site() ) ) {
 				return $actions;
 			}
 
-			// Add in the current version for later reference.
-			if ( isset( $plugin_data['Version'] ) ) {
-				$rollback_url = add_query_arg( apply_filters( 'wpr_plugin_query_args', array(
-					'current_version' => urlencode( $plugin_data['Version'] ),
-					'rollback_name'   => urlencode( $plugin_data['Name'] ),
-					'_wpnonce'        => wp_create_nonce( 'wpr_rollback_nonce' ),
-				) ), $rollback_url );
+			// Must have version.
+			if ( ! isset( $plugin_data['Version'] ) ) {
+				return $actions;
 			}
+
+			// Base rollback URL
+			$rollback_url = 'index.php?page=wp-rollback&type=plugin&plugin_file=' . $plugin_file;
+
+			$rollback_url = add_query_arg( apply_filters( 'wpr_plugin_query_args', array(
+				'current_version' => urlencode( $plugin_data['Version'] ),
+				'rollback_name'   => urlencode( $plugin_data['Name'] ),
+				'_wpnonce'        => wp_create_nonce( 'wpr_rollback_nonce' ),
+			) ), $rollback_url );
 
 			// Final Output
 			$actions['rollback'] = apply_filters( 'wpr_plugin_markup', '<a href="' . esc_url( $rollback_url ) . '">' . __( 'Rollback', 'wp-rollback' ) . '</a>' );
@@ -594,14 +599,68 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 
 
 		/**
+		 * Theme Action Links
+		 *
+		 * Adds a "rollback" link into the plugins listing page w/ appropriate query strings
+		 *
+		 * @param $actions
+		 * @param $theme WP_Theme
+		 * @param $context
+		 *
+		 * @return array $actions
+		 */
+		public function theme_action_links( $actions, $theme, $context ) {
+
+			$rollback_themes = get_site_transient( 'rollback_themes' );
+			if ( ! is_object( $rollback_themes ) ) {
+				$this->wpr_theme_updates_list();
+				$rollback_themes = get_site_transient( 'rollback_themes' );
+			}
+
+			$theme_slug = isset( $theme->template ) ? $theme->template : '';
+
+			// Only WP.org themes.
+			if ( empty( $theme_slug ) || ! array_key_exists( $theme_slug, $rollback_themes->response ) ) {
+				return $actions;
+			}
+
+			$theme_file = isset( $rollback_themes->response[ $theme_slug ]['package'] ) ? $rollback_themes->response[ $theme_slug ]['package'] : '';
+
+			// Base rollback URL.
+			$rollback_url = 'index.php?page=wp-rollback&type=theme&theme_file=' . $theme_file;
+
+			// Add in the current version for later reference.
+			if ( ! $theme->get( 'Version' ) ) {
+				return $actions;
+			}
+
+			$rollback_url = add_query_arg( apply_filters( 'wpr_theme_query_args', array(
+				'theme_file'      => urlencode( $theme_slug ),
+				'current_version' => urlencode( $theme->get( 'Version' ) ),
+				'rollback_name'   => urlencode( $theme->get( 'Name' ) ),
+				'_wpnonce'        => wp_create_nonce( 'wpr_rollback_nonce' ),
+			) ), $rollback_url );
+
+			// Final Output
+			$actions['rollback'] = apply_filters( 'wpr_theme_markup', '<a href="' . esc_url( $rollback_url ) . '">' . __( 'Rollback', 'wp-rollback' ) . '</a>' );
+
+			return apply_filters( 'wpr_theme_action_links', $actions );
+
+		}
+
+		/**
 		 * Is WordPress Theme?
 		 *
 		 * Queries the WordPress.org API via theme's slug to see if this theme is on WordPress.
 		 *
 		 * @return bool
-		 * @TODO        Set transient here to speed up future checks?
 		 */
 		public function is_wordpress_theme() {
+
+			// Multisite check.
+			if ( is_multisite() && ( ! is_network_admin() && ! is_main_site() ) ) {
+				return false;
+			}
 
 			$url    = add_query_arg( 'request[slug]', $_POST['theme'], 'https://api.wordpress.org/themes/info/1.1/?action=theme_information' );
 			$wp_api = wp_remote_get( $url );
@@ -618,8 +677,6 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 
 			// Die is required to terminate immediately and return a proper response.
 			wp_die();
-
-			return true;
 
 		}
 
@@ -683,6 +740,8 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 			$request['themes'] = $themes;
 
 			$timeout = 3 + (int) ( count( $themes ) / 10 );
+
+			global $wp_version;
 
 			$options = array(
 				'timeout'    => $timeout,
@@ -757,7 +816,6 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 
 			return $themes;
 		}
-
 
 	}
 }
