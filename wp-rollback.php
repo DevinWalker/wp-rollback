@@ -35,13 +35,15 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 1.0
  */
 if ( ! class_exists( 'WP Rollback' ) ) : {
+
 	/**
 	 * Class WP_Rollback
 	 */
 	final class WP_Rollback {
-		/** Singleton *************************************************************/
 
 		/**
+		 * WP_Rollback instance
+		 *
 		 * @var WP_Rollback The one and only
 		 * @since 1.0
 		 */
@@ -122,24 +124,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 					self::$instance->setup_plugin_vars();
 				}
 
-				//i18n
-				add_action( 'plugins_loaded', array( self::$instance, 'load_textdomain' ) );
-				//Admin
-				add_action( 'admin_enqueue_scripts', array( self::$instance, 'scripts' ) );
-				add_action( 'admin_menu', array( self::$instance, 'admin_menu' ), 20 );
-				add_action( 'pre_current_active_plugins', array(
-					self::$instance,
-					'pre_current_active_plugins',
-				), 20, 1 );
-				add_action( 'wp_ajax_is_wordpress_theme', array( self::$instance, 'is_wordpress_theme' ) );
-				add_action( 'set_site_transient_update_themes', array( self::$instance, 'wpr_theme_updates_list' ) );
-
-				add_filter( 'wp_prepare_themes_for_js', array( self::$instance, 'wpr_prepare_themes_js' ) );
-				add_filter( 'plugin_action_links', array( self::$instance, 'plugin_action_links' ), 20, 4 );
-
-				add_action( 'network_admin_menu', array( self::$instance, 'admin_menu' ), 20 );
-				add_filter( 'network_admin_plugin_action_links', array( self::$instance, 'plugin_action_links' ), 20, 4 );
-
+				self::$instance->hooks();
 				self::$instance->includes();
 
 			}
@@ -213,6 +198,32 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 			$this->set_svn_versions_data( $svn_tags );
 		}
 
+		/**
+		 * Plugin hooks.
+		 *
+		 * @access private
+		 * @since  1.5
+		 * @return void
+		 */
+		private function hooks() {
+			//i18n
+			add_action( 'plugins_loaded', array( self::$instance, 'load_textdomain' ) );
+			//Admin
+			add_action( 'admin_enqueue_scripts', array( self::$instance, 'scripts' ) );
+			add_action( 'admin_menu', array( self::$instance, 'admin_menu' ), 20 );
+			add_action( 'pre_current_active_plugins', array(
+				self::$instance,
+				'pre_current_active_plugins',
+			), 20, 1 );
+			add_action( 'wp_ajax_is_wordpress_theme', array( self::$instance, 'is_wordpress_theme' ) );
+			add_action( 'set_site_transient_update_themes', array( self::$instance, 'wpr_theme_updates_list' ) );
+
+			add_filter( 'wp_prepare_themes_for_js', array( self::$instance, 'wpr_prepare_themes_js' ) );
+			add_filter( 'plugin_action_links', array( self::$instance, 'plugin_action_links' ), 20, 4 );
+
+			add_action( 'network_admin_menu', array( self::$instance, 'admin_menu' ), 20 );
+			add_filter( 'network_admin_plugin_action_links', array( self::$instance, 'plugin_action_links' ), 20, 4 );
+		}
 		/**
 		 * Include required files
 		 *

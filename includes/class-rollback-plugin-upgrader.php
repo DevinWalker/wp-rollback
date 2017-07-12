@@ -1,20 +1,31 @@
 <?php
 /**
- *  WP Rollback Plugin Upgrader
+ * WP Rollback Plugin Upgrader
  *
- * @description: Class that extends the WP Core Plugin_Upgrader found in core to do rollbacks
+ * Class that extends the WP Core Plugin_Upgrader found in core to do rollbacks
+ *
  * @copyright  : http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since      : 1.0.0
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-//kick things off
+/**
+ * Class WP_Rollback_Plugin_Upgrader
+ */
 class WP_Rollback_Plugin_Upgrader extends Plugin_Upgrader {
 
+	/**
+	 * Plugin rollback.
+	 *
+	 * @param       $plugin
+	 * @param array $args
+	 *
+	 * @return array|bool|\WP_Error
+	 */
 	public function rollback( $plugin, $args = array() ) {
 
 		$defaults    = array(
@@ -66,7 +77,7 @@ class WP_Rollback_Plugin_Upgrader extends Plugin_Upgrader {
 			return $this->result;
 		}
 
-		// Force refresh of plugin update information
+		// Force refresh of plugin update information.
 		wp_clean_plugins_cache( $parsed_args['clear_update_cache'] );
 
 		return true;

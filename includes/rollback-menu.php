@@ -2,12 +2,10 @@
 /**
  * Rollback Menu
  *
- * @description Provides the rollback screen view with releases and
- *
+ * Provides the rollback screen view with releases.
  */
 
-
-//Ensure we have our necessary query strings
+// Ensure we have our necessary query strings
 if ( ( ! isset( $_GET['type'] ) && ! isset( $_GET['theme'] ) ) || ( ! isset( $_GET['type'] ) && ! isset( $_GET['plugin_file'] ) ) ) {
 	wp_die( __( 'WP Rollback is missing necessary parameters to continue. Please contact support.', 'wp-rollback' ) );
 }
@@ -30,22 +28,22 @@ $plugins         = get_plugins();
 
 	<?php if ( isset( $args['plugin_file'] ) && in_array( $args['plugin_file'], array_keys( $plugins ) ) ) {
 		$versions = WP_Rollback()->versions_select( 'plugin' );
-	} elseif ( $theme_rollback == true && isset( $_GET['theme_file'] ) ) {
-		//theme rollback: set up our theme vars
-		$svn_tags = WP_Rollback()->get_svn_tags( 'theme', $_GET['theme_file'] );
-		$this->set_svn_versions_data( $svn_tags );
-		$this->current_version = $_GET['current_version'];
-		$versions              = WP_Rollback()->versions_select( 'theme' );
+} elseif ( $theme_rollback == true && isset( $_GET['theme_file'] ) ) {
+	// theme rollback: set up our theme vars
+	$svn_tags = WP_Rollback()->get_svn_tags( 'theme', $_GET['theme_file'] );
+	$this->set_svn_versions_data( $svn_tags );
+	$this->current_version = $_GET['current_version'];
+	$versions              = WP_Rollback()->versions_select( 'theme' );
 
-	} else {
-		//Fallback check
-		wp_die( 'Oh no! We\'re missing required rollback query strings. Please contact support so we can check this bug out and squash it!', 'wp-rollback' );
-	}
+} else {
+	// Fallback check
+	wp_die( 'Oh no! We\'re missing required rollback query strings. Please contact support so we can check this bug out and squash it!', 'wp-rollback' );
+}
 	?>
 
 	<form name="check_for_rollbacks" class="rollback-form" action="<?php echo admin_url( '/index.php' ); ?>">
 		<?php
-		//Output Versions
+		// Output Versions
 		if ( ! empty( $versions ) ) { ?>
 
 			<div class="wpr-versions-wrap">
@@ -68,7 +66,7 @@ $plugins         = get_plugins();
 		<?php do_action( 'wpr_hidden_fields' ); ?>
 		<input type="hidden" name="page" value="wp-rollback">
 		<?php
-		//Important: We need the appropriate file to perform a rollback
+		// Important: We need the appropriate file to perform a rollback
 		if ( $plugin_rollback == true ) { ?>
 			<input type="hidden" name="plugin_file" value="<?php echo esc_attr( $args['plugin_file'] ); ?>">
 		<?php } else { ?>
@@ -92,9 +90,9 @@ $plugins         = get_plugins();
 							<td class="row-title">
 								<label for="tablecell"><?php if ( $plugin_rollback == true ) {
 										_e( 'Plugin Name:', 'wp-rollback' );
-									} else {
-										_e( 'Theme Name:', 'wp-rollback' );
-									} ?></label>
+} else {
+	_e( 'Theme Name:', 'wp-rollback' );
+} ?></label>
 							</td>
 							<td><span class="wpr-plugin-name"></span></td>
 						</tr>
