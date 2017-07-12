@@ -563,7 +563,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 		 */
 		public function plugin_action_links( $actions, $plugin_file, $plugin_data, $context ) {
 
-			// Filter for other devs
+			// Filter for other devs.
 			$plugin_data = apply_filters( 'wpr_plugin_data', $plugin_data );
 
 			// If plugin is missing package data do not output Rollback option.
@@ -572,12 +572,12 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 			}
 
 			// Multisite check.
-			if ( is_multisite() && ! is_network_admin() ) {
+			if ( is_multisite() && ( ! is_network_admin() && ! is_main_site() ) ) {
 				return $actions;
 			}
 
-			// Add in the current version for later reference.
-			if ( isset( $plugin_data['Version'] ) ) {
+			// Must have version.
+			if ( ! isset( $plugin_data['Version'] ) ) {
 				return $actions;
 			}
 
@@ -653,15 +653,12 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 		 *
 		 * Queries the WordPress.org API via theme's slug to see if this theme is on WordPress.
 		 *
-		 * @param $slug string
-		 *
 		 * @return bool
-		 * @TODO        Set transient here to speed up future checks?
 		 */
 		public function is_wordpress_theme() {
 
 			// Multisite check.
-			if ( is_multisite() && ! is_network_admin() ) {
+			if ( is_multisite() && ( ! is_network_admin() && ! is_main_site() ) ) {
 				return false;
 			}
 
@@ -680,8 +677,6 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 
 			// Die is required to terminate immediately and return a proper response.
 			wp_die();
-
-			return true;
 
 		}
 
@@ -745,6 +740,8 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 			$request['themes'] = $themes;
 
 			$timeout = 3 + (int) ( count( $themes ) / 10 );
+
+			global $wp_version;
 
 			$options = array(
 				'timeout'    => $timeout,
