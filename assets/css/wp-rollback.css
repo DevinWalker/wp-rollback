@@ -123,7 +123,7 @@
 	text-decoration: underline;
 }
 .wpr-version-li:hover .wpr-changelog-link {
-	opacity: 0.8;
+	opacity: 0.75;
 }
 /* Hide full changelog */
 .wpr-changelog, .wpr-hidden-changelog {
@@ -137,4 +137,8 @@
 	margin: 20px 0;
 	max-height: 350px;
 	overflow-y: auto;
+}
+
+.wpr-no-changelog-message {
+	margin-bottom:0;
 }

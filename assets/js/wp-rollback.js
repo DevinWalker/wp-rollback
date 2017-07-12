@@ -117,7 +117,7 @@ jQuery.noConflict();
 
 			// If no changelog found, show message.
 			if ( ! $( '.wpr-changelog-entry' ).html().length ) {
-				$( '.wpr-changelog-entry' ).append( '<p>' + wpr_vars.text_no_changelog_found + '</p>' );
+				$( '.wpr-changelog-entry' ).append( '<p class="wpr-no-changelog-message">' + wpr_vars.text_no_changelog_found + '</p>' );
 			}
 
 		}
