@@ -381,7 +381,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 		 *
 		 * @return null|string
 		 */
-		private function get_svn_tags( $type, $slug ) {
+		public function get_svn_tags( $type, $slug ) {
 
 			$url = $this->plugins_repo . '/' . $this->plugin_slug . '/tags/';
 
@@ -833,7 +833,7 @@ endif; // End if class_exists check
  * Example: <?php $wp_rollback = WP_Rollback(); ?>
  *
  * @since 1.0
- * @return object The one true WP Rollback Instance
+ * @return WP_Rollback object  The one true WP Rollback Instance
  */
 function WP_Rollback() {
 	return WP_Rollback::instance();
