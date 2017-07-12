@@ -2,7 +2,7 @@
 /**
  * WP Rollback Plugin Upgrader
  *
- * Class that extends the WP Core Plugin_Upgrader found in core to do rollbacks
+ * Class that extends the WP Core Plugin_Upgrader found in core to do rollbacks.
  *
  * @copyright  : http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since      : 1.0.0
