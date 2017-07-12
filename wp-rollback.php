@@ -291,7 +291,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 			// Localize for i18n.
 			wp_localize_script( 'wp_rollback_script', 'wpr_vars', array(
 				'ajaxurl'                 => admin_url(),
-				'text_no_changelog_found' => __( 'Sorry, there wasn\'t a changelog entry found for this version.', 'wp-rollback' ),
+				'text_no_changelog_found' => sprintf( __( 'Sorry, we couldn\'t find a changelog entry found for this version. Try checking the <a href="%s" target="_blank">developer log</a> on WP.org.', 'wp-rollback' ), 'https://wordpress.org/plugins/' . $_GET['plugin_slug'] . '/#developers' ),
 				'version_missing'         => __( 'Please select a version number to perform a rollback.', 'wp-rollback' ),
 			) );
 
@@ -522,7 +522,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 		/**
 		 * Set Plugin Slug
 		 *
-		 * @return string|bool
+		 * @return array|bool
 		 */
 		private function set_plugin_slug() {
 
@@ -542,8 +542,6 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 			if ( ! file_exists( $plugin_file ) ) {
 				wp_die( 'Plugin you\'re referencing does not exist.' );
 			}
-
-			$plugin_data = get_plugin_data( $plugin_file, false, false );
 
 			// the plugin slug is the base directory name without the path to the main file
 			$plugin_slug = explode( '/', plugin_basename( $plugin_file ) );
