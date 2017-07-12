@@ -225,6 +225,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 			add_action( 'network_admin_menu', array( self::$instance, 'admin_menu' ), 20 );
 			add_filter( 'network_admin_plugin_action_links', array( self::$instance, 'plugin_action_links' ), 20, 4 );
 		}
+
 		/**
 		 * Include required files
 		 *
@@ -565,12 +566,17 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 			// Filter for other devs
 			$plugin_data = apply_filters( 'wpr_plugin_data', $plugin_data );
 
-			// If plugin is missing package data do not output Rollback option
+			// If plugin is missing package data do not output Rollback option.
 			if ( ! isset( $plugin_data['package'] ) || strpos( $plugin_data['package'], 'https://downloads.wordpress.org' ) === false ) {
 				return $actions;
 			}
 
-			// Add in the current version for later reference
+			// If this is a multisite install and this is NOT the main site, don't output rollback option.
+			if ( is_multisite() && (! is_network_admin() || ! is_main_site()) ) {
+				return $actions;
+			}
+
+			// Add in the current version for later reference.
 			if ( isset( $plugin_data['Version'] ) ) {
 				$rollback_url = add_query_arg( apply_filters( 'wpr_plugin_query_args', array(
 					'current_version' => urlencode( $plugin_data['Version'] ),
@@ -754,7 +760,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 
 
 	}
-	}
+}
 
 endif; // End if class_exists check
 
