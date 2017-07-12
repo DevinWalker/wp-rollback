@@ -28,23 +28,10 @@
 	font-weight: 600;
 }
 
-.rollback-form {
-
-}
-
 .wpr-versions-wrap {
 	padding-left: 20px;
 }
 
-.rollback-form label {
-	display: block;
-	padding: 8px 0;
-	font-size: 16px;
-}
-
-.rollback-form label input {
-	margin-right: 5px;
-}
 
 .wpr-submit-wrap {
 	margin: 25px 0 0;
@@ -74,12 +61,24 @@
 	margin-right: 5px !important;
 }
 
-/* Modal */
+/* List */
 
-#wpr-modal-confirm {
-
+.wpr-version-li {
+	clear: left;
+	padding: 8px 0;
+	overflow: hidden;
+}
+.wpr-version-li label {
+	float:left;
+	font-size: 16px;
 }
 
+.wpr-version-li label input {
+	margin-right: 5px;
+}
+
+
+/* Modal */
 #wpr-modal-confirm .button-primary {
 	margin-right: 5px;
 }
@@ -103,29 +102,37 @@
 	margin-top: 0;
 }
 
+
+/* Changelog link */
 .wpr-changelog-link {
+	float: left;
+	margin: 4px 0 0 12px;
 	font-size: 11px;
 	font-style: italic;
-	display: none;
 	opacity: 0;
 	line-height: 1;
-
-}
-
-.wpr-versions-wrap label:hover .wpr-changelog-link {
+	transition: .15s ease-in-out;
+	-moz-transition: .15s ease-in-out;
+	-webkit-transition: .15s ease-in-out;
 	display: inline-block;
+	outline:none;
+	box-shadow:none !important;
+	text-decoration: none;
+}
+.wpr-changelog-link:hover {
+	text-decoration: underline;
+}
+.wpr-version-li:hover .wpr-changelog-link {
 	opacity: 0.8;
 }
-
-
 /* Hide full changelog */
-.wpr-changelog {
+.wpr-changelog, .wpr-hidden-changelog {
 	display: none;
 }
 
 /* The changelog that appears when loading via AJAX */
 .wpr-changelog-entry {
-	padding: 6px 25px;
+	padding: 6px 25px 18px;
 	background: #FFF;
 	margin: 20px 0;
 	max-height: 350px;

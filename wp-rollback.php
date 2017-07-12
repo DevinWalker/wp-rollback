@@ -290,9 +290,9 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 
 			// Localize for i18n.
 			wp_localize_script( 'wp_rollback_script', 'wpr_vars', array(
-				'ajaxurl'         => admin_url(),
+				'ajaxurl'                 => admin_url(),
 				'text_no_changelog_found' => __( 'Sorry, there wasn\'t a changelog entry found for this version.', 'wp-rollback' ),
-				'version_missing' => __( 'Please select a version number to perform a rollback.', 'wp-rollback' ),
+				'version_missing'         => __( 'Please select a version number to perform a rollback.', 'wp-rollback' ),
 			) );
 
 		}
@@ -383,7 +383,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 		public function get_plugin_changelog() {
 
 			// Need slug to continue.
-			if ( ! isset( $_POST['slug'] ) || empty($_POST['slug'])) {
+			if ( ! isset( $_POST['slug'] ) || empty( $_POST['slug'] ) ) {
 				return false;
 			}
 
@@ -485,15 +485,17 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 				return false;
 			}
 
-			$versions_html = '';
+			$versions_html = '<ul class="wpr-version-list">';
 
 			usort( $this->versions, 'version_compare' );
 
 			$this->versions = array_reverse( $this->versions );
 
+
 			// Loop through versions and output in a radio list.
 			foreach ( $this->versions as $version ) {
 
+				$versions_html .= '<li class="wpr-version-li">';
 				$versions_html .= '<label><input type="radio" value="' . esc_attr( $version ) . '" name="' . $type . '_version">' . $version;
 
 				// Is this the current version?
@@ -501,16 +503,20 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 					$versions_html .= '<span class="current-version">' . __( 'Installed Version', 'wp-rollback' ) . '</span>';
 				}
 
-				// Is this the current version?
+				$versions_html .= '</label>';
+
+				// View changelog link.
 				if ( 'plugin' === $type ) {
 					$versions_html .= ' <a href="#" class="wpr-changelog-link" data-version="' . $version . '">' . __( 'View Changelog', 'wp-rollback' ) . '</a>';
 				}
 
-				$versions_html .= '</label>';
+				$versions_html .= '</li>';
 
 			}
 
-			return $versions_html;
+			$versions_html .= '</ul>';
+
+			return apply_filters( 'versions_select_html', $versions_html );
 		}
 
 		/**

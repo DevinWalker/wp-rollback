@@ -40,10 +40,13 @@ jQuery.noConflict();
 			e.preventDefault();
 
 			var changelog_container = $( '.wpr-changelog' );
-			var changelog_placement = $( this ).parent( 'label' );
+			var changelog_placement = $( this ).parent( 'li' );
 			var version = $( this ).data( 'version' );
 
-			// If changelog already fetched.
+			// Ensure all change log links are visible.
+			$('.wpr-changelog-link').removeClass('wpr-hidden-changelog')
+
+			// If changelog was already fetched, use that data.
 			if ( changelog_container.html().length ) {
 				wpr_append_changelog_entry( changelog_placement, version );
 				return false;
@@ -78,6 +81,9 @@ jQuery.noConflict();
 
 			// Remove old entry.
 			$( '.wpr-changelog-entry' ).remove();
+
+			// Hide this change log link.
+			$(placement).find('.wpr-changelog-link').addClass('wpr-hidden-changelog');
 
 			// Append a new one.
 			$( placement ).after( '<div class="wpr-changelog-entry"></div>' );
