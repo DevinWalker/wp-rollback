@@ -70,6 +70,7 @@ $plugins         = get_plugins();
 		// Important: We need the appropriate file to perform a rollback
 		if ( $plugin_rollback == true ) { ?>
 			<input type="hidden" name="plugin_file" value="<?php echo esc_attr( $args['plugin_file'] ); ?>">
+			<input type="hidden" name="plugin_slug" value="<?php echo esc_attr( $args['plugin_slug'] ); ?>">
 		<?php } else { ?>
 			<input type="hidden" name="theme_file" value="<?php echo esc_attr( $_GET['theme_file'] ); ?>">
 		<?php } ?>

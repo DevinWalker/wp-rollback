@@ -33,44 +33,92 @@ jQuery.noConflict();
 		} );
 
 		/**
-		 * On changelog click
+		 * On view changelog clicked.
 		 */
 		$( '.wpr-changelog-link' ).on( 'click', function( e ) {
 
 			e.preventDefault();
+
 			var changelog_container = $( '.wpr-changelog' );
+			var changelog_placement = $( this ).parent( 'label' );
+			var version = $( this ).data( 'version' );
 
-			$.post(
-				ajaxurl,
-				{
+			// If changelog already fetched.
+			if ( changelog_container.html().length ) {
+				wpr_append_changelog_entry( changelog_placement, version );
+				return false;
+			}
+
+			// Get changelog via AJAX.
+			$.post( ajaxurl, {
 					'action': 'wpr_check_changelog',
-					'data': '1.8.9'
+					'slug': $( 'input[name="plugin_slug"]' ).val()
 				}, function( response ) {
-
+					// Add changelog to DOM.
 					$( changelog_container ).append( $.parseHTML( response ) );
 
-					var changelog_headings = $( changelog_container ).find( 'h4' );
-					var changelog_entry = '';
-
-					$( changelog_headings ).each( function( index, value ) {
-
-						var raw_val = $( value ).text();
-
-						if ( raw_val.indexOf( '1.8.11' ) >= 0 ) {
-							changelog_entry = value;
-							changelog_entry.append( $( value ).next( 'ul' ).text() );
-						}
-
-					} );
-
-					console.log( changelog_entry );
+					// Show changelog entry.
+					wpr_append_changelog_entry( changelog_placement, version );
 
 				}
 			);
 
 		} );
 
-		// Modal
+		/**
+		 * Show changelog entry.
+		 *
+		 * @param placement
+		 * @param version
+		 */
+		function wpr_append_changelog_entry( placement, version ) {
+
+			var changelog = $( '.wpr-changelog' );
+			var changelog_headings = $( changelog ).find( 'h4' );
+
+			// Remove old entry.
+			$( '.wpr-changelog-entry' ).remove();
+
+			// Append a new one.
+			$( placement ).after( '<div class="wpr-changelog-entry"></div>' );
+
+			// Loop through changelog headings to get changelog entry.
+			$( changelog_headings ).each( function( index, value ) {
+
+				var raw_val = $( value ).text();
+
+				// Match the changelog version heading using regex from: https://github.com/sindresorhus/semver-regex/blob/master/index.js
+				// var regex_symver = /\bv?(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-[\da-z\-]+(?:\.[\da-z\-]+)*)?(?:\+[\da-z\-]+(?:\.[\da-z\-]+)*)?\b/;
+
+				// from: https://stackoverflow.com/a/27540795/684352
+				var regex_symver = /(?:(\d+)\.)?(?:(\d+)\.)?(?:(\d+)\.\d+)?(?:(\d+)\.\d+)/;
+				var found_version_num = raw_val.match( regex_symver );
+				var found_version_num = $( found_version_num ).get( 0 );
+
+				// Match version number.
+				if ( found_version_num == version ) {
+
+					// Assemble entry.
+					var changelog_heading = $( value ).clone();
+					var changelog_entry = $( value ).nextUntil( 'h4' ).clone();
+
+					// Append changelog entry.
+					$( '.wpr-changelog-entry' ).append( changelog_heading ).append( changelog_entry );
+
+				}
+
+			} );
+
+			// If no changelog found, show message.
+			if ( ! $( '.wpr-changelog-entry' ).html().length ) {
+				$( '.wpr-changelog-entry' ).append( '<p>' + wpr_vars.text_no_changelog_found + '</p>' );
+			}
+
+		}
+
+		/**
+		 * Modal rollback.
+		 */
 		form_submit_btn.on( 'click', function() {
 
 			var rollback_form_vals = form.serializeArray();
