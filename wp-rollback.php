@@ -226,6 +226,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 			add_filter( 'network_admin_plugin_action_links', array( self::$instance, 'plugin_action_links' ), 20, 4 );
 
 			add_filter( 'theme_action_links', array( self::$instance, 'theme_action_links' ), 20, 4 );
+			add_filter( 'wp_ajax_wpr_check_changelog', array( self::$instance, 'get_plugin_changelog' ) );
 
 		}
 
@@ -289,8 +290,9 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 
 			// Localize for i18n.
 			wp_localize_script( 'wp_rollback_script', 'wpr_vars', array(
-				'ajaxurl'         => admin_url(),
-				'version_missing' => __( 'Please select a version number to perform a rollback.', 'wp-rollback' ),
+				'ajaxurl'                 => admin_url(),
+				'text_no_changelog_found' => sprintf( __( 'Sorry, we couldn\'t find a changelog entry found for this version. Try checking the <a href="%s" target="_blank">developer log</a> on WP.org.', 'wp-rollback' ), 'https://wordpress.org/plugins/' . $_GET['plugin_slug'] . '/#developers' ),
+				'version_missing'         => __( 'Please select a version number to perform a rollback.', 'wp-rollback' ),
 			) );
 
 		}
@@ -372,16 +374,49 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 
 
 		/**
+		 * Get Plugin Changelog
+		 *
+		 * Uses WP.org API to get a plugin's
+		 *
+		 * @return null|string
+		 */
+		public function get_plugin_changelog() {
+
+			// Need slug to continue.
+			if ( ! isset( $_POST['slug'] ) || empty( $_POST['slug'] ) ) {
+				return false;
+			}
+
+			$url = 'https://api.wordpress.org/plugins/info/1.0/' . $_POST['slug'];
+
+			$response = wp_remote_get( $url );
+
+			// Do we have an error?
+			if ( wp_remote_retrieve_response_code( $response ) !== 200 ) {
+				return null;
+			}
+
+			$response = maybe_unserialize( wp_remote_retrieve_body( $response ) );
+
+			// Nope: Return that bad boy
+			echo $response->sections['changelog'];
+
+			wp_die();
+
+		}
+
+
+		/**
 		 * Get Subversion Tags
 		 *
-		 * @description cURLs wp.org repo to get the proper tags
+		 * cURLs wp.org repo to get the proper tags
 		 *
 		 * @param $type
 		 * @param $slug
 		 *
 		 * @return null|string
 		 */
-		private function get_svn_tags( $type, $slug ) {
+		public function get_svn_tags( $type, $slug ) {
 
 			$url = $this->plugins_repo . '/' . $this->plugin_slug . '/tags/';
 
@@ -405,13 +440,11 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 		/**
 		 * Set SVN Version Data
 		 *
-		 * @description FILL ME IN
-		 *
 		 * @param $html
 		 *
 		 * @return array|bool
 		 */
-		private function set_svn_versions_data( $html ) {
+		public function set_svn_versions_data( $html ) {
 
 			if ( ! $html ) {
 				return false;
@@ -452,15 +485,17 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 				return false;
 			}
 
-			$versions_html = '';
+			$versions_html = '<ul class="wpr-version-list">';
 
 			usort( $this->versions, 'version_compare' );
 
 			$this->versions = array_reverse( $this->versions );
 
-			// Loop through versions and output in a radio list
+
+			// Loop through versions and output in a radio list.
 			foreach ( $this->versions as $version ) {
 
+				$versions_html .= '<li class="wpr-version-li">';
 				$versions_html .= '<label><input type="radio" value="' . esc_attr( $version ) . '" name="' . $type . '_version">' . $version;
 
 				// Is this the current version?
@@ -470,15 +505,24 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 
 				$versions_html .= '</label>';
 
+				// View changelog link.
+				if ( 'plugin' === $type ) {
+					$versions_html .= ' <a href="#" class="wpr-changelog-link" data-version="' . $version . '">' . __( 'View Changelog', 'wp-rollback' ) . '</a>';
+				}
+
+				$versions_html .= '</li>';
+
 			}
 
-			return $versions_html;
+			$versions_html .= '</ul>';
+
+			return apply_filters( 'versions_select_html', $versions_html );
 		}
 
 		/**
 		 * Set Plugin Slug
 		 *
-		 * @return bool
+		 * @return array|bool
 		 */
 		private function set_plugin_slug() {
 
@@ -498,8 +542,6 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 			if ( ! file_exists( $plugin_file ) ) {
 				wp_die( 'Plugin you\'re referencing does not exist.' );
 			}
-
-			$plugin_data = get_plugin_data( $plugin_file, false, false );
 
 			// the plugin slug is the base directory name without the path to the main file
 			$plugin_slug = explode( '/', plugin_basename( $plugin_file ) );
@@ -587,6 +629,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 			$rollback_url = add_query_arg( apply_filters( 'wpr_plugin_query_args', array(
 				'current_version' => urlencode( $plugin_data['Version'] ),
 				'rollback_name'   => urlencode( $plugin_data['Name'] ),
+				'plugin_slug'     => urlencode( $plugin_data['slug'] ),
 				'_wpnonce'        => wp_create_nonce( 'wpr_rollback_nonce' ),
 			) ), $rollback_url );
 
@@ -833,7 +876,7 @@ endif; // End if class_exists check
  * Example: <?php $wp_rollback = WP_Rollback(); ?>
  *
  * @since 1.0
- * @return object The one true WP Rollback Instance
+ * @return WP_Rollback object  The one true WP Rollback Instance
  */
 function WP_Rollback() {
 	return WP_Rollback::instance();
