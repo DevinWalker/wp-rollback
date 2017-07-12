@@ -102,3 +102,17 @@
 	font-size: 18px;
 	margin-top: 0;
 }
+
+.wpr-changelog-link {
+	font-size:11px;
+	font-style: italic;
+	display: none;
+	opacity:0;
+	line-height: 1;
+
+}
+
+.wpr-versions-wrap label:hover .wpr-changelog-link {
+	display: inline-block;
+	opacity:0.8;
+}

@@ -17,7 +17,9 @@ jQuery.noConflict();
 		var form_labels = $( 'label', form.get( 0 ) );
 		var form_submit_btn = $( '.magnific-popup' );
 
-		// On Element Click
+		/**
+		 * On version click
+		 */
 		form_labels.on( 'click', function() {
 
 			// add a selected class
@@ -27,6 +29,44 @@ jQuery.noConflict();
 
 			// ensure the radio button always gets clicked
 			$( this ).find( 'input' ).prop( 'checked', true );
+
+		} );
+
+		/**
+		 * On changelog click
+		 */
+		$( '.wpr-changelog-link' ).on( 'click', function( e ) {
+
+			e.preventDefault();
+			var changelog_container = $( '.wpr-changelog' );
+
+			$.post(
+				ajaxurl,
+				{
+					'action': 'wpr_check_changelog',
+					'data': '1.8.9'
+				}, function( response ) {
+
+					$( changelog_container ).append( $.parseHTML( response ) );
+
+					var changelog_headings = $( changelog_container ).find( 'h4' );
+					var changelog_entry = '';
+
+					$( changelog_headings ).each( function( index, value ) {
+
+						var raw_val = $( value ).text();
+
+						if ( raw_val.indexOf( '1.8.11' ) >= 0 ) {
+							changelog_entry = value;
+							changelog_entry.append( $( value ).next( 'ul' ).text() );
+						}
+
+					} );
+
+					console.log( changelog_entry );
+
+				}
+			);
 
 		} );
 

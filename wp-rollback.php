@@ -226,6 +226,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 			add_filter( 'network_admin_plugin_action_links', array( self::$instance, 'plugin_action_links' ), 20, 4 );
 
 			add_filter( 'theme_action_links', array( self::$instance, 'theme_action_links' ), 20, 4 );
+			add_filter( 'wp_ajax_wpr_check_changelog', array( self::$instance, 'get_version_changelog' ) );
 
 		}
 
@@ -376,6 +377,36 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 		 *
 		 * @description cURLs wp.org repo to get the proper tags
 		 *
+		 * @param $data
+		 *
+		 * @return null|string
+		 */
+		public function get_version_changelog( $data ) {
+
+			$url = 'https://api.wordpress.org/plugins/info/1.0/give';
+
+			$response = wp_remote_get( $url );
+
+			// Do we have an error?
+			if ( wp_remote_retrieve_response_code( $response ) !== 200 ) {
+				return null;
+			}
+
+			$response = maybe_unserialize( wp_remote_retrieve_body( $response ) );
+
+			// Nope: Return that bad boy
+			echo $response->sections['changelog'];
+
+			wp_die();
+
+		}
+
+
+		/**
+		 * Get Subversion Tags
+		 *
+		 * @description cURLs wp.org repo to get the proper tags
+		 *
 		 * @param $type
 		 * @param $slug
 		 *
@@ -411,7 +442,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 		 *
 		 * @return array|bool
 		 */
-		private function set_svn_versions_data( $html ) {
+		public function set_svn_versions_data( $html ) {
 
 			if ( ! $html ) {
 				return false;
@@ -458,7 +489,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 
 			$this->versions = array_reverse( $this->versions );
 
-			// Loop through versions and output in a radio list
+			// Loop through versions and output in a radio list.
 			foreach ( $this->versions as $version ) {
 
 				$versions_html .= '<label><input type="radio" value="' . esc_attr( $version ) . '" name="' . $type . '_version">' . $version;
@@ -466,6 +497,11 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 				// Is this the current version?
 				if ( $version === $this->current_version ) {
 					$versions_html .= '<span class="current-version">' . __( 'Installed Version', 'wp-rollback' ) . '</span>';
+				}
+
+				// Is this the current version?
+				if ( 'plugin' === $type ) {
+					$versions_html .= ' <a href="#" class="wpr-changelog-link">' . __( 'View Changelog', 'wp-rollback' ) . '</a>';
 				}
 
 				$versions_html .= '</label>';
@@ -478,7 +514,7 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 		/**
 		 * Set Plugin Slug
 		 *
-		 * @return bool
+		 * @return string|bool
 		 */
 		private function set_plugin_slug() {
 

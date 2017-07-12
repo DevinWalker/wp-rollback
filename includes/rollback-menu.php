@@ -19,27 +19,28 @@ $plugins         = get_plugins();
 	<div class="wpr-content-wrap">
 
 		<h1>
-			<img src="<?php echo WP_ROLLBACK_PLUGIN_URL; ?>/assets/images/wprb-icon-final.svg" onerror="this.onerror=null; this.src='<?php echo WP_ROLLBACK_PLUGIN_URL; ?>/assets/images/wprb-logo.png'"><?php _e( 'WP Rollback', 'wp-rollback' ); ?>
+			<img src="<?php echo WP_ROLLBACK_PLUGIN_URL; ?>/assets/images/wprb-icon-final.svg"
+			     onerror="this.onerror=null; this.src='<?php echo WP_ROLLBACK_PLUGIN_URL; ?>/assets/images/wprb-logo.png';"><?php _e( 'WP Rollback', 'wp-rollback' ); ?>
 		</h1>
 
 		<p><?php echo apply_filters( 'wpr_rollback_description', sprintf( __( 'Please select which %1$s version you would like to rollback to from the releases listed below. You currently have version %2$s installed of %3$s.', 'wp-rollback' ), '<span class="type">' . ( $theme_rollback == true ? __( 'theme', 'wp-rollback' ) : __( 'plugin', 'wp-rollback' ) ) . '</span>', '<span class="current-version">' . esc_html( $args['current_version'] ) . '</span>', '<span class="rollback-name">' . esc_html( $args['rollback_name'] ) . '</span>' ) ); ?></p>
 
+		<div class="wpr-changelog"></div>
 	</div>
 
 	<?php if ( isset( $args['plugin_file'] ) && in_array( $args['plugin_file'], array_keys( $plugins ) ) ) {
 		$versions = WP_Rollback()->versions_select( 'plugin' );
-} elseif ( $theme_rollback == true && isset( $_GET['theme_file'] ) ) {
-	// theme rollback: set up our theme vars
-	$svn_tags = WP_Rollback()->get_svn_tags( 'theme', $_GET['theme_file'] );
-	$this->set_svn_versions_data( $svn_tags );
-	$this->current_version = $_GET['current_version'];
-	$versions              = WP_Rollback()->versions_select( 'theme' );
+	} elseif ( $theme_rollback == true && isset( $_GET['theme_file'] ) ) {
+		// Theme rollback: set up our theme vars
+		$svn_tags = WP_Rollback()->get_svn_tags( 'theme', $_GET['theme_file'] );
+		WP_Rollback()->set_svn_versions_data( $svn_tags );
+		$this->current_version = $_GET['current_version'];
+		$versions              = WP_Rollback()->versions_select( 'theme' );
 
-} else {
-	// Fallback check
-	wp_die( 'Oh no! We\'re missing required rollback query strings. Please contact support so we can check this bug out and squash it!', 'wp-rollback' );
-}
-	?>
+	} else {
+		// Fallback check
+		wp_die( __( 'Oh no! We\'re missing required rollback query strings. Please contact support so we can check this bug out and squash it!', 'wp-rollback' ) );
+	} ?>
 
 	<form name="check_for_rollbacks" class="rollback-form" action="<?php echo admin_url( '/index.php' ); ?>">
 		<?php
@@ -78,9 +79,7 @@ $plugins         = get_plugins();
 
 		<div id="wpr-modal-confirm" class="white-popup mfp-hide">
 			<div class="wpr-modal-inner">
-				<p class="wpr-rollback-intro"><?php
-					_e( 'Are you sure you want to perform the following rollback?', 'wp-rollback' );
-					?></p>
+				<p class="wpr-rollback-intro"><?php _e( 'Are you sure you want to perform the following rollback?', 'wp-rollback' ); ?></p>
 
 				<div class="rollback-details">
 					<table class="widefat">
@@ -90,9 +89,9 @@ $plugins         = get_plugins();
 							<td class="row-title">
 								<label for="tablecell"><?php if ( $plugin_rollback == true ) {
 										_e( 'Plugin Name:', 'wp-rollback' );
-} else {
-	_e( 'Theme Name:', 'wp-rollback' );
-} ?></label>
+									} else {
+										_e( 'Theme Name:', 'wp-rollback' );
+									} ?></label>
 							</td>
 							<td><span class="wpr-plugin-name"></span></td>
 						</tr>
