@@ -571,8 +571,8 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 				return $actions;
 			}
 
-			// If this is a multisite install and this is NOT the main site, don't output rollback option.
-			if ( is_multisite() && (! is_network_admin() || ! is_main_site()) ) {
+			// Multisite check.
+			if ( is_multisite() && ! is_network_admin() ) {
 				return $actions;
 			}
 
@@ -602,6 +602,11 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 		 * @TODO        Set transient here to speed up future checks?
 		 */
 		public function is_wordpress_theme() {
+
+			// Multisite check.
+			if ( is_multisite() && ! is_network_admin() ) {
+				return false;
+			}
 
 			$url    = add_query_arg( 'request[slug]', $_POST['theme'], 'https://api.wordpress.org/themes/info/1.1/?action=theme_information' );
 			$wp_api = wp_remote_get( $url );
@@ -757,7 +762,6 @@ if ( ! class_exists( 'WP Rollback' ) ) : {
 
 			return $themes;
 		}
-
 
 	}
 }
