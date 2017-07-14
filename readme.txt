@@ -111,19 +111,25 @@ This is the first version of this plugin. It is a tool for your convenience. Rol
 
 == Changelog ==
 
+= 1.5 =
+* New: You can now view plugin changelogs within the rollback screen. [#7](https://github.com/WordImpress/WP-Rollback/issues/7)
+* New: Added support for WordPress Multisite rollbacks for themes and plugins. [#22](https://github.com/WordImpress/WP-Rollback/issues/22)
+* New: Rollback button is fixed to the bottom of the page now to prevent long scrolls for rollbacks with many versions. [#23](https://github.com/WordImpress/WP-Rollback/issues/23)
+* New: Updated the WP.org plugin header graphic. [#37](https://github.com/WordImpress/WP-Rollback/issues/37)
+
 = 1.4 =
-* New: Updated plugin's text domain to the plugin's slug of 'wp-rollback' to support WordPress' GlotPress translations - https://github.com/WordImpress/WP-Rollback/issues/28
-* New: Gulp automated POT file generation and text domain checker - https://github.com/WordImpress/WP-Rollback/issues/28
-* Fix: Check the WP install's themes transient is present, if not fetch it to see if a theme can be rolled back. Allows rollbacks for new WP installs or in a case where the transient is not set properly - https://github.com/WordImpress/WP-Rollback/issues/27
+* New: Updated plugin's text domain to the plugin's slug of 'wp-rollback' to support WordPress' GlotPress translations. [#28](https://github.com/WordImpress/WP-Rollback/issues/28)
+* New: Gulp automated POT file generation and text domain checker. [#28](https://github.com/WordImpress/WP-Rollback/issues/28)
+* Fix: Check the WP install's themes transient is present, if not fetch it to see if a theme can be rolled back. Allows rollbacks for new WP installs or in a case where the transient is not set properly.[#27](https://github.com/WordImpress/WP-Rollback/issues/27)
 
 = 1.3 =
 * Tested compatibility with WordPress 4.4 and verified as working; bumped up compatibility
-* Fix: Trying to get property of non-object warning - https://github.com/WordImpress/WP-Rollback/issues/20
-* Improvement: Better version sorting now using usort & version_compare - https://github.com/WordImpress/WP-Rollback/issues/16
+* Fix: Trying to get property of non-object warning. [#20](https://github.com/WordImpress/WP-Rollback/issues/20)
+* Improvement: Better version sorting now using usort & version_compare. [#16](https://github.com/WordImpress/WP-Rollback/issues/16)
 
 = 1.2.4 =
-* New: Portuguese translations added
-* Fix: Limit HTTP requests to Plugin page only #17 @see: https://wordpress.org/support/topic/great-plugin-but-small-issue?replies=5 and https://wordpress.org/support/topic/great-plugin-but-small-issue?replies=1#post-7234287
+* New: Portuguese translations added.
+* Fix: Limit HTTP requests to Plugin page only. [Report 1](https://wordpress.org/support/topic/great-plugin-but-small-issue?replies=5) [Report 2](https://wordpress.org/support/topic/great-plugin-but-small-issue?replies=1#post-7234287)
 
 = 1.2.3 =
 * Fixed: XSS hardening. Thanks @secupress
@@ -132,17 +138,17 @@ This is the first version of this plugin. It is a tool for your convenience. Rol
 
 = 1.2.2 =
 * New: Russian translations from @Flector - thanks!
-* Fix: Replaced use of wp_json_encode to support older WordPress versions @see https://wordpress.org/support/topic/wordpress-requirement-issue-with-wp_json_encode
+* Fix: Replaced use of wp_json_encode to support older WordPress versions. [Report](https://wordpress.org/support/topic/wordpress-requirement-issue-with-wp_json_encode)
 
 = 1.2.1 =
-* Fix: Rollback link appears on non wp.org plugins https://github.com/WordImpress/WP-Rollback/issues/14 - thanks @scottopolis
-* Removed unnecessary WP_ROLLBACK_VERSION constant
+* Fix: Rollback link appears on non wp.org plugins - thanks @scottopolis. [#14](https://github.com/WordImpress/WP-Rollback/issues/14)
+* Removed unnecessary WP_ROLLBACK_VERSION constant.
 
 = 1.2 =
-* New: Swedish translation files - Thanks @WPDailyThemes
+* New: Swedish translation files - Thanks @WPDailyThemes.
 
 = 1.1 =
-* Fixed "Cancel" button which was falsely submitting the form
+* Fixed "Cancel" button which was falsely submitting the form.
 
 = 1.0 =
 
