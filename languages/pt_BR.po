@@ -1,0 +1,173 @@
+# Copyright (C) 2017 WP Rollback
+# This file is distributed under the same license as the WP Rollback package.
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Rollback\n"
+"Report-Msgid-Bugs-To: https://github.com/WordImpress/WP-Rollback\n"
+"POT-Creation-Date: 2017-07-19 15:59-0300\n"
+"PO-Revision-Date: 2017-07-19 16:10-0300\n"
+"Last-Translator: Celso Bessa - 2Aces <celso.bessa@2aces.com.br>\n"
+"Language-Team: Japu App <contato@japuapp.com.br>\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 2.0.2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: includes/rollback-action.php:35
+msgid ""
+"This rollback request is missing a proper query string. Please contact "
+"support."
+msgstr ""
+"Esta requisição de reversão não tem uma string de busca apropriada. Por "
+"favor, contate o suporte."
+
+#: includes/rollback-menu.php:10
+msgid ""
+"WP Rollback is missing necessary parameters to continue. Please contact "
+"support."
+msgstr ""
+"Estão faltando alguns parâmetros para o WP Rollback continuar. Por favor, "
+"contate o suporte."
+
+#: includes/rollback-menu.php:23
+msgid "WP Rollback"
+msgstr "WP Rollback"
+
+#: includes/rollback-menu.php:26
+#, php-format
+msgid ""
+"Please select which %1$s version you would like to rollback to from the "
+"releases listed below. You currently have version %2$s installed of %3$s."
+msgstr ""
+"Por favor, selecione qual versão de %1$s você gostaria de rever para uma das "
+"versões listadas abaixo. Atualmente, você tem instalada a versão %2$s do "
+"%3$s."
+
+#: includes/rollback-menu.php:26
+msgid "theme"
+msgstr "tema"
+
+#: includes/rollback-menu.php:26
+msgid "plugin"
+msgstr "plugin"
+
+#: includes/rollback-menu.php:42
+msgid ""
+"Oh no! We're missing required rollback query strings. Please contact support "
+"so we can check this bug out and squash it!"
+msgstr ""
+"Oh, não! Não encontramos algumas strings de busca de reversão requeridas. "
+"Por favor, contate o suporte para que possamos ver este defeito e eliminá-lo!"
+
+#: includes/rollback-menu.php:64 includes/rollback-menu.php:121
+#: wp-rollback.php:263 wp-rollback.php:567 wp-rollback.php:637
+#: wp-rollback.php:688
+msgid "Rollback"
+msgstr "Reverter"
+
+#: includes/rollback-menu.php:65 includes/rollback-menu.php:122
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: includes/rollback-menu.php:83
+msgid "Are you sure you want to perform the following rollback?"
+msgstr "Você tem certeza que você deseja fazer a seguinte reversão?"
+
+#: includes/rollback-menu.php:92
+msgid "Plugin Name:"
+msgstr "Nome do Plugin:"
+
+#: includes/rollback-menu.php:94
+msgid "Theme Name:"
+msgstr "Nome do Tema:"
+
+#: includes/rollback-menu.php:101
+msgid "Installed Version:"
+msgstr "Versão Instalada:"
+
+#: includes/rollback-menu.php:107
+msgid "New Version:"
+msgstr "Nova Versão:"
+
+#: includes/rollback-menu.php:117
+msgid ""
+"<strong>Notice:</strong> We strongly recommend you perform a test rollback "
+"on a staging site and create a complete backup of your WordPress files and "
+"database prior to performing a rollback. We are not responsible for any "
+"misuse, deletions, white screens, fatal errors, or any other issue arising "
+"from using this plugin."
+msgstr ""
+"<strong>Aviso:</strong> Nós recomendamos enfaticamente que você faça um "
+"teste de reversão num site de testes e que crie uma cópia de segurança dos "
+"seus arquivos e base de dados do WordPress antes de fazer uma reversão. Nós "
+"não somos responsáveis por qualquer uso incorreto, apagamento, telas "
+"brancas, erros fatais ou qualquer tipo de incidentes que surgir do uso deste "
+"plugin."
+
+#: wp-rollback.php:148 wp-rollback.php:160
+msgid "Cheatin&#8217; huh?"
+msgstr "Trapaceando, ahn?"
+
+#: wp-rollback.php:264
+msgid "No Rollback Available: This is a non-WordPress.org theme."
+msgstr "Nenhuma Reversão Disponível: este não é um tema WordPress.org."
+
+#: wp-rollback.php:265
+msgid "Loading..."
+msgstr "Carregando…"
+
+#: wp-rollback.php:294
+#, php-format
+msgid ""
+"Sorry, we couldn't find a changelog entry found for this version. Try "
+"checking the <a href=\"%s\" target=\"_blank\">developer log</a> on WP.org."
+msgstr ""
+"Desculpe, não encontramos um registro de alterações para esta versão. Tente "
+"ver no <a href=\"%s\" target=\"_blank\">registro do desenvolvedor</a> em WP."
+"org."
+
+#: wp-rollback.php:295
+msgid "Please select a version number to perform a rollback."
+msgstr "Por favor, selecione o número de versão para executar uma reversão."
+
+#: wp-rollback.php:340
+msgid ""
+"You do not have sufficient permissions to perform rollbacks for this site."
+msgstr ""
+"Você não tem permissões suficientes para executar reversões neste site."
+
+#: wp-rollback.php:503
+msgid "Installed Version"
+msgstr "Versão Instalada"
+
+#: wp-rollback.php:510
+msgid "View Changelog"
+msgstr "Ver Registro de Alterações"
+
+#: wp-rollback.php:804
+msgid ""
+"An unexpected error occurred. Something may be wrong with WordPress.org or "
+"this server&#8217;s configuration. If you continue to have problems, please "
+"try the <a href=\"https://wordpress.org/support/\">support forums</a>."
+msgstr ""
+"Aconteceu um erro inesperado. Algo deve estar errado com o WordPress.org ou "
+"a configuração deste servidor. Se você continuar a ter problemas, por favor, "
+"tente os <a href=\"https://wordpress.org/support/\">fóruns de suporte</a> "
+"(em inglês)."
+
+#: wp-rollback.php:804
+msgid ""
+"(WordPress could not establish a secure connection to WordPress.org. Please "
+"contact your server administrator.)"
+msgstr ""
+"(WordPress não conseguiu estabelecer uma conexão segura com WordPress.org. "
+"Por favor contate o administrador de seu servidor.)"
