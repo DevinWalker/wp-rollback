@@ -34,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 1.0
  */
-if ( ! class_exists( 'WP Rollback' ) ) : {
+if ( ! class_exists( 'WP_Rollback' ) ) : {
 
 	/**
 	 * Class WP_Rollback
