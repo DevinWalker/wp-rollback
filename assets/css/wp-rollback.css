@@ -74,7 +74,9 @@
 	clear: left;
 	padding: 8px 0;
 	overflow: hidden;
+	width: 800px;
 }
+
 .wpr-version-li label {
 	float:left;
 	font-size: 16px;
@@ -148,4 +150,34 @@
 
 .wpr-no-changelog-message {
 	margin-bottom:0;
+}
+
+.wpr-version-list{
+	width: 800px;
+}
+.wpr-wptc-upsell-banner{
+	position: absolute;
+    margin-left: 840px;
+    margin-top: -70px;
+}
+
+.wpr-wptc-button-external-icon-fix{
+    margin-top: 2px;
+    margin-left: 4px;
+}
+
+.wpr-wptc-link-external-icon-fix{
+	font-size: 14px;
+	margin-left: -3px;
+}
+
+.wpr-wptc-link-external-icon-fix{
+	font-size: 14px;
+	margin-left: -3px;
+}
+
+.wpr-wptc-upsell-text{
+	font-size: 12px;
+	text-align: center;
+	padding-bottom: 10px;
 }

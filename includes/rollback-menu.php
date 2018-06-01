@@ -27,8 +27,8 @@ $plugins         = get_plugins();
 
 		<div class="wpr-changelog"></div>
 	</div>
-	<div style="float: right;">
-        <div style="font-size: 12px;text-align: center;padding-bottom: 10px;">Our Backup &amp; Staging Partner</div>
+	<div class="wpr-wptc-upsell-banner">
+        <div class="wpr-wptc-upsell-text">Our Backup &amp; Staging Partner</div>
         <a href="https://wptimecapsule.com/?partner=impress"><img class="wptc-class" src="https://infinitewp-m7fzg7jh9vyw.netdna-ssl.com/wp-content/uploads/2018/05/wptc-rollback.jpg"></a>
     </div>
 
@@ -66,7 +66,7 @@ $plugins         = get_plugins();
 
 		<div class="wpr-submit-wrap">
 			<a href="#wpr-modal-confirm" class="magnific-popup button-primary wpr-rollback-disabled"><?php _e( 'Rollback', 'wp-rollback' ); ?></a>
-			<a href="https://wptimecapsule.com/staging/?partner=impress" class="button-primary" ><?php _e( 'Test Rollback on Staging', 'wp-rollback' ); ?></a>
+			<a href="https://wptimecapsule.com/staging/?partner=impress" class="button-primary" target="_blank" ><?php _e( 'Test Rollback on Staging', 'wp-rollback' ); ?><span class="dashicons dashicons-external wpr-wptc-button-external-icon-fix"></span></a>
 			<input type="button" value="<?php _e( 'Cancel', 'wp-rollback' ); ?>" class="button" onclick="location.href='<?php echo wp_get_referer(); ?>';" />
 		</div>
 		<?php do_action( 'wpr_hidden_fields' ); ?>
@@ -119,12 +119,12 @@ $plugins         = get_plugins();
 				</div>
 				<div class="wpr-error">
 					<p><?php
-						_e( '<strong>Notice:</strong> We strongly recommend you perform a <a href="https://wptimecapsule.com/staging/?partner=impress">test rollback on a staging site</a> and <a href="https://wptimecapsule.com/incremental-backups/?partner=impress">create a complete backup</a> of your WordPress files and database prior to performing a rollback. We are not responsible for any misuse, deletions, white screens, fatal errors, or any other issue arising from using this plugin.', 'wp-rollback' );
+						_e( '<strong>Notice:</strong> We strongly recommend you perform a <a href="https://wptimecapsule.com/staging/?partner=impress" target="_blank">test rollback on a staging site<span class="dashicons dashicons-external wpr-wptc-link-external-icon-fix"></span></a> and <a href="https://wptimecapsule.com/incremental-backups/?partner=impress" target="_blank">create a complete backup<span class="dashicons dashicons-external wpr-wptc-link-external-icon-fix"></span></a> of your WordPress files and database prior to performing a rollback. We are not responsible for any misuse, deletions, white screens, fatal errors, or any other issue arising from using this plugin.', 'wp-rollback' );
 						?></p>
 				</div>
 				<?php do_action( 'wpr_pre_rollback_buttons' ); ?>
 				<input type="submit" value="<?php _e( 'Rollback', 'wp-rollback' ); ?>" class="button-primary wpr-go" />
-				<a href="https://wptimecapsule.com/staging/?partner=impress" class="button-primary" ><?php _e( 'Test Rollback on Staging', 'wp-rollback' ); ?></a>
+				<a href="https://wptimecapsule.com/staging/?partner=impress" class="button-primary" target="_blank"><?php _e( 'Test Rollback on Staging', 'wp-rollback' ); ?><span class="dashicons dashicons-external wpr-wptc-button-external-icon-fix"></span></a>
 				<a href="#" class="button wpr-close"><?php _e( 'Cancel', 'wp-rollback' ); ?></a>
 				<?php do_action( 'wpr_post_rollback_buttons' ); ?>
 			</div>
