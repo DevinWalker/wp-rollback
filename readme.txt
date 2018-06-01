@@ -4,7 +4,7 @@ Tags: rollback, revert, downgrade, version, plugins, themes, version, versions, 
 Requires at least: 4.0
 Donate Link: https://wordimpress.com
 Tested up to: 4.8
-Stable tag: 1.5
+Stable tag: 1.5.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -110,6 +110,9 @@ Heck yes it did! The WordImpress team took home the gold.
 This is the first version of this plugin. It is a tool for your convenience. Rollback at your own risk!
 
 == Changelog ==
+
+= 1.5.1 =
+* Tweak: Added additional information about the importance of Staging and Backups and links to our preferred plugin.
 
 = 1.5 =
 * New: You can now view plugin changelogs within the rollback screen. [#7](https://github.com/WordImpress/WP-Rollback/issues/7)
