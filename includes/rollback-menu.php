@@ -119,7 +119,7 @@ $plugins         = get_plugins();
 				</div>
 				<div class="wpr-error">
 					<p><?php
-						_e( '<strong>Notice:</strong> We strongly recommend you perform a <a href="https://wptimecapsule.com/staging/?partner=impress" target="_blank">test rollback on a staging site<span class="dashicons dashicons-external wpr-wptc-link-external-icon-fix"></span></a> and <a href="https://wptimecapsule.com/incremental-backups/?partner=impress" target="_blank">create a complete backup<span class="dashicons dashicons-external wpr-wptc-link-external-icon-fix"></span></a> of your WordPress files and database prior to performing a rollback. We are not responsible for any misuse, deletions, white screens, fatal errors, or any other issue arising from using this plugin.', 'wp-rollback' );
+						_e( '<strong>Notice:</strong> We strongly recommend you perform a <a href="https://wptimecapsule.com/staging/?partner=impress" target="_blank">test rollback on a staging site</a> and <a href="https://wptimecapsule.com/incremental-backups/?partner=impress" target="_blank">create a complete backup</a> of your WordPress files and database prior to performing a rollback. We are not responsible for any misuse, deletions, white screens, fatal errors, or any other issue arising from using this plugin.', 'wp-rollback' );
 						?></p>
 				</div>
 				<?php do_action( 'wpr_pre_rollback_buttons' ); ?>
