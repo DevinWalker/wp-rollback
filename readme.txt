@@ -1,7 +1,7 @@
 === WP Rollback ===
 Contributors: wordimpress, dlocc, drrobotnik, webdevmattcrom
 Tags: rollback, revert, downgrade, version, plugins, themes, version, versions, backup, backups, revision, revisions
-Requires at least: 4.0
+Requires at least: 4.8
 Donate Link: https://wordimpress.com
 Tested up to: 4.8
 Stable tag: 1.5.1
@@ -42,7 +42,7 @@ We do have documentation on the plugin [Github Wiki](https://github.com/WordImpr
 
 = Minimum Requirements =
 
-* WordPress 3.8 or greater
+* WordPress 4.8 or greater
 * PHP version 5.3 or greater
 * MySQL version 5.0 or greater
 
