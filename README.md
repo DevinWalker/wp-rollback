@@ -15,4 +15,4 @@ We answer all support requests at the [WordPress Repository](https://wordpress.o
 ## Documentation
 WP Rollback was created to be as intuitive to the natural WordPress experience as possible. There are no settings at all. We believe that once you activate WP Rollback you'll quickly discover exactly how it works without question.
 
-[Read the WP Rollback Documentation](https://github.com/WordImpress/WP-Rollback/wiki) as well.
+[Read the WP Rollback Documentation](https://github.com/WordImpress/WP-Rollback/wiki)
