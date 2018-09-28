@@ -1,4 +1,4 @@
-![WP Rollback Banner](https://wordimpress.com/github/wprb/images/wprb-github-banner.jpg)
+![WP Rollback Banner](https://impress.org/github/wp-rollback/plugin-banner.png)
 # WP Rollback
 Quickly and easily rollback any theme or plugin on WordPress.org to a previous version without any of the manual fuss. Works just like the plugin updater, except you're downgrading to a specific version. No need for manually downloading and FTPing up the files, this plugin takes care of that for you.
 
@@ -15,12 +15,4 @@ We answer all support requests at the [WordPress Repository](https://wordpress.o
 ## Documentation
 WP Rollback was created to be as intuitive to the natural WordPress experience as possible. There are no settings at all. We believe that once you activate WP Rollback you'll quickly discover exactly how it works without question.
 
-**BUT!!**
-
-We have documentation [here](https://github.com/WordImpress/WP-Rollback/wiki) as well.
-
-# About WordImpress
-
-![](https://github.com/WordImpress/woocommerce-preview-emails/raw/master/assets/img/wordimpress_logo.png)
-
-We build impressive Plugins and Themes for your WordPress website. Find out more about us and read more great tutorials at [https://wordimpress.com](https://wordimpress.com)
+[Read the WP Rollback Documentation](https://github.com/WordImpress/WP-Rollback/wiki) as well.
