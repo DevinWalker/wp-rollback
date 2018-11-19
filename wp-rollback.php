@@ -58,11 +58,11 @@ if ( ! class_exists( 'WP_Rollback' ) ) : {
 		public $wpr_settings;
 
 		/**
-		 * Plugins repo url.
+		 * Plugins API url.
 		 *
 		 * @var string
 		 */
-		public $plugins_repo = 'http://plugins.svn.wordpress.org';
+		public $plugins_api = 'https://api.wordpress.org/plugins';
 
 		/**
 		 * Themes repo url.
@@ -418,10 +418,9 @@ if ( ! class_exists( 'WP_Rollback' ) ) : {
 		 */
 		public function get_svn_tags( $type, $slug ) {
 
-			$url = $this->plugins_repo . '/' . $this->plugin_slug . '/tags/';
-
-			// is this a theme svn request?
-			if ( 'theme' === $type ) {
+			if ( 'plugin' === $type ) {
+				$url = $this->plugins_api . '/info/1.0/' . $this->plugin_slug . '.json';
+			} else if ( 'theme' === $type ) {
 				$url = $this->themes_repo . '/' . $slug;
 			}
 
@@ -450,18 +449,22 @@ if ( ! class_exists( 'WP_Rollback' ) ) : {
 				return false;
 			}
 
-			$DOM = new DOMDocument;
-			$DOM->loadHTML( $html );
+			if ( ( $json = json_decode( $html ) ) && ( $html != $json ) ) {
+				$versions = array_keys( (array) $json->versions );
+			} else {
+				$DOM = new DOMDocument;
+				$DOM->loadHTML( $html );
 
-			$versions = array();
+				$versions = array();
 
-			$items = $DOM->getElementsByTagName( 'a' );
+				$items = $DOM->getElementsByTagName( 'a' );
 
-			foreach ( $items as $item ) {
-				$href = str_replace( '/', '', $item->getAttribute( 'href' ) ); // Remove trailing slash
+				foreach ( $items as $item ) {
+					$href = str_replace( '/', '', $item->getAttribute( 'href' ) ); // Remove trailing slash
 
-				if ( strpos( $href, 'http' ) === false && '..' !== $href ) {
-					$versions[] = $href;
+					if ( strpos( $href, 'http' ) === false && '..' !== $href ) {
+						$versions[] = $href;
+					}
 				}
 			}
 
