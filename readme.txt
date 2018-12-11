@@ -1,5 +1,5 @@
 === WP Rollback ===
-Contributors: dlocc, drrobotnik, webdevmattcrom, givewp
+Contributors: dlocc, drrobotnik, webdevmattcrom, impressorg, givewp
 Tags: rollback, revert, downgrade, version, plugins, themes, version, versions, backup, backups, revision, revisions
 Requires at least: 4.8
 Donate Link: https://impress.org
