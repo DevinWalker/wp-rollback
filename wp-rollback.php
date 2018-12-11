@@ -296,7 +296,7 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
 			wp_localize_script(
 				'wp_rollback_script', 'wpr_vars', array(
 					'ajaxurl'                 => admin_url(),
-					'text_no_changelog_found' => sprintf( __( 'Sorry, we couldn\'t find a changelog entry found for this version. Try checking the <a href="%s" target="_blank">developer log</a> on WP.org.', 'wp-rollback' ), 'https://wordpress.org/plugins/' . $_GET['plugin_slug'] . '/#developers' ),
+					'text_no_changelog_found' => isset( $_GET['plugin_slug'] ) ? sprintf( __( 'Sorry, we couldn\'t find a changelog entry found for this version. Try checking the <a href="%s" target="_blank">developer log</a> on WP.org.', 'wp-rollback' ), 'https://wordpress.org/plugins/' . $_GET['plugin_slug'] . '/#developers' ) : '',
 					'version_missing'         => __( 'Please select a version number to perform a rollback.', 'wp-rollback' ),
 				)
 			);
