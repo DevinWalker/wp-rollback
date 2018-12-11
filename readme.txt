@@ -1,10 +1,10 @@
 === WP Rollback ===
-Contributors: wordimpress, dlocc, drrobotnik, webdevmattcrom
+Contributors: dlocc, drrobotnik, webdevmattcrom, givewp
 Tags: rollback, revert, downgrade, version, plugins, themes, version, versions, backup, backups, revision, revisions
 Requires at least: 4.8
-Donate Link: https://wordimpress.com
-Tested up to: 4.8
-Stable tag: 1.5.1
+Donate Link: https://impress.org
+Tested up to: 5.0
+Stable tag: 1.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -26,7 +26,7 @@ We provide no (zero) assurances, guarantees, or warranties that the plugin, them
 
 = Translation Ready =
 
-Do you speak another language? Want to contribute in a meaninful way to WP Rollback? There's no better way than to help us translate the plugin. This plugin is translation ready. Simply use the wp-rollback.pot file and your favorite translation tool. Once finished, please reach out to us on the WordPress.org forums or better yet, submit a pull request on the [Github Repo](https://github.com/WordImpress/WP-Rollback/).
+Do you speak another language? Want to contribute in a meaninful way to WP Rollback? There's no better way than to help us translate the plugin. This plugin is translation ready. Simply use the wp-rollback.pot file and your favorite translation tool. Once finished, please reach out to us on the WordPress.org forums or better yet, submit a pull request on the [Github Repo](https://github.com/impress-org/wp-rollback/).
 
 = Support and Documentation =
 
@@ -36,7 +36,7 @@ WP Rollback was created to be as intuitive to the natural WordPress experience a
 
 **BUT!!**
 
-We do have documentation on the plugin [Github Wiki](https://github.com/WordImpress/WP-Rollback/wiki).
+We do have documentation on the plugin [Github Wiki](https://github.com/impress-org/wp-rollback/wiki).
 
 == Installation ==
 
@@ -79,15 +79,15 @@ Nope. We warned you in **bold** print several times in many places. And our plug
 
 = Where is the complete documentation located? =
 
-The documentation for this plugin is located on our [Github Wiki](https://github.com/WordImpress/WP-Rollback/wiki). This is where we make regular updates.
+The documentation for this plugin is located on our [Github Wiki](https://github.com/impress-org/wp-rollback/wiki). This is where we make regular updates.
 
 = Can this plugin be translated? =
 
-Yes! All strings are internationalized and ready to be translated. Simply use the languages/wp-rollback.pot file and your favorite translation tool. Once finished, please reach out to us on the WordPress.org forums or better yet, submit a pull request on the [Github Repo](https://github.com/WordImpress/WP-Rollback/).
+Yes! All strings are internationalized and ready to be translated. Simply use the languages/wp-rollback.pot file and your favorite translation tool. Once finished, please reach out to us on the WordPress.org forums or better yet, submit a pull request on the [Github Repo](https://github.com/impress-org/wp-rollback/).
 
 = Did this plugin with WordCamp Orange County's Plugin-Palooza? =
 
-Heck yes it did! The WordImpress team took home the gold.
+Heck yes it did! The Impress.org team took home the gold.
 
 == Screenshots ==
 
@@ -111,24 +111,29 @@ This is the first version of this plugin. It is a tool for your convenience. Rol
 
 == Changelog ==
 
+= 1.6 =
+* New: You now have the ability to rollback to the trunk for plugins. This is useful for beta testing releases and more. Thanks to [karpstrucking](https://github.com/karpstrucking) for making this happen. [#45](https://github.com/impress-org/wp-rollback/issues/45)
+* New: Add actions ""
+* Tweak: Use the WP.org API to retrieve plugin release version information for more reliable results. [#35](https://github.com/impress-org/wp-rollback/issues/35)
+
 = 1.5.1 =
 * Tweak: Added additional information about the importance of Staging and Backups and links to our preferred plugin.
 
 = 1.5 =
-* New: You can now view plugin changelogs within the rollback screen. [#7](https://github.com/WordImpress/WP-Rollback/issues/7)
-* New: Added support for WordPress Multisite rollbacks for themes and plugins. [#22](https://github.com/WordImpress/WP-Rollback/issues/22)
-* New: Rollback button is fixed to the bottom of the page now to prevent long scrolls for rollbacks with many versions. [#23](https://github.com/WordImpress/WP-Rollback/issues/23)
-* New: Updated the WP.org plugin header graphic. [#37](https://github.com/WordImpress/WP-Rollback/issues/37)
+* New: You can now view plugin changelogs within the rollback screen. [#7](https://github.com/impress-org/wp-rollback/issues/7)
+* New: Added support for WordPress Multisite rollbacks for themes and plugins. [#22](https://github.com/impress-org/wp-rollback/issues/22)
+* New: Rollback button is fixed to the bottom of the page now to prevent long scrolls for rollbacks with many versions. [#23](https://github.com/impress-org/wp-rollback/issues/23)
+* New: Updated the WP.org plugin header graphic. [#37](https://github.com/impress-org/wp-rollback/issues/37)
 
 = 1.4 =
-* New: Updated plugin's text domain to the plugin's slug of 'wp-rollback' to support WordPress' GlotPress translations. [#28](https://github.com/WordImpress/WP-Rollback/issues/28)
-* New: Gulp automated POT file generation and text domain checker. [#28](https://github.com/WordImpress/WP-Rollback/issues/28)
-* Fix: Check the WP install's themes transient is present, if not fetch it to see if a theme can be rolled back. Allows rollbacks for new WP installs or in a case where the transient is not set properly.[#27](https://github.com/WordImpress/WP-Rollback/issues/27)
+* New: Updated plugin's text domain to the plugin's slug of 'wp-rollback' to support WordPress' GlotPress translations. [#28](https://github.com/impress-org/wp-rollback/issues/28)
+* New: Gulp automated POT file generation and text domain checker. [#28](https://github.com/impress-org/wp-rollback/issues/28)
+* Fix: Check the WP install's themes transient is present, if not fetch it to see if a theme can be rolled back. Allows rollbacks for new WP installs or in a case where the transient is not set properly.[#27](https://github.com/impress-org/wp-rollback/issues/27)
 
 = 1.3 =
 * Tested compatibility with WordPress 4.4 and verified as working; bumped up compatibility
-* Fix: Trying to get property of non-object warning. [#20](https://github.com/WordImpress/WP-Rollback/issues/20)
-* Improvement: Better version sorting now using usort & version_compare. [#16](https://github.com/WordImpress/WP-Rollback/issues/16)
+* Fix: Trying to get property of non-object warning. [#20](https://github.com/impress-org/wp-rollback/issues/20)
+* Improvement: Better version sorting now using usort & version_compare. [#16](https://github.com/impress-org/wp-rollback/issues/16)
 
 = 1.2.4 =
 * New: Portuguese translations added.
@@ -144,7 +149,7 @@ This is the first version of this plugin. It is a tool for your convenience. Rol
 * Fix: Replaced use of wp_json_encode to support older WordPress versions. [Report](https://wordpress.org/support/topic/wordpress-requirement-issue-with-wp_json_encode)
 
 = 1.2.1 =
-* Fix: Rollback link appears on non wp.org plugins - thanks @scottopolis. [#14](https://github.com/WordImpress/WP-Rollback/issues/14)
+* Fix: Rollback link appears on non wp.org plugins - thanks @scottopolis. [#14](https://github.com/impress-org/wp-rollback/issues/14)
 * Removed unnecessary WP_ROLLBACK_VERSION constant.
 
 = 1.2 =
