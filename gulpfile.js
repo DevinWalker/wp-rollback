@@ -20,9 +20,9 @@ gulp.task('pot', function () {
             package: 'WP Rollback',
             domain: 'wp-rollback', //textdomain
             destFile: 'wp-rollback.pot',
-            bugReport: 'https://github.com/WordImpress/WP-Rollback',
+            bugReport: 'https://github.com/impress-org/wp-rollback',
             lastTranslator: '',
-            team: 'WordImpress <info@wordimpress.com>'
+            team: 'Impress.org <info@impress.org>'
         }))
         .pipe(gulp.dest('languages'));
 });

@@ -3,12 +3,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WP Rollback\n"
-"Report-Msgid-Bugs-To: https://github.com/WordImpress/WP-Rollback\n"
+"Report-Msgid-Bugs-To: https://github.com/impress-org/wp-rollback\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "PO-Revision-Date: 2018-MO-DA HO:MI+ZONE\n"
-"Language-Team: WordImpress <info@wordimpress.com>\n"
+"Language-Team: Impress.org <info@impress.org>\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
@@ -16,7 +16,7 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: includes/rollback-action.php:35
+#: includes/rollback-action.php:47
 msgid "This rollback request is missing a proper query string. Please contact support."
 msgstr ""
 
@@ -44,7 +44,7 @@ msgstr ""
 msgid "Oh no! We're missing required rollback query strings. Please contact support so we can check this bug out and squash it!"
 msgstr ""
 
-#: includes/rollback-menu.php:68, includes/rollback-menu.php:126, wp-rollback.php:263, wp-rollback.php:567, wp-rollback.php:567, wp-rollback.php:637, wp-rollback.php:688
+#: includes/rollback-menu.php:68, includes/rollback-menu.php:126, wp-rollback.php:263, wp-rollback.php:570, wp-rollback.php:570, wp-rollback.php:640, wp-rollback.php:691
 msgid "Rollback"
 msgstr ""
 
@@ -104,18 +104,18 @@ msgstr ""
 msgid "You do not have sufficient permissions to perform rollbacks for this site."
 msgstr ""
 
-#: wp-rollback.php:503
+#: wp-rollback.php:506
 msgid "Installed Version"
 msgstr ""
 
-#: wp-rollback.php:510
+#: wp-rollback.php:513
 msgid "View Changelog"
 msgstr ""
 
-#: wp-rollback.php:804
+#: wp-rollback.php:807
 msgid "An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href=\"https://wordpress.org/support/\">support forums</a>."
 msgstr ""
 
-#: wp-rollback.php:804
+#: wp-rollback.php:807
 msgid "(WordPress could not establish a secure connection to WordPress.org. Please contact your server administrator.)"
 msgstr ""
