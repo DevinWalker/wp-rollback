@@ -114,6 +114,7 @@ This is the first version of this plugin. It is a tool for your convenience. Rol
 = 1.6 =
 * New: You now have the ability to rollback to the trunk for plugins. This is useful for beta testing releases and more. Thanks to [karpstrucking](https://github.com/karpstrucking) for making this happen. [#45](https://github.com/impress-org/wp-rollback/issues/45)
 * New: Add actions "wpr_plugin_success", "wpr_plugin_failure", "wpr_theme_success", and "wpr_theme_failure" for developers.
+* New: If a plugin or theme does not have any tagged releases to select from then then an informative notice appears rather than empty space for a better user experience. [#42](https://github.com/impress-org/wp-rollback/issues/42)
 * Tweak: Use the WP.org API to retrieve plugin release version information for more reliable results. [#35](https://github.com/impress-org/wp-rollback/issues/35)
 
 = 1.5.1 =

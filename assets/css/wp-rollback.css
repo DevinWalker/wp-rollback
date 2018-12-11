@@ -33,6 +33,10 @@
 	margin-bottom:30px;
 }
 
+.wpr-versions-wrap .wpr-error {
+	margin-left: -20px;
+	max-width: 770px;
+}
 
 .wpr-submit-wrap {
 	border-top: 1px solid #DADADA;

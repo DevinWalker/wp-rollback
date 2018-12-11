@@ -20,7 +20,7 @@ $plugins         = get_plugins();
 
 		<h1>
 			<img src="<?php echo WP_ROLLBACK_PLUGIN_URL; ?>/assets/images/wprb-icon-final.svg"
-			     onerror="this.onerror=null; this.src='<?php echo WP_ROLLBACK_PLUGIN_URL; ?>/assets/images/wprb-logo.png';"><?php _e( 'WP Rollback', 'wp-rollback' ); ?>
+				 onerror="this.onerror=null; this.src='<?php echo WP_ROLLBACK_PLUGIN_URL; ?>/assets/images/wprb-logo.png';"><?php _e( 'WP Rollback', 'wp-rollback' ); ?>
 		</h1>
 
 		<p><?php echo apply_filters( 'wpr_rollback_description', sprintf( __( 'Please select which %1$s version you would like to rollback to from the releases listed below. You currently have version %2$s installed of %3$s.', 'wp-rollback' ), '<span class="type">' . ( $theme_rollback == true ? __( 'theme', 'wp-rollback' ) : __( 'plugin', 'wp-rollback' ) ) . '</span>', '<span class="current-version">' . esc_html( $args['current_version'] ) . '</span>', '<span class="rollback-name">' . esc_html( $args['rollback_name'] ) . '</span>' ) ); ?></p>
@@ -28,14 +28,19 @@ $plugins         = get_plugins();
 		<div class="wpr-changelog"></div>
 	</div>
 	<div class="wpr-wptc-upsell-banner">
-        <div class="wpr-wptc-upsell-text">Our Backup &amp; Staging Partner</div>
-        <a href="https://wptimecapsule.com/?partner=impress"><img class="wptc-class" src="https://infinitewp-m7fzg7jh9vyw.netdna-ssl.com/wp-content/uploads/2018/05/wptc-rollback.jpg"></a>
-    </div>
+		<div class="wpr-wptc-upsell-text">Our Backup &amp; Staging Partner</div>
+		<a href="https://wptimecapsule.com/?partner=impress"><img class="wptc-class" src="https://infinitewp-m7fzg7jh9vyw.netdna-ssl.com/wp-content/uploads/2018/05/wptc-rollback.jpg"></a>
+	</div>
 
-	<?php if ( isset( $args['plugin_file'] ) && in_array( $args['plugin_file'], array_keys( $plugins ) ) ) {
+	<?php
+	// A: Plugin rollbacks in first conditional:
+	if ( isset( $args['plugin_file'] ) && in_array( $args['plugin_file'], array_keys( $plugins ) ) ) {
+
 		$versions = WP_Rollback()->versions_select( 'plugin' );
+
 	} elseif ( $theme_rollback == true && isset( $_GET['theme_file'] ) ) {
-		// Theme rollback: set up our theme vars
+
+		// B: Theme rollback: set up our theme vars
 		$svn_tags = WP_Rollback()->get_svn_tags( 'theme', $_GET['theme_file'] );
 		WP_Rollback()->set_svn_versions_data( $svn_tags );
 		$this->current_version = $_GET['current_version'];
@@ -44,12 +49,14 @@ $plugins         = get_plugins();
 	} else {
 		// Fallback check
 		wp_die( __( 'Oh no! We\'re missing required rollback query strings. Please contact support so we can check this bug out and squash it!', 'wp-rollback' ) );
-	} ?>
+	}
+	?>
 
 	<form name="check_for_rollbacks" class="rollback-form" action="<?php echo admin_url( '/index.php' ); ?>">
 		<?php
 		// Output Versions
-		if ( ! empty( $versions ) ) { ?>
+		if ( ! empty( $versions ) ) {
+		?>
 
 			<div class="wpr-versions-wrap">
 
@@ -58,7 +65,8 @@ $plugins         = get_plugins();
 
 				echo apply_filters( 'wpr_versions_output', $versions );
 
-				do_action( 'wpr_post_version' ); ?>
+				do_action( 'wpr_post_version' );
+				?>
 
 			</div>
 
@@ -73,7 +81,8 @@ $plugins         = get_plugins();
 		<input type="hidden" name="page" value="wp-rollback">
 		<?php
 		// Important: We need the appropriate file to perform a rollback
-		if ( $plugin_rollback == true ) { ?>
+		if ( $plugin_rollback == true ) {
+		?>
 			<input type="hidden" name="plugin_file" value="<?php echo esc_attr( $args['plugin_file'] ); ?>">
 			<input type="hidden" name="plugin_slug" value="<?php echo esc_attr( $args['plugin_slug'] ); ?>">
 		<?php } else { ?>
@@ -93,11 +102,15 @@ $plugins         = get_plugins();
 						<?php do_action( 'wpr_pre_rollback_table' ); ?>
 						<tr>
 							<td class="row-title">
-								<label for="tablecell"><?php if ( $plugin_rollback == true ) {
+								<label for="tablecell">
+								<?php
+								if ( $plugin_rollback == true ) {
 										_e( 'Plugin Name:', 'wp-rollback' );
-									} else {
-										_e( 'Theme Name:', 'wp-rollback' );
-									} ?></label>
+								} else {
+									_e( 'Theme Name:', 'wp-rollback' );
+								}
+									?>
+									</label>
 							</td>
 							<td><span class="wpr-plugin-name"></span></td>
 						</tr>
@@ -118,9 +131,11 @@ $plugins         = get_plugins();
 					</table>
 				</div>
 				<div class="wpr-error">
-					<p><?php
+					<p>
+					<?php
 						_e( '<strong>Notice:</strong> We strongly recommend you perform a <a href="https://wptimecapsule.com/staging/?partner=impress" target="_blank">test rollback on a staging site</a> and <a href="https://wptimecapsule.com/incremental-backups/?partner=impress" target="_blank">create a complete backup</a> of your WordPress files and database prior to performing a rollback. We are not responsible for any misuse, deletions, white screens, fatal errors, or any other issue arising from using this plugin.', 'wp-rollback' );
-						?></p>
+						?>
+						</p>
 				</div>
 				<?php do_action( 'wpr_pre_rollback_buttons' ); ?>
 				<input type="submit" value="<?php _e( 'Rollback', 'wp-rollback' ); ?>" class="button-primary wpr-go" />
