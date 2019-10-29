@@ -1,4 +1,4 @@
-# Copyright (C) 2018 WP Rollback
+# Copyright (C) 2019 WP Rollback
 # This file is distributed under the same license as the WP Rollback package.
 msgid ""
 msgstr ""
@@ -7,7 +7,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2018-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
 "Language-Team: Impress.org <info@impress.org>\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -40,82 +40,82 @@ msgstr ""
 msgid "plugin"
 msgstr ""
 
-#: includes/rollback-menu.php:46
+#: includes/rollback-menu.php:47
 msgid "Oh no! We're missing required rollback query strings. Please contact support so we can check this bug out and squash it!"
 msgstr ""
 
-#: includes/rollback-menu.php:68, includes/rollback-menu.php:126, wp-rollback.php:263, wp-rollback.php:570, wp-rollback.php:570, wp-rollback.php:640, wp-rollback.php:691
+#: includes/rollback-menu.php:72, includes/rollback-menu.php:134, wp-rollback.php:266, wp-rollback.php:582, wp-rollback.php:582, wp-rollback.php:657, wp-rollback.php:712
 msgid "Rollback"
 msgstr ""
 
-#: includes/rollback-menu.php:69, includes/rollback-menu.php:127
-msgid "Test Rollback on Staging"
-msgstr ""
-
-#: includes/rollback-menu.php:70, includes/rollback-menu.php:128
+#: includes/rollback-menu.php:73, includes/rollback-menu.php:135
 msgid "Cancel"
 msgstr ""
 
-#: includes/rollback-menu.php:88
+#: includes/rollback-menu.php:92
 msgid "Are you sure you want to perform the following rollback?"
 msgstr ""
 
-#: includes/rollback-menu.php:97
+#: includes/rollback-menu.php:103
 msgid "Plugin Name:"
 msgstr ""
 
-#: includes/rollback-menu.php:99
+#: includes/rollback-menu.php:105
 msgid "Theme Name:"
 msgstr ""
 
-#: includes/rollback-menu.php:106
+#: includes/rollback-menu.php:114
 msgid "Installed Version:"
 msgstr ""
 
-#: includes/rollback-menu.php:112
+#: includes/rollback-menu.php:120
 msgid "New Version:"
 msgstr ""
 
-#: includes/rollback-menu.php:122
-msgid "<strong>Notice:</strong> We strongly recommend you perform a <a href=\"https://wptimecapsule.com/staging/?partner=impress\" target=\"_blank\">test rollback on a staging site</a> and <a href=\"https://wptimecapsule.com/incremental-backups/?partner=impress\" target=\"_blank\">create a complete backup</a> of your WordPress files and database prior to performing a rollback. We are not responsible for any misuse, deletions, white screens, fatal errors, or any other issue arising from using this plugin."
+#: includes/rollback-menu.php:130
+msgid "<strong>Notice:</strong> We strongly recommend you <strong>create a complete backup</strong> of your WordPress files and database prior to performing a rollback. We are not responsible for any misuse, deletions, white screens, fatal errors, or any other issue resulting from the use of this plugin."
 msgstr ""
 
 #: wp-rollback.php:148, wp-rollback.php:160
 msgid "Cheatin&#8217; huh?"
 msgstr ""
 
-#: wp-rollback.php:264
+#: wp-rollback.php:267
 msgid "No Rollback Available: This is a non-WordPress.org theme."
 msgstr ""
 
-#: wp-rollback.php:265
+#: wp-rollback.php:268
 msgid "Loading..."
 msgstr ""
 
-#: wp-rollback.php:294
+#: wp-rollback.php:299
 msgid "Sorry, we couldn't find a changelog entry found for this version. Try checking the <a href=\"%s\" target=\"_blank\">developer log</a> on WP.org."
 msgstr ""
 
-#: wp-rollback.php:295
+#: wp-rollback.php:300
 msgid "Please select a version number to perform a rollback."
 msgstr ""
 
-#: wp-rollback.php:340
+#: wp-rollback.php:346
 msgid "You do not have sufficient permissions to perform rollbacks for this site."
 msgstr ""
 
-#: wp-rollback.php:506
+#: wp-rollback.php:497
+msgid "It appears there are no version to select. This is likely due to the %s author not using tags for their versions and only committing new releases to the repository trunk."
+msgstr ""
+
+#: wp-rollback.php:517
 msgid "Installed Version"
 msgstr ""
 
-#: wp-rollback.php:513
+#: wp-rollback.php:524
 msgid "View Changelog"
 msgstr ""
 
-#: wp-rollback.php:807
+#: wp-rollback.php:828
 msgid "An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href=\"https://wordpress.org/support/\">support forums</a>."
 msgstr ""
 
-#: wp-rollback.php:807
+#: wp-rollback.php:828
 msgid "(WordPress could not establish a secure connection to WordPress.org. Please contact your server administrator.)"
 msgstr ""

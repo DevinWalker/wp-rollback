@@ -3,8 +3,8 @@ Contributors: dlocc, drrobotnik, webdevmattcrom, impressorg, givewp
 Tags: rollback, revert, downgrade, version, plugins, themes, version, versions, backup, backups, revision, revisions
 Requires at least: 4.8
 Donate Link: https://impress.org
-Tested up to: 5.2
-Stable tag: 1.6
+Tested up to: 5.3
+Stable tag: 1.7.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -111,7 +111,10 @@ This is the first version of this plugin. It is a tool for your convenience. Rol
 
 == Changelog ==
 
-= 1.6 =
+= 1.7.0 =
+* Tweak: Removed the WP Time Capsule staging button and banner.
+
+= 1.6.0 =
 * New: You now have the ability to rollback to the trunk for plugins. This is useful for beta testing releases and more. Thanks to [karpstrucking](https://github.com/karpstrucking) for making this happen. [#45](https://github.com/impress-org/wp-rollback/issues/45)
 * New: Add actions "wpr_plugin_success", "wpr_plugin_failure", "wpr_theme_success", and "wpr_theme_failure" for developers.
 * New: If a plugin or theme does not have any tagged releases to select from then then an informative notice appears rather than empty space for a better user experience. [#42](https://github.com/impress-org/wp-rollback/issues/42)
