@@ -75,7 +75,7 @@ WP Rollback only works with plugins or themes installed from the WordPress Repos
 
 = I rolled my [insert plugin name] back to version X.X and now my site is broken. This is your fault. =
 
-Nope. We warned you in **bold** print several times in many places. And our plugin delivered exactly what it said it would do. May the gods of the Internet pity your broken site's soul.
+Nope. We warned you in **bold** print several times in many places. And our plugin delivered exactly what it said it would do. May the Gods of the internet pity your broken site's soul.
 
 = Where is the complete documentation located? =
 
