@@ -85,10 +85,6 @@ The documentation for this plugin is located on our [Github Wiki](https://github
 
 Yes! All strings are internationalized and ready to be translated. Simply use the languages/wp-rollback.pot file and your favorite translation tool. Once finished, please reach out to us on the WordPress.org forums or better yet, submit a pull request on the [Github Repo](https://github.com/impress-org/wp-rollback/).
 
-= Did this plugin with WordCamp Orange County's Plugin-Palooza? =
-
-Heck yes it did! The Impress.org team took home the gold.
-
 == Screenshots ==
 
 1. The Rollback link on the Plugins page.
