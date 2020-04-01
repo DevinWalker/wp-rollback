@@ -159,7 +159,6 @@ This is the first version of this plugin. It is a tool for your convenience. Rol
 * Fixed "Cancel" button which was falsely submitting the form.
 
 = 1.0 =
-
 * Initial plugin release. Yippee!
 * Adds "Rollback" link to all plugins from the WordPress repo on the plugin screen.
 * Adds "Rollback" link to all themes from the WordPress repo inside the modal details screen.
