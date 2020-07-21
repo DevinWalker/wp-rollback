@@ -10,5 +10,11 @@
   },
   "dependencies": {
     "natives": "^1.1.6"
+  },
+  "scripts": {
+    "preinstall": "npx npm-force-resolutions"
+  },
+  "resolutions": {
+    "graceful-fs": "4.2.3"
   }
 }

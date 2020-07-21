@@ -3,8 +3,8 @@ Contributors: dlocc, drrobotnik, webdevmattcrom, impressorg, givewp
 Tags: rollback, revert, downgrade, version, plugins, themes, version, versions, backup, backups, revision, revisions
 Requires at least: 4.8
 Donate Link: https://impress.org
-Tested up to: 5.4
-Stable tag: 1.7.0
+Tested up to: 5.5
+Stable tag: 1.7.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -106,6 +106,9 @@ Yes! All strings are internationalized and ready to be translated. Simply use th
 This is the first version of this plugin. It is a tool for your convenience. Rollback at your own risk!
 
 == Changelog ==
+
+= 1.7.1 =
+* Fix: Prevent PHP notice when rolling back a plugin or theme on PHP 7.4.
 
 = 1.7.0 =
 * Tweak: Removed the WP Time Capsule staging button and banner.

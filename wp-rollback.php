@@ -5,7 +5,7 @@
  * Description: Rollback (or forward) any WordPress.org plugin or theme like a boss.
  * Author: Impress.org
  * Author URI: https://impress.org/
- * Version: 1.7.0
+ * Version: 1.7.1
  * Text Domain: wp-rollback
  * Domain Path: /languages
  *
