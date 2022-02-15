@@ -1,10 +1,10 @@
 <?php
 /**
  * Plugin Name: WP Rollback
- * Plugin URI: https://impress.org/
+ * Plugin URI: https://givewp.com/
  * Description: Rollback (or forward) any WordPress.org plugin or theme like a boss.
- * Author: Impress.org
- * Author URI: https://impress.org/
+ * Author: GiveWP.com
+ * Author URI: https://givewp.com/
  * Version: 1.7.1
  * Text Domain: wp-rollback
  * Domain Path: /languages
