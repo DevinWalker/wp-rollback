@@ -1,0 +1,10 @@
+{
+    "name": "devinwalker/wp-rollback",
+    "description": "Rollback (or forward) any WordPress.org plugin, theme, or block like a boss.",
+    "type": "project",
+    "license": "GPL",
+    "minimum-stability": "stable",
+    "require": {
+        "squizlabs/php_codesniffer": "3.7.1"
+    }
+}

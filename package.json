@@ -1,20 +1,24 @@
 {
-  "name": "wp-rollback",
-  "private": true,
-  "devDependencies": {
-    "gulp": "^3.9.1",
-    "fs-extra": "^1.0.0",
-    "gulp-sort": "^2.0.0",
-    "gulp-wp-pot": "^1.2.2",
-    "gulp-checktextdomain": "^1.0.2"
-  },
-  "dependencies": {
-    "natives": "^1.1.6"
-  },
-  "scripts": {
-    "preinstall": "npx npm-force-resolutions"
-  },
-  "resolutions": {
-    "graceful-fs": "4.2.3"
-  }
+    "name": "wp-rollback",
+    "version": "2.0.0",
+    "description": "Rollback (or forward) any WordPress.org plugin, theme, or block like a boss.",
+    "homepage": "https://wprollback.com",
+    "author": "WP Rollback",
+    "license": "ISC",
+    "main": "index.js",
+    "scripts": {
+        "build": "wp-scripts build",
+        "format": "wp-scripts format",
+        "lint:css": "wp-scripts lint-style",
+        "lint:js": "wp-scripts lint-js",
+        "start": "wp-scripts start",
+        "start:hot": "wp-scripts start --hot",
+        "run": "wp-scripts start",
+        "packages-update": "wp-scripts packages-update",
+        "plugin-zip": "wp-scripts plugin-zip"
+    },
+    "dependencies": {},
+    "devDependencies": {
+        "@wordpress/scripts": "^23.0.0"
+    }
 }

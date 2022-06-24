@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: WP Rollback
- * Plugin URI: https://givewp.com/
- * Description: Rollback (or forward) any WordPress.org plugin or theme like a boss.
- * Author: GiveWP.com
- * Author URI: https://givewp.com/
- * Version: 1.7.1
+ * Plugin URI: https://wprollback.com/
+ * Description: Rollback (or forward) any WordPress.org plugin, theme or block like a boss.
+ * Author: WP Rollback
+ * Author URI: https://wprollback.com/
+ * Version: 2.0.0
  * Text Domain: wp-rollback
  * Domain Path: /languages
  *
@@ -69,7 +69,7 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
 		 *
 		 * @var string
 		 */
-		public $themes_repo = 'http://themes.svn.wordpress.org';
+		public $themes_repo = 'https://themes.svn.wordpress.org';
 
 		/**
 		 * Plugin file.
@@ -90,7 +90,7 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
 		 *
 		 * @var array
 		 */
-		public $versions = array();
+		public $versions = [];
 
 		/**
 		 * Current version.
@@ -208,27 +208,27 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
 		 */
 		private function hooks() {
 			// i18n
-			add_action( 'plugins_loaded', array( self::$instance, 'load_textdomain' ) );
+			add_action( 'plugins_loaded', [ self::$instance, 'load_textdomain' ] );
 			// Admin
-			add_action( 'admin_enqueue_scripts', array( self::$instance, 'scripts' ) );
-			add_action( 'admin_menu', array( self::$instance, 'admin_menu' ), 20 );
+			add_action( 'admin_enqueue_scripts', [ self::$instance, 'scripts' ] );
+			add_action( 'admin_menu', [ self::$instance, 'admin_menu' ], 20 );
 			add_action(
-				'pre_current_active_plugins', array(
+				'pre_current_active_plugins', [
 					self::$instance,
 					'pre_current_active_plugins',
-				), 20, 1
+				], 20, 1
 			);
-			add_action( 'wp_ajax_is_wordpress_theme', array( self::$instance, 'is_wordpress_theme' ) );
-			add_action( 'set_site_transient_update_themes', array( self::$instance, 'wpr_theme_updates_list' ) );
+			add_action( 'wp_ajax_is_wordpress_theme', [ self::$instance, 'is_wordpress_theme' ] );
+			add_action( 'set_site_transient_update_themes', [ self::$instance, 'wpr_theme_updates_list' ] );
 
-			add_filter( 'wp_prepare_themes_for_js', array( self::$instance, 'wpr_prepare_themes_js' ) );
-			add_filter( 'plugin_action_links', array( self::$instance, 'plugin_action_links' ), 20, 4 );
+			add_filter( 'wp_prepare_themes_for_js', [ self::$instance, 'wpr_prepare_themes_js' ] );
+			add_filter( 'plugin_action_links', [ self::$instance, 'plugin_action_links' ], 20, 4 );
 
-			add_action( 'network_admin_menu', array( self::$instance, 'admin_menu' ), 20 );
-			add_filter( 'network_admin_plugin_action_links', array( self::$instance, 'plugin_action_links' ), 20, 4 );
+			add_action( 'network_admin_menu', [ self::$instance, 'admin_menu' ], 20 );
+			add_filter( 'network_admin_plugin_action_links', [ self::$instance, 'plugin_action_links' ], 20, 4 );
 
-			add_filter( 'theme_action_links', array( self::$instance, 'theme_action_links' ), 20, 4 );
-			add_filter( 'wp_ajax_wpr_check_changelog', array( self::$instance, 'get_plugin_changelog' ) );
+			add_filter( 'theme_action_links', [ self::$instance, 'theme_action_links' ], 20, 4 );
+			add_filter( 'wp_ajax_wpr_check_changelog', [ self::$instance, 'get_plugin_changelog' ] );
 
 		}
 
@@ -240,6 +240,8 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
 		 * @return void
 		 */
 		private function includes() {
+
+            include 'src/admin.php';
 
 		}
 
@@ -256,17 +258,17 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
 		public function scripts( $hook ) {
 
 			if ( 'themes.php' === $hook ) {
-				wp_enqueue_script( 'wp_rollback_themes_script', plugin_dir_url( __FILE__ ) . 'assets/js/themes-wp-rollback.js', array( 'jquery' ), false, true );
+				wp_enqueue_script( 'wp_rollback_themes_script', plugin_dir_url( __FILE__ ) . 'assets/js/themes-wp-rollback.js', [ 'jquery' ], false, true );
 				// Localize for i18n
 				wp_localize_script(
-					'wp_rollback_themes_script', 'wpr_vars', array(
+					'wp_rollback_themes_script', 'wpr_vars', [
 						'ajaxurl'               => admin_url(),
 						'ajax_loader'           => admin_url( 'images/spinner.gif' ),
 						'nonce'                 => wp_create_nonce( 'wpr_rollback_nonce' ),
 						'text_rollback_label'   => __( 'Rollback', 'wp-rollback' ),
 						'text_not_rollbackable' => __( 'No Rollback Available: This is a non-WordPress.org theme.', 'wp-rollback' ),
 						'text_loading_rollback' => __( 'Loading...', 'wp-rollback' ),
-					)
+					]
 				);
 			}
 
