@@ -1,0 +1,183 @@
+# Copyright (C) 2020 WP Rollback
+# This file is distributed under the same license as the WP Rollback package.
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Rollback\n"
+"Report-Msgid-Bugs-To: https://github.com/impress-org/wp-rollback\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2022-07-07 14:26+0200\n"
+"Last-Translator: Laurent Jacquot <supertomate@me.com>\n"
+"Language-Team: Impress.org <info@impress.org>\n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Generator: Poedit 3.1\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: includes/rollback-action.php:50
+msgid ""
+"This rollback request is missing a proper query string. Please contact "
+"support."
+msgstr ""
+"Cette demande de rétrogradation a une chaîne manquante de requête "
+"appropriée. Veuillez contacter le support."
+
+#: includes/rollback-menu.php:10
+msgid ""
+"WP Rollback is missing necessary parameters to continue. Please contact "
+"support."
+msgstr ""
+"Il manque des réglages nécessaires à WP Rollback pour continuer. Veuillez "
+"contacter le support."
+
+#: includes/rollback-menu.php:23
+msgid "WP Rollback"
+msgstr "WP Rollback"
+
+#: includes/rollback-menu.php:26
+msgid ""
+"Please select which %1$s version you would like to rollback to from the "
+"releases listed below. You currently have version %2$s installed of %3$s."
+msgstr ""
+"Choisir la version de %1$s pour effectuer une rétrogradation à partir de la "
+"liste ci-dessous. C’est la version %2$s de %3$s qui est actuellement "
+"installée."
+
+#: includes/rollback-menu.php:26
+msgid "theme"
+msgstr "thème"
+
+#: includes/rollback-menu.php:26
+msgid "plugin"
+msgstr "extension"
+
+#: includes/rollback-menu.php:47
+msgid ""
+"Oh no! We're missing required rollback query strings. Please contact support "
+"so we can check this bug out and squash it!"
+msgstr ""
+"Oh non ! Il nous manque des chaînes de requête de retour en arrière. "
+"Veuillez contacter le support pour que nous puissions vérifier ce bug et le "
+"résoudre !"
+
+#: includes/rollback-menu.php:72, includes/rollback-menu.php:134,
+#: wp-rollback.php:266, wp-rollback.php:582, wp-rollback.php:657,
+#: wp-rollback.php:712
+msgid "Rollback"
+msgstr "Restauration"
+
+#: includes/rollback-menu.php:73, includes/rollback-menu.php:135
+msgid "Cancel"
+msgstr "Résilier"
+
+#: includes/rollback-menu.php:92
+msgid "Are you sure you want to perform the following rollback?"
+msgstr "Confirmez-vous la rétrogradation suivante ?"
+
+#: includes/rollback-menu.php:103
+msgid "Plugin Name:"
+msgstr "Nom de l’extension :"
+
+#: includes/rollback-menu.php:105
+msgid "Theme Name:"
+msgstr "Nom du thème :"
+
+#: includes/rollback-menu.php:114
+msgid "Installed Version:"
+msgstr "Version installée :"
+
+#: includes/rollback-menu.php:120
+msgid "New Version:"
+msgstr "Nouvelle version :"
+
+#: includes/rollback-menu.php:130
+msgid ""
+"<strong>Notice:</strong> We strongly recommend you <strong>create a complete "
+"backup</strong> of your WordPress files and database prior to performing a "
+"rollback. We are not responsible for any misuse, deletions, white screens, "
+"fatal errors, or any other issue resulting from the use of this plugin."
+msgstr ""
+"<strong>Avis :</strong> nous vous recommandons <strong>de créer une "
+"sauvegarde complète</strong> des fichiers WordPress et de la base de données "
+"avant d’effectuer une rétrogradation. Nous ne sommes pas responsables de "
+"toute mauvaise utilisation, suppressions, écrans blancs, erreurs fatales, ou "
+"tout autre problème résultant de l’utilisation de cette extension."
+
+#: wp-rollback.php:148, wp-rollback.php:160
+msgid "Cheatin&#8217; huh?"
+msgstr "Alors on triche&nbsp;?"
+
+#: wp-rollback.php:267
+msgid "No Rollback Available: This is a non-WordPress.org theme."
+msgstr ""
+"Aucune Retour en arrière n’est disponible : Il s’agit d’un thème non-"
+"WordPress.org."
+
+#: wp-rollback.php:268
+msgid "Loading..."
+msgstr "Chargement..."
+
+#: wp-rollback.php:299
+msgid ""
+"Sorry, we couldn't find a changelog entry found for this version. Try "
+"checking the <a href=\"%s\" target=\"_blank\">developer log</a> on WP.org."
+msgstr ""
+"Désolé, nous n'avons pas pu trouver d'entrée de changelog pour cette "
+"version. Essayez de vérifier le <a href=\"%s\" target=\"_blank\">journal des "
+"développeurs</a> sur WP.org."
+
+#: wp-rollback.php:300
+msgid "Please select a version number to perform a rollback."
+msgstr "Choisir un N° de version pour effectuer une rétrogradation."
+
+#: wp-rollback.php:346
+msgid ""
+"You do not have sufficient permissions to perform rollbacks for this site."
+msgstr ""
+"Vous n’avez pas les droits suffisants pour effectuer des rétrogradations "
+"pour ce site."
+
+#: wp-rollback.php:497
+msgid ""
+"It appears there are no version to select. This is likely due to the %s "
+"author not using tags for their versions and only committing new releases to "
+"the repository trunk."
+msgstr ""
+"Il semble qu'il n'y ait aucune version à sélectionner. Ceci est probablement "
+"dû au fait que l'auteur %s n'utilise pas de balises pour ses versions et ne "
+"commet que les nouvelles versions dans le tronc du dépôt."
+
+#: wp-rollback.php:517
+msgid "Installed Version"
+msgstr "Version installée"
+
+#: wp-rollback.php:524
+msgid "View Changelog"
+msgstr "Voir l'historique des modifications"
+
+#: wp-rollback.php:828
+msgid ""
+"An unexpected error occurred. Something may be wrong with WordPress.org or "
+"this server&#8217;s configuration. If you continue to have problems, please "
+"try the <a href=\"https://wordpress.org/support/\">support forums</a>."
+msgstr ""
+"Une erreur inattendue s'est produite. Quelque chose semble ne pas "
+"fonctionner avec WordPress.org ou la configuration de ce serveur. Si vous "
+"continuez à rencontrer des problèmes, veuillez essayer les <a href=\"http://"
+"www.wordpress-fr.net/support\">forums de support</a>."
+
+#: wp-rollback.php:828
+msgid ""
+"(WordPress could not establish a secure connection to WordPress.org. Please "
+"contact your server administrator.)"
+msgstr ""
+"(WordPress n’a pas pu établir de connexion sécurisée vers WordPress.org. "
+"Veuillez contacter l’administrateur de votre serveur.)"
