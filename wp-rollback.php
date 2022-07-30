@@ -228,6 +228,10 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
 			add_filter( 'network_admin_plugin_action_links', [ self::$instance, 'plugin_action_links' ], 20, 4 );
 
 			add_filter( 'theme_action_links', [ self::$instance, 'theme_action_links' ], 20, 4 );
+
+
+            // AJAX functions
+			add_filter( 'wp_ajax_wpr_check_changelog', [ self::$instance, 'get_plugin_changelog' ] );
 			add_filter( 'wp_ajax_wpr_check_changelog', [ self::$instance, 'get_plugin_changelog' ] );
 
 		}
@@ -240,9 +244,7 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
 		 * @return void
 		 */
 		private function includes() {
-
             include 'src/admin.php';
-
 		}
 
 		/**
@@ -464,9 +466,7 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
 			} else {
 				$DOM = new DOMDocument();
 				$DOM->loadHTML( $html );
-
-				$versions = array();
-
+				$versions = [];
 				$items = $DOM->getElementsByTagName( 'a' );
 
 				foreach ( $items as $item ) {
@@ -748,7 +748,6 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
 			wp_die();
 
 		}
-
 
 		/**
 		 * Plugin Row Meta.

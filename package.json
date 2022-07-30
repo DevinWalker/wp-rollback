@@ -17,7 +17,9 @@
         "packages-update": "wp-scripts packages-update",
         "plugin-zip": "wp-scripts plugin-zip"
     },
-    "dependencies": {},
+    "dependencies": {
+        "node-svn-ultimate": "^1.2.1"
+    },
     "devDependencies": {
         "@wordpress/scripts": "^23.0.0"
     }

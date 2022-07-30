@@ -69,7 +69,7 @@ class WP_Rollback_Plugin_Upgrader extends Plugin_Upgrader {
 			),
 		) );
 
-		// Cleanup our hooks, in case something else does a upgrade on this connection.
+		// Cleanup our hooks, in case something else does an upgrade on this connection.
 		remove_filter( 'upgrader_pre_install', array( $this, 'deactivate_plugin_before_upgrade' ) );
 		remove_filter( 'upgrader_clear_destination', array( $this, 'delete_old_plugin' ) );
 

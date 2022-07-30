@@ -1,3 +1,122 @@
 body {
-    background: pink;
+
+}
+
+$border-color: #E1E1E1;
+$color-text: #24292F;
+$color-light-blue: #F1F8FF;
+
+@mixin all-caps-heading {
+    font-weight: 400;
+    font-size: 12px;
+    text-transform: uppercase;
+    line-height: 1.2em;
+    margin: 0 0 10px;
+}
+
+.wpr-wrapper {
+    margin: 0 auto;
+    max-width: 800px;
+
+    h1, h2, h3, h4, h5, h6, p {
+        color: $color-text;
+    }
+
+}
+
+.wpr-logo-wrap {
+    max-width: 600px;
+    margin: 50px auto 30px;
+    text-align: center;
+
+    h1 {
+        margin: 0 0 30px;
+    }
+}
+
+.wpr-content-header {
+    padding: 30px;
+    display: flex;
+    gap: 20px;
+}
+
+.wpr-intro-text {
+    font-size: 16px;
+}
+
+.wpr-content-wrap {
+    background: #FFF;
+    border: 1px solid $border-color;
+}
+
+// Plugin Info
+
+.wpr-plugin-info {
+    flex-grow: 1;
+
+    .wpr-plugin-name {
+        margin: 0 0 13px;
+        padding: 0;
+    }
+}
+
+
+.wpr-plugin-avatar {
+    border: 1px solid $border-color;
+    width: 64px;
+    height: 64px;
+}
+
+
+.wpr-pill {
+    background: $color-light-blue;
+    border-radius: 500px;
+    display: inline-block;
+    padding: 6px 12px;
+
+    .wpr-pill-text {
+        font-size: 14px;
+        margin: 0;
+        padding: 0;
+    }
+}
+
+.wpr-last-updated {
+    display: flex;
+
+    h3 {
+        @include all-caps-heading;
+    }
+
+
+}
+
+.wpr-avatar-small {
+    border-radius: 100%;
+    width: 40px;
+    height: 40px;
+}
+
+
+/// Version INfo
+
+.wpr-version-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px 30px;
+    border-bottom: 1px solid $border-color;
+    background: #FCFCFC;
+
+    &:hover {
+        background: #F1F8FF;
+    }
+}
+
+.wpr-version-radio-wrap {
+    span {
+        font-size: 18px;
+        font-weight: 600;
+        margin: 0 0 6px;
+    }
 }
