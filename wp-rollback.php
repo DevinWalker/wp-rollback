@@ -229,10 +229,9 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
 
 			add_filter( 'theme_action_links', [ self::$instance, 'theme_action_links' ], 20, 4 );
 
-
             // AJAX functions
 			add_filter( 'wp_ajax_wpr_check_changelog', [ self::$instance, 'get_plugin_changelog' ] );
-			add_filter( 'wp_ajax_wpr_check_changelog', [ self::$instance, 'get_plugin_changelog' ] );
+			add_filter( 'wp_ajax_wpr_check_versions', [ self::$instance, 'get_svn_tags' ] );
 
 		}
 
@@ -274,7 +273,7 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
 				);
 			}
 
-			if ( ! in_array( $hook, array( 'index_page_wp-rollback', 'dashboard_page_wp-rollback' ) ) ) {
+			if ( ! in_array( $hook, ['index_page_wp-rollback', 'dashboard_page_wp-rollback' ] ) ) {
 				return;
 			}
 
@@ -626,8 +625,8 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
 			// Filter for other devs.
 			$plugin_data = apply_filters( 'wpr_plugin_data', $plugin_data );
 
-			// If plugin is missing package data do not output Rollback option.
-			if ( ! isset( $plugin_data['package'] ) || strpos( $plugin_data['package'], 'https://downloads.wordpress.org' ) === false ) {
+            // If plugin is missing package data do not output Rollback option.
+			if ( ! isset( $plugin_data['package'] ) || strpos( $plugin_data['package'], 'downloads.wordpress.org' ) === false ) {
 				return $actions;
 			}
 

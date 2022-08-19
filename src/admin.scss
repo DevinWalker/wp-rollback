@@ -38,6 +38,7 @@ $color-light-blue: #F1F8FF;
     padding: 30px;
     display: flex;
     gap: 20px;
+    border-bottom: 1px solid $border-color;
 }
 
 .wpr-intro-text {
@@ -81,11 +82,26 @@ $color-light-blue: #F1F8FF;
     }
 }
 
+// Right side of header
 .wpr-last-updated {
-    display: flex;
 
     h3 {
         @include all-caps-heading;
+    }
+
+    .wpr-updater-wrap {
+        display: flex;
+        gap: 15px;
+    }
+
+    .wpr-update-user {
+        font-size: 16px;
+        font-weight: bold;
+        display: block;
+    }
+
+    .wpr-plugin-lastupdate {
+        font-size: 13px;
     }
 
 

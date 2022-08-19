@@ -9,6 +9,7 @@ import {__} from '@wordpress/i18n';
 import domReady from '@wordpress/dom-ready';
 import {useState, useEffect} from '@wordpress/element';
 import {dispatch} from '@wordpress/data';
+import axios from 'axios';
 
 const AdminPage = () => {
 
@@ -23,10 +24,71 @@ const AdminPage = () => {
             .then((data) => {
                 setPluginInfo(data);
                 setIsLoading(false);
-                console.log(data);
             });
 
+
     }, []);
+
+    const getVersions = (e) => {
+        e.preventDefault();
+
+        setIsLoading(true);
+
+        // 🟢 Good to go.
+        axios
+            .post('/?dfb_donation-block-stripe-action=getStripeIntent', {
+                amount: chargeAmount,
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                paymentIntent,
+                currency: props.attributes.currencyCode,
+                liveMode: props.attributes.liveMode,
+                nonce: window.donationFormBlock.nonce,
+            })
+            .then(function (response) {
+                const data = response.data.data;
+                // 🧐 Validation.
+                if (data.error) {
+                    setIsLoading(false);
+                    if (data.message) {
+                        setErrorMessage(data.message);
+                    } else {
+                        setErrorFields(data.fields);
+                    }
+                } else {
+                    setStep(2);
+                    // 🤗 Proceed with Stripe.
+                    const clientSecret = data.clientSecret;
+                    setPaymentIntent(data.paymentIntent);
+                    const appearance = {
+                        theme: 'stripe',
+                        variables: {
+                            colorPrimary: props.attributes.color,
+                        },
+                    };
+                    elements.current = stripe.elements({clientSecret, appearance});
+
+                    const paymentElement = elements.current.create('payment', {
+                        defaultValues: {
+                            billingDetails: {
+                                email: email,
+                            },
+                        },
+                    });
+
+                    paymentElement.mount(`.donation-form-payment-intent-${props.attributes.formId}`);
+                    paymentElement.on('ready', function (event) {
+                        setIsLoading(false);
+                    });
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+                setStep(1);
+                setIsLoading(false);
+            });
+    };
 
 
     if (isLoading) {
@@ -35,7 +97,7 @@ const AdminPage = () => {
                 <div className={'wpr-loading-content'}>
                     <div className={'wpr-loading-text'}>
                         <Spinner />
-                        {__('Loading Plugin Data', 'wp-rollback')}
+                        <p>{__('Loading Plugin Data', 'wp-rollback')}</p>
                     </div>
                 </div>
             </div>
@@ -51,7 +113,8 @@ const AdminPage = () => {
             <div className="wpr-content-wrap">
 
                 <div className="wpr-content-header">
-                    <img src={'https://i.imgur.com/XqQZQZb.png'} width={62} height={62} alt={'WP Rollback'}
+                    <img src={`https://ps.w.org/${pluginInfo.slug}/assets/icon-128x128.jpg`} width={64} height={64}
+                         alt={'WP Rollback'}
                          className={'wpr-plugin-avatar'} />
 
                     <div className={'wpr-plugin-info'}>
@@ -74,16 +137,21 @@ const AdminPage = () => {
                     </div>
                 </div>
 
-                {Object.keys(pluginInfo.versions).map((version, index) => (
-                    <div key={index} className={'wpr-version-wrap'}>
-                        <div className={'wpr-version-radio-wrap'}>
-                            <label for={'version-' + index}>
-                                <input id={'version-' + index} type={'radio'} name={'version'} value={version} />
-                                <span>{version}</span>
-                            </label>
-                        </div>
-                    </div>
-                ))}
+                {Object.keys(pluginInfo.versions).sort(function (a, b) {
+                    return a - b;
+                }).map((version, index) => {
+                        return (
+                            <div key={index} className={'wpr-version-wrap'}>
+                                <div className={'wpr-version-radio-wrap'}>
+                                    <label for={'version-' + index}>
+                                        <input id={'version-' + index} type={'radio'} name={'version'} value={version} />
+                                        <span>{version}</span>
+                                    </label>
+                                </div>
+                            </div>
+                        );
+                    },
+                )}
 
             </div>
         </div>
