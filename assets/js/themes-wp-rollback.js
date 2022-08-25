@@ -31,7 +31,7 @@ jQuery.noConflict();
 	setInterval( function() {
 		if ( window.watchContentChange ) {
 			for ( i in window.watchContentChange ) {
-				if ( window.watchContentChange[ i ].element.data( 'lastContents' ) != window.watchContentChange[ i ].element.html() ) {
+				if ( window.watchContentChange[ i ].element.data( 'lastContents' ) !== window.watchContentChange[ i ].element.html() ) {
 					window.watchContentChange[ i ].callback.apply( window.watchContentChange[ i ].element );
 					window.watchContentChange[ i ].element.data( 'lastContents', window.watchContentChange[ i ].element.html() );
 				}
@@ -49,7 +49,6 @@ jQuery.noConflict();
 
 		// Is only one theme active?
 		if( themes.data.themes.length === 1 ) {
-
 			// Show the rollback button.
 			wpr_theme_rollback(themes.data.themes[0].id);
 		}
@@ -172,9 +171,7 @@ jQuery.noConflict();
 		 * Send them over to rollback.
 		 */
 		$( 'body' ).on( 'click', '.wpr-theme-rollback', function( e ) {
-
 			window.location = $( this ).attr( 'href' );
-
 		} );
 
 	} );
