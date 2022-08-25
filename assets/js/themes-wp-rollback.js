@@ -47,6 +47,13 @@ jQuery.noConflict();
 		themes = wp.themes = wp.themes || {};
 		themes.data = typeof _wpThemeSettings !== 'undefined' ? _wpThemeSettings : '';
 
+		// Is only one theme active?
+		if( themes.data.themes.length === 1 ) {
+
+			// Show the rollback button.
+			wpr_theme_rollback(themes.data.themes[0].id);
+		}
+
 		// On clicking a theme template
 		$( '.theme-overlay' ).contentChange( function( e ) {
 
@@ -81,7 +88,9 @@ jQuery.noConflict();
 		/**
 		 * Is Theme WordPress.org?
 		 *
-		 * @description Rollback only supports WordPress.org themes
+		 * Rollback only supports WordPress.org themes.
+		 *
+		 * @param theme
 		 */
 		function wpr_theme_rollback( theme ) {
 
