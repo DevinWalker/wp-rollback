@@ -3,8 +3,8 @@ Contributors: dlocc, drrobotnik, webdevmattcrom, impressorg, givewp
 Tags: rollback, revert, downgrade, version, plugins, themes, version, versions, backup, backups, revision, revisions
 Requires at least: 4.8
 Donate Link: https://givewp.com/
-Tested up to: 5.9
-Stable tag: 1.7.1
+Tested up to: 6.1
+Stable tag: 1.7.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -26,13 +26,13 @@ We provide no (zero) assurances, guarantees, or warranties that the plugin, them
 
 = Translation Ready =
 
-Do you speak another language? Want to contribute in a meaninful way to WP Rollback? There's no better way than to help us translate the plugin. This plugin is translation ready. Simply use the wp-rollback.pot file and your favorite translation tool. Once finished, please reach out to us on the WordPress.org forums or better yet, submit a pull request on the [Github Repo](https://github.com/impress-org/wp-rollback/).
+Do you speak another language? Want to contribute in a meaningful way to WP Rollback? There's no better way than to help us translate the plugin. This plugin is translation ready. Simply header over to the WP Rollback [translation project](https://translate.wordpress.org/projects/wp-plugins/wp-rollback/) that's powered by WordPress.org volunteer translators. There you can contribute to the translation of the plugin into your language.
 
 = Support and Documentation =
 
 We answer all support requests [on the WordPress.org support forum](https://wordpress.org/support/plugin/wp-rollback).
 
-WP Rollback was created to be as intuitive to the natural WordPress experience as possible. There are is no dedicated setting page or option panels. We believe that once you activate WP Rollback, you'll quickly discover exactly how it works without question.
+WP Rollback was created to be as intuitive to the natural WordPress experience as possible. There are is no dedicated settings page or options panel. We believe that once you activate WP Rollback, you'll quickly discover exactly how it works without question.
 
 **BUT!!**
 
@@ -50,7 +50,7 @@ We do have documentation on the plugin [Github Wiki](https://github.com/impress-
 
 Automatic installation is the easiest option as WordPress handles the file transfers itself and you don't need to leave your web browser. To do an automatic install of WP Rollback, log in to your WordPress dashboard, navigate to the Plugins menu and click Add New.
 
-In the search field type "WP Rollback" and click Search Plugins. Once you have found the plugin you can view details about it such as the the point release, rating and description. Most importantly of course, you can install it by simply clicking "Install Now".
+In the search field type "WP Rollback" and click Search Plugins. Once you have found the plugin you can view details about it such as the point release, rating and description. Most importantly of course, you can install it by simply clicking "Install Now".
 
 = Manual installation =
 
@@ -106,6 +106,10 @@ Yes! All strings are internationalized and ready to be translated. Simply use th
 This is the first version of this plugin. It is a tool for your convenience. Rollback at your own risk!
 
 == Changelog ==
+
+= 1.7.2 =
+* Fix: Ensure that the "Rollback" button displays properly when a WordPress site only has a single theme installed. Thanks [@eldertech](https://wordpress.org/support/users/eldertech/) for your help uncovering this bug.
+* Tweak: Update the WordPress.org readme.txt file to have better instructions for translating the plugin. We also fixed a few typos.
 
 = 1.7.1 =
 * Fix: Prevent PHP notice when rolling back a plugin or theme on PHP 7.4.

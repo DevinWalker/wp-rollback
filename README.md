@@ -1,4 +1,3 @@
-![WP Rollback Banner](https://impress.org/github/wp-rollback/plugin-banner.png)
 # WP Rollback
 Quickly and easily rollback any theme or plugin on WordPress.org to a previous version without any of the manual fuss. Works just like the plugin updater, except you're downgrading to a specific version. No need for manually downloading and FTPing up the files, this plugin takes care of that for you.
 

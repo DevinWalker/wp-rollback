@@ -10,7 +10,7 @@ jQuery.noConflict();
 (function( $ ) {
 
 	/**
-	 * Content Change DOM Event Listenter
+	 * Content Change DOM Event Listener
 	 *
 	 * @see: http://stackoverflow.com/questions/3233991/jquery-watch-div/3234646#3234646
 	 * @param callback
