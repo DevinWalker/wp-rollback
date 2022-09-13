@@ -50,7 +50,7 @@ We do have documentation on the plugin [Github Wiki](https://github.com/impress-
 
 Automatic installation is the easiest option as WordPress handles the file transfers itself and you don't need to leave your web browser. To do an automatic install of WP Rollback, log in to your WordPress dashboard, navigate to the Plugins menu and click Add New.
 
-In the search field type "WP Rollback" and click Search Plugins. Once you have found the plugin you can view details about it such as the the point release, rating and description. Most importantly of course, you can install it by simply clicking "Install Now".
+In the search field type "WP Rollback" and click Search Plugins. Once you have found the plugin you can view details about it such as the point release, rating and description. Most importantly of course, you can install it by simply clicking "Install Now".
 
 = Manual installation =
 
@@ -71,7 +71,7 @@ Safety largely depends on you. The WordPress website admin. We absolutely do NOT
 
 = Why isn't there a rollback button next to X plugin or theme? =
 
-WP Rollback only works with plugins or themes installed from the WordPress Repository. If you don't see the rollback link, then most likely that plugin or theme is not found on WordPress.org. This plugin does not support plugins from Github, ThemeForest, or other sources other than the WordPress.org Repo.
+WP Rollback only works with plugins or themes installed from the WordPress Repository. If you don't see the rollback link, then most likely that plugin or theme is not found on WordPress.org. This plugin does not support plugins from GitHub, ThemeForest, or other sources other than the WordPress.org Repo.
 
 = I rolled my [insert plugin name] back to version X.X and now my site is broken. This is your fault. =
 
@@ -106,6 +106,10 @@ Yes! All strings are internationalized and ready to be translated. Simply use th
 This is the first version of this plugin. It is a tool for your convenience. Rollback at your own risk!
 
 == Changelog ==
+
+= 1.7.2 =
+* Fix: The Rollback button now appears as expected when only one theme is installed.
+* Fix: Minor CSS fixes for the Rollback page.
 
 = 1.7.1 =
 * Fix: Prevent PHP notice when rolling back a plugin or theme on PHP 7.4.
