@@ -71,7 +71,7 @@ Safety largely depends on you. The WordPress website admin. We absolutely do NOT
 
 = Why isn't there a rollback button next to X plugin or theme? =
 
-WP Rollback only works with plugins or themes installed from the WordPress Repository. If you don't see the rollback link, then most likely that plugin or theme is not found on WordPress.org. This plugin does not support plugins from Github, ThemeForest, or other sources other than the WordPress.org Repo.
+WP Rollback only works with plugins or themes installed from the WordPress Repository. If you don't see the rollback link, then most likely that plugin or theme is not found on WordPress.org. This plugin does not support plugins from GitHub, ThemeForest, or other sources other than the WordPress.org Repo.
 
 = I rolled my [insert plugin name] back to version X.X and now my site is broken. This is your fault. =
 
@@ -109,6 +109,7 @@ This is the first version of this plugin. It is a tool for your convenience. Rol
 
 = 1.7.2 =
 * Fix: Ensure that the "Rollback" button displays properly when a WordPress site only has a single theme installed. Thanks [@eldertech](https://wordpress.org/support/users/eldertech/) for your help uncovering this bug.
+* Fix: Minor CSS fixes for the Rollback page.
 * Tweak: Update the WordPress.org readme.txt file to have better instructions for translating the plugin. We also fixed a few typos.
 
 = 1.7.1 =

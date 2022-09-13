@@ -69,7 +69,7 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
 		 *
 		 * @var string
 		 */
-		public $themes_repo = 'http://themes.svn.wordpress.org';
+		public $themes_repo = 'https://themes.svn.wordpress.org';
 
 		/**
 		 * Plugin file.
