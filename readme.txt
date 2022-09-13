@@ -26,13 +26,13 @@ We provide no (zero) assurances, guarantees, or warranties that the plugin, them
 
 = Translation Ready =
 
-Do you speak another language? Want to contribute in a meaninful way to WP Rollback? There's no better way than to help us translate the plugin. This plugin is translation ready. Simply use the wp-rollback.pot file and your favorite translation tool. Once finished, please reach out to us on the WordPress.org forums or better yet, submit a pull request on the [Github Repo](https://github.com/impress-org/wp-rollback/).
+Do you speak another language? Want to contribute in a meaningful way to WP Rollback? There's no better way than to help us translate the plugin. This plugin is translation ready. Simply header over to the WP Rollback [translation project](https://translate.wordpress.org/projects/wp-plugins/wp-rollback/) that's powered by WordPress.org volunteer translators. There you can contribute to the translation of the plugin into your language.
 
 = Support and Documentation =
 
 We answer all support requests [on the WordPress.org support forum](https://wordpress.org/support/plugin/wp-rollback).
 
-WP Rollback was created to be as intuitive to the natural WordPress experience as possible. There are is no dedicated setting page or option panels. We believe that once you activate WP Rollback, you'll quickly discover exactly how it works without question.
+WP Rollback was created to be as intuitive to the natural WordPress experience as possible. There are is no dedicated settings page or options panel. We believe that once you activate WP Rollback, you'll quickly discover exactly how it works without question.
 
 **BUT!!**
 
@@ -108,8 +108,9 @@ This is the first version of this plugin. It is a tool for your convenience. Rol
 == Changelog ==
 
 = 1.7.2 =
-* Fix: The Rollback button now appears as expected when only one theme is installed.
+* Fix: Ensure that the "Rollback" button displays properly when a WordPress site only has a single theme installed. Thanks [@eldertech](https://wordpress.org/support/users/eldertech/) for your help uncovering this bug.
 * Fix: Minor CSS fixes for the Rollback page.
+* Tweak: Update the WordPress.org readme.txt file to have better instructions for translating the plugin. We also fixed a few typos.
 
 = 1.7.1 =
 * Fix: Prevent PHP notice when rolling back a plugin or theme on PHP 7.4.

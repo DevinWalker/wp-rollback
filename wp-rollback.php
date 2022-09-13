@@ -570,7 +570,7 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
 		/**
 		 * Admin Menu
 		 *
-		 * @description: Adds a 'hidden' menu item that is activated when the user elects to rollback
+		 * Adds a 'hidden' menu item that is activated when the user elects to rollback
 		 */
 		public function admin_menu() {
 
@@ -864,7 +864,7 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
 			$rollbacks = array();
 			$wp_themes = get_site_transient( 'rollback_themes' );
 
-			// Double check our transient is present.
+			// Double-check our transient is present.
 			if ( empty( $wp_themes ) || ! is_object( $wp_themes ) ) {
 				$this->wpr_theme_updates_list();
 				$wp_themes = get_site_transient( 'rollback_themes' );
