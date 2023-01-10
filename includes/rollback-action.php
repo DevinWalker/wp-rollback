@@ -11,7 +11,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 // Theme rollback.
 if ( ! empty( $_GET['theme_file'] ) && file_exists( WP_CONTENT_DIR . '/themes/' . $_GET['theme_file'] ) ) {
 
-
 	// Theme specific vars.
 	$title   = $_GET['rollback_name'];
 	$nonce   = 'upgrade-theme_' . $_GET['theme_file'];
@@ -39,7 +38,7 @@ if ( ! empty( $_GET['theme_file'] ) && file_exists( WP_CONTENT_DIR . '/themes/' 
 
 	$upgrader = new WP_Rollback_Plugin_Upgrader( new Plugin_Upgrader_Skin( compact( 'title', 'nonce', 'url', 'plugin', 'version' ) ) );
 
-	$result = $upgrader->rollback( $this->plugin_file );
+	$result = $upgrader->rollback( plugin_basename($this->plugin_file) );
 
 	if ( ! is_wp_error( $result ) && $result ) {
 		do_action( 'wpr_plugin_success', $_GET['plugin_file'], $version );

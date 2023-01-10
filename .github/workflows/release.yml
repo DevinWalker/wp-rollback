@@ -1,0 +1,17 @@
+name: Deploy to WordPress.org
+
+on:
+    release:
+        types: [ released ]
+
+jobs:
+    build:
+        uses: impress-org/givewp-github-actions/.github/workflows/wp-org-release.yml@master
+        with:
+            wp_org_slug: wp-rollback
+            zip_name: wp-rollback
+            text_domain: wp-rollback
+        secrets:
+            SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+            SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+            SLACK_ANNOUNCEMENT_WEBHOOK: ${{ secrets.SLACK_ANNOUNCEMENT_WEBHOOK }}

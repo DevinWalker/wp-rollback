@@ -10,7 +10,7 @@ jQuery.noConflict();
 (function( $ ) {
 
 	/**
-	 * Content Change DOM Event Listenter
+	 * Content Change DOM Event Listener
 	 *
 	 * @see: http://stackoverflow.com/questions/3233991/jquery-watch-div/3234646#3234646
 	 * @param callback
@@ -31,7 +31,7 @@ jQuery.noConflict();
 	setInterval( function() {
 		if ( window.watchContentChange ) {
 			for ( i in window.watchContentChange ) {
-				if ( window.watchContentChange[ i ].element.data( 'lastContents' ) != window.watchContentChange[ i ].element.html() ) {
+				if ( window.watchContentChange[ i ].element.data( 'lastContents' ) !== window.watchContentChange[ i ].element.html() ) {
 					window.watchContentChange[ i ].callback.apply( window.watchContentChange[ i ].element );
 					window.watchContentChange[ i ].element.data( 'lastContents', window.watchContentChange[ i ].element.html() );
 				}
@@ -46,6 +46,12 @@ jQuery.noConflict();
 
 		themes = wp.themes = wp.themes || {};
 		themes.data = typeof _wpThemeSettings !== 'undefined' ? _wpThemeSettings : '';
+
+		// Is only one theme active?
+		if( themes.data.themes.length === 1 ) {
+			// Show the rollback button.
+			wpr_theme_rollback(themes.data.themes[0].id);
+		}
 
 		// On clicking a theme template
 		$( '.theme-overlay' ).contentChange( function( e ) {
@@ -81,7 +87,9 @@ jQuery.noConflict();
 		/**
 		 * Is Theme WordPress.org?
 		 *
-		 * @description Rollback only supports WordPress.org themes
+		 * Rollback only supports WordPress.org themes.
+		 *
+		 * @param theme
 		 */
 		function wpr_theme_rollback( theme ) {
 
@@ -163,9 +171,7 @@ jQuery.noConflict();
 		 * Send them over to rollback.
 		 */
 		$( 'body' ).on( 'click', '.wpr-theme-rollback', function( e ) {
-
 			window.location = $( this ).attr( 'href' );
-
 		} );
 
 	} );

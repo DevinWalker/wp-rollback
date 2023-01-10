@@ -29,12 +29,11 @@
 }
 
 .wpr-versions-wrap {
-	padding-left: 20px;
-	margin-bottom:30px;
+	margin: 0 0 30px;
+	padding: 0 0 0 4px;
 }
 
 .wpr-versions-wrap .wpr-error {
-	margin-left: -20px;
 	max-width: 770px;
 }
 
@@ -76,7 +75,7 @@
 
 .wpr-version-li {
 	clear: left;
-	padding: 8px 0;
+	padding: 8px;
 	overflow: hidden;
 	width: 800px;
 }

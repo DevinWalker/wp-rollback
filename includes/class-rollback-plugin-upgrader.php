@@ -54,8 +54,12 @@ class WP_Rollback_Plugin_Upgrader extends Plugin_Upgrader {
 
 		$url = $download_endpoint . $plugin_slug . '.' . $plugin_version . '.zip';
 
-		add_filter( 'upgrader_pre_install', array( $this, 'deactivate_plugin_before_upgrade' ), 10, 2 );
-		add_filter( 'upgrader_clear_destination', array( $this, 'delete_old_plugin' ), 10, 4 );
+        $is_plugin_active = is_plugin_active( $plugin );
+
+        add_filter( 'upgrader_pre_install', array( $this, 'deactivate_plugin_before_upgrade' ), 10, 2 );
+        add_filter( 'upgrader_pre_install', array( $this, 'active_before' ), 10, 2 );
+        add_filter( 'upgrader_clear_destination', array( $this, 'delete_old_plugin' ), 10, 4 );
+        add_filter( 'upgrader_post_install', array( $this, 'active_after' ), 10, 2 );
 
 		$this->run( array(
 			'package'           => $url,
@@ -66,16 +70,23 @@ class WP_Rollback_Plugin_Upgrader extends Plugin_Upgrader {
 				'plugin' => $plugin,
 				'type'   => 'plugin',
 				'action' => 'update',
+				'bulk'   => 'false',
 			),
 		) );
 
-		// Cleanup our hooks, in case something else does an upgrade on this connection.
-		remove_filter( 'upgrader_pre_install', array( $this, 'deactivate_plugin_before_upgrade' ) );
-		remove_filter( 'upgrader_clear_destination', array( $this, 'delete_old_plugin' ) );
+        remove_action( 'upgrader_process_complete', 'wp_clean_plugins_cache', 9 );
+        remove_filter( 'upgrader_pre_install', array( $this, 'deactivate_plugin_before_upgrade' ) );
+        remove_filter( 'upgrader_pre_install', array( $this, 'active_before' ) );
+        remove_filter( 'upgrader_clear_destination', array( $this, 'delete_old_plugin' ) );
+        remove_filter( 'upgrader_post_install', array( $this, 'active_after' ) );
 
 		if ( ! $this->result || is_wp_error( $this->result ) ) {
 			return $this->result;
 		}
+
+        if( $is_plugin_active ) {
+            activate_plugin( $plugin );
+        }
 
 		// Force refresh of plugin update information.
 		wp_clean_plugins_cache( $parsed_args['clear_update_cache'] );
