@@ -5,7 +5,7 @@
  * Description: Rollback (or forward) any WordPress.org plugin or theme like a boss.
  * Author: GiveWP.com
  * Author URI: https://givewp.com/
- * Version: 1.7.2
+ * Version: 1.7.3
  * Text Domain: wp-rollback
  * Domain Path: /languages
  *

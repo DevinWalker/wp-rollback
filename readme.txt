@@ -1,10 +1,10 @@
 === WP Rollback ===
-Contributors: dlocc, drrobotnik, webdevmattcrom, impressorg, givewp
+Contributors: dlocc, drrobotnik, webdevmattcrom, givewp
 Tags: rollback, revert, downgrade, version, plugins, themes, version, versions, backup, backups, revision, revisions
 Requires at least: 4.8
 Donate Link: https://givewp.com/
-Tested up to: 6.1
-Stable tag: 1.7.2
+Tested up to: 6.2
+Stable tag: 1.7.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -106,6 +106,9 @@ Yes! All strings are internationalized and ready to be translated. Simply use th
 This is the first version of this plugin. It is a tool for your convenience. Rollback at your own risk!
 
 == Changelog ==
+
+= 1.7.3 =
+* Fix: Resolved an issue with plugin rollbacks not correctly setting a filepath for the plugin being rolled back. Props to WP.org user @itmesteren for the fix.
 
 = 1.7.2 =
 * Fix: Ensure that the "Rollback" button displays properly when a WordPress site only has a single theme installed. Thanks [@eldertech](https://wordpress.org/support/users/eldertech/) for your help uncovering this bug.
