@@ -16,7 +16,7 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: includes/rollback-action.php:50
+#: includes/rollback-action.php:49
 msgid "This rollback request is missing a proper query string. Please contact support."
 msgstr ""
 
