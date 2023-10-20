@@ -3,7 +3,7 @@ Contributors: dlocc, drrobotnik, webdevmattcrom, givewp
 Tags: rollback, revert, downgrade, version, plugins, themes, version, versions, backup, backups, revision, revisions
 Requires at least: 4.8
 Donate Link: https://givewp.com/
-Tested up to: 6.2
+Tested up to: 6.4
 Stable tag: 1.7.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
