@@ -1,95 +1,52 @@
 import './admin.scss';
-import {Spinner, Icon} from '@wordpress/components';
-import {
-    Fragment,
-    render,
-    Component,
-} from '@wordpress/element';
+import {Spinner} from '@wordpress/components';
+import {render, useEffect, useState} from '@wordpress/element';
 import {__} from '@wordpress/i18n';
 import domReady from '@wordpress/dom-ready';
-import {useState, useEffect} from '@wordpress/element';
-import {dispatch} from '@wordpress/data';
-import axios from 'axios';
+import {decodeEntities} from '@wordpress/html-entities';
+import {getQueryArgs} from '@wordpress/url';
 
 const AdminPage = () => {
 
     const [isLoading, setIsLoading] = useState(true);
     const [pluginInfo, setPluginInfo] = useState(false);
+    const [imageUrl, setImageUrl] = useState(null);
+    const currentPluginInfo = getQueryArgs(window.location.search);
 
     useEffect(() => {
-
         // ⚙️ Fetch WP.org API to get plugin data.
-        fetch(`https://api.wordpress.org/plugins/info/1.0/give.json`)
+        fetch(`https://api.wordpress.org/plugins/info/1.0/${currentPluginInfo.plugin_slug}.json`)
             .then((response) => response.json())
             .then((data) => {
                 setPluginInfo(data);
                 setIsLoading(false);
             });
-
-
     }, []);
 
-    const getVersions = (e) => {
-        e.preventDefault();
-
-        setIsLoading(true);
-
-        // 🟢 Good to go.
-        axios
-            .post('/?dfb_donation-block-stripe-action=getStripeIntent', {
-                amount: chargeAmount,
-                firstName: firstName,
-                lastName: lastName,
-                email: email,
-                paymentIntent,
-                currency: props.attributes.currencyCode,
-                liveMode: props.attributes.liveMode,
-                nonce: window.donationFormBlock.nonce,
-            })
-            .then(function (response) {
-                const data = response.data.data;
-                // 🧐 Validation.
-                if (data.error) {
-                    setIsLoading(false);
-                    if (data.message) {
-                        setErrorMessage(data.message);
-                    } else {
-                        setErrorFields(data.fields);
-                    }
+    useEffect(() => {
+        if (pluginInfo && pluginInfo.slug) {  // Check if pluginInfo is loaded and has a slug
+            checkImage(`https://ps.w.org/${pluginInfo.slug}/assets/icon-128x128.png`, (exists) => {
+                if (exists) {
+                    setImageUrl(`https://ps.w.org/${pluginInfo.slug}/assets/icon-128x128.png`);
                 } else {
-                    setStep(2);
-                    // 🤗 Proceed with Stripe.
-                    const clientSecret = data.clientSecret;
-                    setPaymentIntent(data.paymentIntent);
-                    const appearance = {
-                        theme: 'stripe',
-                        variables: {
-                            colorPrimary: props.attributes.color,
-                        },
-                    };
-                    elements.current = stripe.elements({clientSecret, appearance});
-
-                    const paymentElement = elements.current.create('payment', {
-                        defaultValues: {
-                            billingDetails: {
-                                email: email,
-                            },
-                        },
-                    });
-
-                    paymentElement.mount(`.donation-form-payment-intent-${props.attributes.formId}`);
-                    paymentElement.on('ready', function (event) {
-                        setIsLoading(false);
+                    checkImage(`https://ps.w.org/${pluginInfo.slug}/assets/icon-128x128.jpg`, (exists) => {
+                        if (exists) {
+                            setImageUrl(`https://ps.w.org/${pluginInfo.slug}/assets/icon-128x128.jpg`);
+                        } else {
+                            setImageUrl('https://i.imgur.com/XqQZQZb.png');
+                        }
                     });
                 }
-            })
-            .catch(function (error) {
-                console.log(error);
-                setStep(1);
-                setIsLoading(false);
             });
-    };
+        }
+    }, [pluginInfo]);
 
+    function checkImage(url, callback) {
+        var img = new Image();
+        img.onload = () => callback(true);
+        img.onerror = () => callback(false);
+        img.src = url;
+    }
 
     if (isLoading) {
         return (
@@ -104,54 +61,101 @@ const AdminPage = () => {
         );
     }
 
+    // output error message if one is found in the API response
+    if (pluginInfo.error) {
+        return (
+            <div id={`wpr-wrap`} className={`wpr-wrap`}>
+                <p>{pluginInfo.error}</p>
+            </div>
+        );
+    }
+
+    function getTimeAgo(dateString) {
+
+        // Convert to 24-hour format and remove 'GMT'
+        let adjustedDateString = dateString.replace('am', ' AM').replace('pm', ' PM').replace(' GMT', '');
+        adjustedDateString = new Date(adjustedDateString).toLocaleString("en-US", {timeZone: "GMT"});
+
+        const date = new Date(adjustedDateString);
+        if (isNaN(date.getTime())) {
+            console.error('Invalid date:', adjustedDateString);
+            return 'Invalid date';
+        }
+
+        const now = new Date();
+        const diffInSeconds = Math.floor((now - date) / 1000);
+
+        if (diffInSeconds < 60) {
+            return `${diffInSeconds} seconds ago`;
+        } else if (diffInSeconds < 3600) {
+            return `${Math.floor(diffInSeconds / 60)} minutes ago`;
+        } else if (diffInSeconds < 86400) {
+            return `${Math.floor(diffInSeconds / 3600)} hours ago`;
+        } else if (diffInSeconds < 2592000) { // 30 days
+            return `${Math.floor(diffInSeconds / 86400)} days ago`;
+        } else if (diffInSeconds < 31536000) { // 365 days
+            return `${Math.floor(diffInSeconds / 2592000)} months ago`;
+        } else {
+            return `${Math.floor(diffInSeconds / 31536000)} years ago`;
+        }
+    }
+
+    console.log(pluginInfo);
+
     return (
         <div className={'wpr-wrapper'}>
             <div className={'wpr-logo-wrap'}>
                 <h1>{__('WP Rollback', 'wp-rollback')}</h1>
-                <p className={'wpr-intro-text'}>{__('Please select which plugin version you would like to rollback to from the releases listed below. You currently have version 2.5.11 installed of Give - Donation Plugin.', '')}</p>
+                <p className={'wpr-intro-text'}>{__('Please select which plugin version you would like to rollback to from the release versions listed below.', '')}</p>
             </div>
             <div className="wpr-content-wrap">
 
                 <div className="wpr-content-header">
-                    <img src={`https://ps.w.org/${pluginInfo.slug}/assets/icon-128x128.jpg`} width={64} height={64}
-                         alt={'WP Rollback'}
-                         className={'wpr-plugin-avatar'} />
+                    {imageUrl && <img src={imageUrl} width={64} height={64} className={'wpr-plugin-avatar'}
+                                      alt={pluginInfo.name} />}
 
                     <div className={'wpr-plugin-info'}>
-                        <h2 className={'wpr-plugin-name'}>{pluginInfo.name}</h2>
+                        <h2 className={'wpr-plugin-name'}>{decodeEntities(pluginInfo.name)}</h2>
                         <div className={'wpr-pill'}><span
-                            className={'wpr-pill-text'}>{__('Current version:', 'wp-rollback')}{' '}
+                            className={'wpr-pill-text'}>{__('Installed version:', 'wp-rollback')}{' '}
                             <strong>{pluginInfo.version}</strong></span></div>
                     </div>
 
                     <div className={'wpr-last-updated'}>
                         <h3>Last Updated</h3>
                         <div className={'wpr-updater-wrap'}>
-                            <img src={'https://i.imgur.com/XqQZQZb.png'} width={40} height={40} alt={'WP Rollback'}
-                                 className={'wpr-avatar-small'} />
                             <div className={'wpr-updater-info'}>
-                                <span className={'wpr-update-user'}>Devin Walker</span>
-                                <span className={'wpr-plugin-lastupdate'}>updated 3 hours ago</span>
+                                <span className={'wpr-plugin-lastupdate'}>{getTimeAgo(pluginInfo.last_updated)}</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {Object.keys(pluginInfo.versions).sort(function (a, b) {
-                    return a - b;
-                }).map((version, index) => {
-                        return (
-                            <div key={index} className={'wpr-version-wrap'}>
-                                <div className={'wpr-version-radio-wrap'}>
-                                    <label for={'version-' + index}>
-                                        <input id={'version-' + index} type={'radio'} name={'version'} value={version} />
-                                        <span>{version}</span>
-                                    </label>
-                                </div>
-                            </div>
-                        );
-                    },
-                )}
+
+                {Object.keys(pluginInfo.versions)
+                       .filter(version => version !== 'trunk') // remove 'trunk'
+                       .sort((a, b) => b.localeCompare(a, undefined, {
+                           numeric: true,
+                           sensitivity: 'base',
+                       })) // reverse the order
+                       .map((version, index) => (
+                           <div key={index} className={'wpr-version-wrap'}>
+                               <div className={'wpr-version-radio-wrap'}>
+                                   <label htmlFor={'version-' + index}>
+                                       <input id={'version-' + index} type={'radio'} name={'version'} value={version} />
+                                       <span className={'wpr-version-lineitem'}>{version}</span>
+                                       {(pluginInfo.version === version) && (version !== 'trunk') && (
+                                           <span  className={'wpr-version-lineitem-current'}>Currently Installed</span>
+                                       )}
+                                   </label>
+                               </div>
+                           </div>
+                       ))
+                }
+
+                <div className={'wpr-button-wrap'}>
+                    <button className={'button button-primary'}>{__('Rollback', 'wp-rollback')}</button>
+                </div>
 
             </div>
         </div>

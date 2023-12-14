@@ -1,6 +1,6 @@
 <?php
 
-function wpr_plugin_settings_page()
+function wpr_plugin_settings_page(): void
 {
     add_options_page(
         __('WP Rollback', 'wp-rollback'),
@@ -18,9 +18,8 @@ function wpr_plugin_settings_page()
 add_action('admin_menu', 'wpr_plugin_settings_page', 10);
 
 
-function wpr_plugin_admin_scripts()
+function wpr_plugin_admin_scripts(): void
 {
-
     $admin_js = 'build/admin.js';
     $script_asset = require WP_ROLLBACK_PLUGIN_DIR . '/build/admin.asset.php';
 

@@ -620,13 +620,17 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
 		 *
 		 * @return array $actions
 		 */
-		public function plugin_action_links( $actions, $plugin_file, $plugin_data, $context ) {
+		public function plugin_action_links( $actions, $plugin_file, $plugin_data, $context ): array
+        {
 
 			// Filter for other devs.
 			$plugin_data = apply_filters( 'wpr_plugin_data', $plugin_data );
 
             // If plugin is missing package data do not output Rollback option.
-			if ( ! isset( $plugin_data['package'] ) || strpos( $plugin_data['package'], 'downloads.wordpress.org' ) === false ) {
+			if ( ! isset( $plugin_data['package'] ) || ! str_contains(
+                    $plugin_data['package'],
+                    'downloads.wordpress.org'
+                )) {
 				return $actions;
 			}
 
@@ -641,16 +645,17 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
 			}
 
 			// Base rollback URL
-			$rollback_url = 'index.php?page=wp-rollback&type=plugin&plugin_file=' . $plugin_file;
+			$rollback_url = admin_url('options-general.php');
 
 			$rollback_url = add_query_arg(
 				apply_filters(
-					'wpr_plugin_query_args', array(
+					'wpr_plugin_query_args', [
+						'page' => 'wp_rollback',
 						'current_version' => urlencode( $plugin_data['Version'] ),
 						'rollback_name'   => urlencode( $plugin_data['Name'] ),
 						'plugin_slug'     => urlencode( $plugin_data['slug'] ),
 						'_wpnonce'        => wp_create_nonce( 'wpr_rollback_nonce' ),
-					)
+					]
 				), $rollback_url
 			);
 
