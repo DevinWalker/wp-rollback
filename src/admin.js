@@ -1,5 +1,5 @@
 import './admin.scss';
-import {Spinner} from '@wordpress/components';
+import {Button, Modal, Spinner} from '@wordpress/components';
 import {render, useEffect, useState} from '@wordpress/element';
 import {__} from '@wordpress/i18n';
 import domReady from '@wordpress/dom-ready';
@@ -12,6 +12,13 @@ const AdminPage = () => {
     const [pluginInfo, setPluginInfo] = useState(false);
     const [imageUrl, setImageUrl] = useState(null);
     const currentPluginInfo = getQueryArgs(window.location.search);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isRollbackVersionSet, setIsRollbackVersion] = useState(currentPluginInfo.current_version);
+    const { nonce } = wprData;
+
+
+    const openModal = () => setIsModalOpen(true);
+    const closeModal = () => setIsModalOpen(false);
 
     useEffect(() => {
         // ⚙️ Fetch WP.org API to get plugin data.
@@ -40,6 +47,12 @@ const AdminPage = () => {
             });
         }
     }, [pluginInfo]);
+
+    useEffect(() => {
+        if (isRollbackVersionSet) {
+            console.log(isRollbackVersionSet);
+        }
+    }, [isRollbackVersionSet]);
 
     function checkImage(url, callback) {
         var img = new Image();
@@ -131,31 +144,63 @@ const AdminPage = () => {
                     </div>
                 </div>
 
-
-                {Object.keys(pluginInfo.versions)
-                       .filter(version => version !== 'trunk') // remove 'trunk'
-                       .sort((a, b) => b.localeCompare(a, undefined, {
-                           numeric: true,
-                           sensitivity: 'base',
-                       })) // reverse the order
-                       .map((version, index) => (
-                           <div key={index} className={'wpr-version-wrap'}>
-                               <div className={'wpr-version-radio-wrap'}>
-                                   <label htmlFor={'version-' + index}>
-                                       <input id={'version-' + index} type={'radio'} name={'version'} value={version} />
-                                       <span className={'wpr-version-lineitem'}>{version}</span>
-                                       {(pluginInfo.version === version) && (version !== 'trunk') && (
-                                           <span  className={'wpr-version-lineitem-current'}>Currently Installed</span>
-                                       )}
-                                   </label>
+                <div className={'wpr-versions-container'}>
+                    {Object.keys(pluginInfo.versions)
+                           .filter(version => version !== 'trunk') // remove 'trunk'
+                           .sort((a, b) => b.localeCompare(a, undefined, {
+                               numeric: true,
+                               sensitivity: 'base',
+                           })) // reverse the order
+                           .map((version, index) => (
+                               <div key={index} className={'wpr-version-wrap'}>
+                                   <div className={'wpr-version-radio-wrap'}>
+                                       <label htmlFor={'version-' + index}>
+                                           <input id={'version-' + index} type={'radio'} name={'version'}
+                                                  value={version}
+                                                  checked={isRollbackVersionSet === version}
+                                                  onChange={() => setIsRollbackVersion(version)} // Add this line
+                                           />
+                                           <span className={'wpr-version-lineitem'}>{version}</span>
+                                           {(pluginInfo.version === version) && (version !== 'trunk') && (
+                                               <span
+                                                   className={'wpr-version-lineitem-current'}>{__('Currently Installed', 'wp-rollback')}</span>
+                                           )}
+                                       </label>
+                                   </div>
                                </div>
-                           </div>
-                       ))
-                }
+                           ))
+                    }
+                </div>
 
                 <div className={'wpr-button-wrap'}>
-                    <button className={'button button-primary'}>{__('Rollback', 'wp-rollback')}</button>
+                    <Button isPrimary onClick={openModal}
+                            className={'wpr-button-submit'}>{__('Rollback', 'wp-rollback')}</Button>
+                    <Button isSecondary onClick={openModal}
+                            className={'wpr-button-cancel'}>{__('Cancel', 'wp-rollback')}</Button>
+
                 </div>
+
+                {isModalOpen && (
+                    <Modal
+                        title={`Rollback ${pluginInfo.name} to version ${isRollbackVersionSet}`}
+                        onRequestClose={closeModal}
+                        disabled={(isRollbackVersionSet === false)}
+                        className={'wpr-modal'}
+                    >
+
+                        <p>{__('<strong>Notice:</strong> We strongly recommend you <strong>create a complete backup</strong> of your WordPress files and database prior to performing a rollback. We are not responsible for any misuse, deletions, white screens, fatal errors, or any other issue resulting from the use of this plugin.', 'wp-rollback')}</p>
+
+                        <form name="check_for_rollbacks" className="rollback-form">
+                            <input type="hidden" name="wpr_rollback_nonce" value={nonce} />
+                            <input type="hidden" name="plugin_file"  />
+                            <input type="hidden" name="plugin_slug" value={pluginInfo.slug} />
+                            <Button isPrimary >{__('Rollback', 'wp-rollback')}</Button>
+                            <Button isSecondary onClick={closeModal}>{__('Cancel', 'wp-rollback')}</Button>
+                        </form>
+
+
+                    </Modal>
+                )}
 
             </div>
         </div>

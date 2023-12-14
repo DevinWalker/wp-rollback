@@ -16,7 +16,7 @@ $container-width: 800px;
 }
 
 .wpr-wrapper {
-    margin: 0 auto;
+    margin: 0 auto 100px;
     max-width: $container-width;
 
     h1, h2, h3, h4, h5, h6, p {
@@ -49,6 +49,7 @@ $container-width: 800px;
 .wpr-content-wrap {
     background: #FFF;
     border: 1px solid $border-color;
+    padding: 0;
 }
 
 // Plugin Info
@@ -103,7 +104,10 @@ $container-width: 800px;
 }
 
 /// Version Info
-
+.wpr-versions-container {
+    overflow-y: auto;
+    max-height: 450px;
+}
 .wpr-version-wrap {
     display: flex;
     flex-direction: column;
@@ -138,7 +142,6 @@ $container-width: 800px;
 // Bottom button
 
 .wpr-button-wrap {
-    position: fixed;
     padding: 20px 30px;
     background: #FFF;
     bottom: 0;
@@ -146,4 +149,8 @@ $container-width: 800px;
     box-sizing: border-box;
     border: 1px solid $border-color;
     box-shadow: 0px -10px 20px rgb(0 0 0 / 9%);
+}
+
+.wpr-modal {
+    max-width: 600px;
 }

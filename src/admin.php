@@ -31,6 +31,15 @@ function wpr_plugin_admin_scripts(): void
     );
     wp_set_script_translations('wp-rollback-plugin-block-editor', 'wp-rollback');
 
+    // Create a nonce
+    $nonce = wp_create_nonce('wpr_rollback_nonce');
+
+    // Localize the script with your nonce
+    wp_localize_script('wp-rollback-plugin-admin-editor', 'wprData', [
+        'nonce' => $nonce,
+    ]);
+
+
     $admin_css = 'build/admin.css';
     wp_enqueue_style(
         'wp-rollback-plugin-admin',
