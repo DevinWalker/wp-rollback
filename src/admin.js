@@ -9,26 +9,32 @@ import {getQueryArgs} from '@wordpress/url';
 const AdminPage = () => {
 
     const [isLoading, setIsLoading] = useState(true);
-    const [pluginInfo, setPluginInfo] = useState(false);
+    const [pluginInfo, setRollbackInfo] = useState(false);
     const [imageUrl, setImageUrl] = useState(null);
-    const currentPluginInfo = getQueryArgs(window.location.search);
+    const queryArgs = getQueryArgs(window.location.search);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [rollbackVersion, setIsRollbackVersion] = useState(currentPluginInfo.current_version);
+    const [rollbackVersion, setIsRollbackVersion] = useState(queryArgs.current_version);
     const {nonce, adminUrl, referrer} = wprData;
-
-    console.log(referrer);
 
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
 
     useEffect(() => {
+
+        let fetchUrl = `https://api.wordpress.org/plugins/info/1.0/${queryArgs.plugin_slug}.json`;
+
+        if (queryArgs.type === 'theme') {
+            fetchUrl = `https://api.wordpress.org/themes/info/1.2/?action=theme_information&request[slug]=${queryArgs.theme_file}&request[fields][versions]=1`;
+        }
+
         // ⚙️ Fetch WP.org API to get plugin data.
-        fetch(`https://api.wordpress.org/plugins/info/1.0/${currentPluginInfo.plugin_slug}.json`)
+        fetch(fetchUrl)
             .then((response) => response.json())
             .then((data) => {
-                setPluginInfo(data);
+                setRollbackInfo(data);
                 setIsLoading(false);
             });
+
     }, []);
 
     useEffect(() => {
@@ -118,7 +124,7 @@ const AdminPage = () => {
         <div className={'wpr-wrapper'}>
             <div className={'wpr-logo-wrap'}>
                 <h1>{__('WP Rollback', 'wp-rollback')}</h1>
-                <p className={'wpr-intro-text'}>{__('Please select which plugin version you would like to rollback to from the release versions listed below.', '')}</p>
+                <p className={'wpr-intro-text'}>{__('Select which version you would like to rollback to from the releases listed below.', '')}</p>
             </div>
             <div className="wpr-content-wrap">
 
@@ -160,7 +166,7 @@ const AdminPage = () => {
                                                   onChange={() => setIsRollbackVersion(version)} // Add this line
                                            />
                                            <span className={'wpr-version-lineitem'}>{version}</span>
-                                           {(currentPluginInfo.current_version === version) && (version !== 'trunk') && (
+                                           {(queryArgs.current_version === version) && (version !== 'trunk') && (
                                                <span
                                                    className={'wpr-version-lineitem-current'}>{__('Currently Installed', 'wp-rollback')}</span>
                                            )}
@@ -203,7 +209,8 @@ const AdminPage = () => {
                                 <tbody>
                                 <tr>
                                     <td className="row-title">
-                                        <label htmlFor="tablecell">{__('Plugin Name:', 'wp-rollback')}</label>
+                                        <label htmlFor="tablecell">    {queryArgs.type === 'plugin' ? __('Plugin Name:', 'wp-rollback') : __('Theme Name:', 'wp-rollback')}
+                                        </label>
                                     </td>
                                     <td><span className="wpr-plugin-name">{pluginInfo.name}</span></td>
                                 </tr>
@@ -212,7 +219,7 @@ const AdminPage = () => {
                                         <label htmlFor="tablecell">{__('Installed Version:', 'wp-rollback')}</label>
                                     </td>
                                     <td><span
-                                        className="wpr-installed-version">{currentPluginInfo.current_version}</span>
+                                        className="wpr-installed-version">{queryArgs.current_version}</span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -233,15 +240,28 @@ const AdminPage = () => {
                             <input type="hidden" name="page" value="wp-rollback" />
                             <input type="hidden" name="wpr_rollback_nonce" value={nonce} />
                             <input type="hidden" name="_wpnonce" value={nonce} />
-                            <input type="hidden" name="plugin_file" value={currentPluginInfo.plugin_file} />
-                            <input type="hidden" name="plugin_version" value={rollbackVersion} />
-                            <input type="hidden" name="rollback_name" value={currentPluginInfo.rollback_name} />
-                            <input type="hidden" name="installed_version" value={currentPluginInfo.current_version} />
 
-                            <input type="hidden" name="plugin_slug" value={pluginInfo.slug} />
+                            {queryArgs.type === 'plugin' && (
+                                <div>
+                                    <input type="hidden" name="plugin_file" value={queryArgs.plugin_file} />
+                                    <input type="hidden" name="plugin_version" value={rollbackVersion} />
+                                    <input type="hidden" name="plugin_slug" value={pluginInfo.slug} />
+                                </div>
+                            )}
+                            {queryArgs.type === 'theme' && (
+                                <div>
+                                    <input type="hidden" name="theme_file" value={queryArgs.theme_file} />
+                                    <input type="hidden" name="theme_version" value={rollbackVersion} />
+                                </div>
+                            )}
+
+                            <input type="hidden" name="rollback_name" value={queryArgs.rollback_name} />
+                            <input type="hidden" name="installed_version" value={queryArgs.current_version} />
+
                             <div className={'wpr-modal-button-wrap'}>
                                 <Button isPrimary type={'submit'}>{__('Rollback', 'wp-rollback')}</Button>
-                                <Button isSecondary onClick={closeModal} className={'wpr-button-cancel'}>{__('Cancel', 'wp-rollback')}</Button>
+                                <Button isSecondary onClick={closeModal}
+                                        className={'wpr-button-cancel'}>{__('Cancel', 'wp-rollback')}</Button>
                             </div>
                         </form>
 
