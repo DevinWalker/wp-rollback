@@ -111,7 +111,6 @@ if ( ! class_exists('WP_Rollback')) :
          * @static
          * @staticvar array $instance
          * @return    WP_Rollback
-         * @uses      WP_Rollback::includes() Include the required files
          * @uses      WP_Rollback::load_textdomain() load the language files
          * @see       WP_Rollback()
          * @uses      WP_Rollback::setup_constants() Setup the constants needed
@@ -128,7 +127,6 @@ if ( ! class_exists('WP_Rollback')) :
                 }
 
                 self::$instance->hooks();
-                self::$instance->includes();
             }
 
             return self::$instance;
@@ -242,18 +240,6 @@ if ( ! class_exists('WP_Rollback')) :
         }
 
         /**
-         * Include required files
-         *
-         * @access private
-         * @since  1.0
-         * @return void
-         */
-        private function includes()
-        {
-            include 'src/admin.php';
-        }
-
-        /**
          * Enqueue Admin Scripts
          *
          * @access private
@@ -293,38 +279,42 @@ if ( ! class_exists('WP_Rollback')) :
                 return;
             }
 
-//			$suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
+            $script_asset = require WP_ROLLBACK_PLUGIN_DIR . '/build/admin.asset.php';
 
-            // CSS
-//			wp_register_style( 'wp_rollback_css', plugin_dir_url( __FILE__ ) . 'assets/css/wp-rollback.css' );
-//			wp_enqueue_style( 'wp_rollback_css' );
+            wp_enqueue_script(
+                'wp-rollback-plugin-admin-editor',
+                plugins_url('build/admin.js', WP_ROLLBACK_PLUGIN_FILE),
+                $script_asset['dependencies'],
+                $script_asset['version']
+            );
+            wp_set_script_translations('wp-rollback-plugin-block-editor', 'wp-rollback');
 
-//			wp_register_style( 'wp_rollback_modal_css', plugin_dir_url( __FILE__ ) . 'assets/css/magnific-popup.css' );
-//			wp_enqueue_style( 'wp_rollback_modal_css' );
-
-            // JS
-//			wp_register_script( 'wp_rollback_modal', plugin_dir_url( __FILE__ ) . 'assets/js/jquery.magnific-popup' . $suffix . '.js', array( 'jquery' ) );
-//			wp_enqueue_script( 'wp_rollback_modal' );
-
-//			wp_register_script( 'wp_rollback_script', plugin_dir_url( __FILE__ ) . 'assets/js/wp-rollback.js', array( 'jquery' ) );
-//			wp_enqueue_script( 'wp_rollback_script' );
-
+            // Create a nonce
+            $nonce = wp_create_nonce('wpr_rollback_nonce');
             wp_enqueue_script('updates');
 
-            // Localize for i18n.
-            wp_localize_script(
-                'wp_rollback_script', 'wpr_vars', [
-                    'ajaxurl' => admin_url(),
-                    'text_no_changelog_found' => isset($_GET['plugin_slug']) ? sprintf(
-                        __(
-                            'Sorry, we couldn\'t find a changelog entry found for this version. Try checking the <a href="%s" target="_blank">developer log</a> on WP.org.',
-                            'wp-rollback'
-                        ),
-                        'https://wordpress.org/plugins/' . $_GET['plugin_slug'] . '/#developers'
-                    ) : '',
-                    'version_missing' => __('Please select a version number to perform a rollback.', 'wp-rollback'),
-                ]
+            // Localize the script with vars for JS.
+            wp_localize_script('wp-rollback-plugin-admin-editor', 'wprData', [
+                'nonce' => $nonce,
+                'adminUrl' => admin_url('index.php'),
+                'referrer' => wp_get_referer(),
+                'text_no_changelog_found' => isset($_GET['plugin_slug']) ? sprintf(
+                    __(
+                        'Sorry, we couldn\'t find a changelog entry found for this version. Try checking the <a href="%s" target="_blank">developer log</a> on WP.org.',
+                        'wp-rollback'
+                    ),
+                    'https://wordpress.org/plugins/' . $_GET['plugin_slug'] . '/#developers'
+                ) : '',
+                'version_missing' => __('Please select a version number to perform a rollback.', 'wp-rollback'),
+            ]);
+
+            wp_enqueue_style(
+                'wp-rollback-plugin-admin',
+                plugins_url('build/admin.css', WP_ROLLBACK_PLUGIN_FILE),
+                ['wp-components'],
+                filemtime(WP_ROLLBACK_PLUGIN_DIR . "/build/admin.css")
             );
+
         }
 
         /**
@@ -389,12 +379,12 @@ if ( ! class_exists('WP_Rollback')) :
 
             if ( ! empty($args['plugin_version'])) {
                 // Plugin: rolling back.
-                include WP_ROLLBACK_PLUGIN_DIR . '/includes/class-rollback-plugin-upgrader.php';
-                include WP_ROLLBACK_PLUGIN_DIR . '/includes/rollback-action.php';
+                include WP_ROLLBACK_PLUGIN_DIR . '/src/class-rollback-plugin-upgrader.php';
+                include WP_ROLLBACK_PLUGIN_DIR . '/src/rollback-action.php';
             } elseif ( ! empty($args['theme_version'])) {
                 // Theme: rolling back.
-                include WP_ROLLBACK_PLUGIN_DIR . '/includes/class-rollback-theme-upgrader.php';
-                include WP_ROLLBACK_PLUGIN_DIR . '/includes/rollback-action.php';
+                include WP_ROLLBACK_PLUGIN_DIR . '/src/class-rollback-theme-upgrader.php';
+                include WP_ROLLBACK_PLUGIN_DIR . '/src/rollback-action.php';
             } else {
                 // Rollback main screen.
                 echo '<div id="root-wp-rollback-admin"></div>';
@@ -604,11 +594,11 @@ if ( ! class_exists('WP_Rollback')) :
             if (isset($_GET['page']) && $_GET['page'] === 'wp-rollback') {
                 // Add it in a native WP way, like WP updates do... (a dashboard page)
                 add_dashboard_page(
-                    __('Rollback', 'wp-rollback'), // Page title
-                    __('Rollback', 'wp-rollback'), // Menu title
-                    'update_plugins',             // Capability
-                    'wp-rollback',                // Menu slug
-                    [self::$instance, 'html']   // Callback
+                    __('Rollback', 'wp-rollback'),
+                    __('Rollback', 'wp-rollback'),
+                    'update_plugins',
+                    'wp-rollback',
+                    [self::$instance, 'html']
                 );
             }
         }
@@ -706,7 +696,7 @@ if ( ! class_exists('WP_Rollback')) :
          *
          * @return array $actions
          */
-        public function theme_action_links($actions, $theme, $context)
+        public function theme_action_links($actions, $theme, $context): array
         {
             $rollback_themes = get_site_transient('rollback_themes');
             if ( ! is_object($rollback_themes)) {
