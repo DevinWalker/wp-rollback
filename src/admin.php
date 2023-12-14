@@ -15,7 +15,7 @@ function wpr_plugin_settings_page(): void
     );
 }
 
-add_action('admin_menu', 'wpr_plugin_settings_page', 10);
+//add_action('admin_menu', 'wpr_plugin_settings_page', 10);
 
 
 function wpr_plugin_admin_scripts(): void
@@ -37,6 +37,7 @@ function wpr_plugin_admin_scripts(): void
     // Localize the script with your nonce
     wp_localize_script('wp-rollback-plugin-admin-editor', 'wprData', [
         'nonce' => $nonce,
+        'adminUrl' => admin_url('index.php'),
     ]);
 
 

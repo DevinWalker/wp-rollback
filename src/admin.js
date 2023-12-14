@@ -14,8 +14,7 @@ const AdminPage = () => {
     const currentPluginInfo = getQueryArgs(window.location.search);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isRollbackVersionSet, setIsRollbackVersion] = useState(currentPluginInfo.current_version);
-    const { nonce } = wprData;
-
+    const {nonce, adminUrl} = wprData;
 
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
@@ -190,11 +189,11 @@ const AdminPage = () => {
 
                         <p>{__('<strong>Notice:</strong> We strongly recommend you <strong>create a complete backup</strong> of your WordPress files and database prior to performing a rollback. We are not responsible for any misuse, deletions, white screens, fatal errors, or any other issue resulting from the use of this plugin.', 'wp-rollback')}</p>
 
-                        <form name="check_for_rollbacks" className="rollback-form">
+                        <form name="check_for_rollbacks" className="rollback-form" action={adminUrl}>
                             <input type="hidden" name="wpr_rollback_nonce" value={nonce} />
-                            <input type="hidden" name="plugin_file"  />
+                            <input type="hidden" name="plugin_file" value={currentPluginInfo.plugin_file} />
                             <input type="hidden" name="plugin_slug" value={pluginInfo.slug} />
-                            <Button isPrimary >{__('Rollback', 'wp-rollback')}</Button>
+                            <Button isPrimary type={'submit'}>{__('Rollback', 'wp-rollback')}</Button>
                             <Button isSecondary onClick={closeModal}>{__('Cancel', 'wp-rollback')}</Button>
                         </form>
 

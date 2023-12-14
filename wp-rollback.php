@@ -121,7 +121,7 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
 				self::$instance->setup_constants();
 
 				// Only setup plugin rollback on specific page
-				if ( isset( $_GET['plugin_file'] ) && $_GET['page'] == 'wp-rollback' ) {
+				if ( isset( $_GET['plugin_file'] ) && $_GET['page'] === 'wp-rollback' ) {
 					self::$instance->setup_plugin_vars();
 				}
 
@@ -651,6 +651,7 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
 				apply_filters(
 					'wpr_plugin_query_args', [
 						'page' => 'wp_rollback',
+						'plugin_file' => $plugin_file,
 						'current_version' => urlencode( $plugin_data['Version'] ),
 						'rollback_name'   => urlencode( $plugin_data['Name'] ),
 						'plugin_slug'     => urlencode( $plugin_data['slug'] ),
