@@ -249,19 +249,21 @@ if ( ! class_exists('WP_Rollback')) :
          *
          * @return void
          */
-        public function scripts($hook)
+        public function scripts($hook): void
         {
             if ('themes.php' === $hook) {
+
+                $theme_script_asset = require WP_ROLLBACK_PLUGIN_DIR . '/build/themes.asset.php';
+
                 wp_enqueue_script(
-                    'wp_rollback_themes_script',
-                    plugin_dir_url(__FILE__) . 'assets/js/themes-wp-rollback.js',
-                    ['jquery'],
-                    false,
-                    true
+                    'wp-rollback-themes-script',
+                    plugin_dir_url(__FILE__) . 'build/themes.js',
+                    $theme_script_asset['dependencies'],
+                    $theme_script_asset['version'],
                 );
                 // Localize for i18n
                 wp_localize_script(
-                    'wp_rollback_themes_script', 'wpr_vars', [
+                    'wp-rollback-themes-script', 'wprData', [
                         'ajaxurl' => admin_url(),
                         'ajax_loader' => admin_url('images/spinner.gif'),
                         'nonce' => wp_create_nonce('wpr_rollback_nonce'),

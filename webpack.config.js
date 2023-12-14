@@ -6,6 +6,7 @@ module.exports = {
     ...{
         entry: {
             'admin': path.resolve( process.cwd(), 'src', 'admin.js' ),
+            'themes': path.resolve( process.cwd(), 'src', 'themes-wp-rollback.js' ),
         },
     },
 };

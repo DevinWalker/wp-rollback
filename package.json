@@ -19,6 +19,7 @@
     },
     "dependencies": {
         "@wordpress/html-entities": "^3.48.0",
+        "@wordpress/url": "^3.49.0",
         "axios": "^0.27.2",
         "node-svn-ultimate": "^1.2.1"
     },

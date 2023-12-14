@@ -1,12 +1,13 @@
+import { getQueryArgs } from '@wordpress/url';
+import jQuery from 'jquery';
+
 /**
  *  Theme Specific WP Rollback
  *
- *  @description: Adds a rollback option to themes
+ *  Adds a rollback option to themes
  *  @copyright: http://opensource.org/licenses/gpl-2.0.php GNU Public License
  */
-var wpr_vars;
 jQuery.noConflict();
-
 (function( $ ) {
 
 	/**
@@ -28,6 +29,7 @@ jQuery.noConflict();
 		);
 		return elms;
 	};
+
 	setInterval( function() {
 		if ( window.watchContentChange ) {
 			for ( i in window.watchContentChange ) {
@@ -56,8 +58,7 @@ jQuery.noConflict();
 		// On clicking a theme template
 		$( '.theme-overlay' ).contentChange( function( e ) {
 
-			// get theme name that was clicked
-			var clicked_theme = wpr_get_parameter_by_name( 'theme' );
+            const queryArgs = getQueryArgs(window.location.search);
 
 			// check that rollback button hasn't been placed
 			if ( is_rollback_btn_there() ) {
@@ -66,7 +67,7 @@ jQuery.noConflict();
 			}
 
 			// pass off to rollback function
-			wpr_theme_rollback( clicked_theme );
+			wpr_theme_rollback( queryArgs.theme );
 
 		} );
 
@@ -98,15 +99,13 @@ jQuery.noConflict();
 			// ensure this theme can be rolled back (not premium, etc)
 			if ( theme_data !== null && typeof theme_data.hasRollback !== 'undefined' && theme_data.hasRollback !== false ) {
 
-				var active_theme = $( '.theme-overlay' ).hasClass( 'active' );
-
-				var rollback_btn_html = '<a href="' + encodeURI( 'index.php?page=wp-rollback&type=theme&theme_file=' + theme + '&current_version=' + theme_data.version + '&rollback_name=' + theme_data.name + '&_wpnonce=' + wpr_vars.nonce ) + '" style="position:absolute;right: ' + (active_theme === true ? '5px' : '80px') + '; bottom: 5px;" class="button wpr-theme-rollback">' + wpr_vars.text_rollback_label + '</a>';
+				var rollback_btn_html = '<a href="' + encodeURI( 'index.php?page=wp-rollback&type=theme&theme_file=' + theme + '&current_version=' + theme_data.version + '&rollback_name=' + theme_data.name + '&_wpnonce=' + wprData.nonce ) + '" class="button wpr-theme-rollback">' + wprData.text_rollback_label + '</a>';
 
 				$( '.theme-wrap' ).find( '.theme-actions' ).append( rollback_btn_html );
 
 			} else {
 				// Can't roll back this theme, display the notice.
-				$( '.theme-wrap' ).find( '.theme-actions' ).append( '<span class="no-rollback" style="position: absolute;left: 23px;bottom: 16px;font-size: 12px;font-style: italic;color: rgb(181, 181, 181);">' + wpr_vars.text_not_rollbackable + '</span>' );
+				$( '.theme-wrap' ).find( '.theme-actions' ).append( '<span class="no-rollback" style="position: absolute;left: 23px;bottom: 16px;font-size: 12px;font-style: italic;color: rgb(181, 181, 181);">' + wprData.text_not_rollbackable + '</span>' );
 			}
 
 		}
@@ -129,40 +128,6 @@ jQuery.noConflict();
 				}
 			}
 			return null; // The object was not found
-		}
-
-		/**
-		 * JS Ready Query String (Helper)
-		 *
-		 * Kinda dirty but whatever...
-		 *
-		 * @see: http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
-		 * @param name
-		 * @returns {string}
-		 */
-		function wpr_get_parameter_by_name( name ) {
-			name = name.replace( /[\[]/, '\\[' ).replace( /[\]]/, '\\]' );
-			var regex = new RegExp( '[\\?&]' + name + '=([^&#]*)' ),
-				results = regex.exec( location.search );
-			return results === null ? '' : decodeURIComponent( results[ 1 ].replace( /\+/g, ' ' ) );
-		}
-
-		/**
-		 * Get Parameter from Focused Theme
-		 *
-		 * @returns {*}
-		 */
-		function wpr_get_parameter_from_focused_theme() {
-			var focused_theme = wp.themes.focusedTheme;
-			var name = $( focused_theme ).find( '.theme-name' ).attr( 'id' );
-
-			if ( typeof name !== 'undefined' ) {
-				name = name.replace( '-name', '' );
-			} else {
-				return false;
-			}
-
-			return name;
 		}
 
 		/**
