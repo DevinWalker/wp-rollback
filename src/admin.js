@@ -13,7 +13,7 @@ const AdminPage = () => {
     const [imageUrl, setImageUrl] = useState(null);
     const currentPluginInfo = getQueryArgs(window.location.search);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [isRollbackVersionSet, setIsRollbackVersion] = useState(currentPluginInfo.current_version);
+    const [rollbackVersion, setIsRollbackVersion] = useState(currentPluginInfo.current_version);
     const {nonce, adminUrl} = wprData;
 
     const openModal = () => setIsModalOpen(true);
@@ -47,11 +47,6 @@ const AdminPage = () => {
         }
     }, [pluginInfo]);
 
-    useEffect(() => {
-        if (isRollbackVersionSet) {
-            console.log(isRollbackVersionSet);
-        }
-    }, [isRollbackVersionSet]);
 
     function checkImage(url, callback) {
         var img = new Image();
@@ -156,11 +151,11 @@ const AdminPage = () => {
                                        <label htmlFor={'version-' + index}>
                                            <input id={'version-' + index} type={'radio'} name={'version'}
                                                   value={version}
-                                                  checked={isRollbackVersionSet === version}
+                                                  checked={rollbackVersion === version}
                                                   onChange={() => setIsRollbackVersion(version)} // Add this line
                                            />
                                            <span className={'wpr-version-lineitem'}>{version}</span>
-                                           {(pluginInfo.version === version) && (version !== 'trunk') && (
+                                           {(currentPluginInfo.current_version === version) && (version !== 'trunk') && (
                                                <span
                                                    className={'wpr-version-lineitem-current'}>{__('Currently Installed', 'wp-rollback')}</span>
                                            )}
@@ -181,17 +176,49 @@ const AdminPage = () => {
 
                 {isModalOpen && (
                     <Modal
-                        title={`Rollback ${pluginInfo.name} to version ${isRollbackVersionSet}`}
+                        title={`Rollback ${pluginInfo.name} to version ${rollbackVersion}`}
                         onRequestClose={closeModal}
-                        disabled={(isRollbackVersionSet === false)}
+                        disabled={(rollbackVersion === false)}
                         className={'wpr-modal'}
                     >
+                        <div className={'wpr-modal-notice notice notice-error'}
+                             dangerouslySetInnerHTML={{__html: __('<p><strong>Notice:</strong> We strongly recommend you <strong>create a complete backup</strong> of your WordPress files and database prior to performing a rollback. We are not responsible for any misuse, deletions, white screens, fatal errors, or any other issue resulting from the use of this plugin.</p>', 'wp-rollback')}} />
 
-                        <p>{__('<strong>Notice:</strong> We strongly recommend you <strong>create a complete backup</strong> of your WordPress files and database prior to performing a rollback. We are not responsible for any misuse, deletions, white screens, fatal errors, or any other issue resulting from the use of this plugin.', 'wp-rollback')}</p>
+                        <div className="rollback-details">
+                            <table className="widefat">
+                                <tbody>
+                                <tr>
+                                    <td className="row-title">
+                                        <label htmlFor="tablecell">{__('Plugin Name:', 'wp-rollback')}</label>
+                                    </td>
+                                    <td><span className="wpr-plugin-name">{pluginInfo.name}</span></td>
+                                </tr>
+                                <tr className="alternate">
+                                    <td className="row-title">
+                                        <label htmlFor="tablecell">{__('Installed Version:', 'wp-rollback')}</label>
+                                    </td>
+                                    <td><span className="wpr-installed-version">{currentPluginInfo.current_version}</span></td>
+                                </tr>
+                                <tr>
+                                    <td className="row-title">
+                                        <label htmlFor="tablecell">{__('New Version:', 'wp-rollback')}</label>
+                                    </td>
+                                    <td><span className="wpr-new-version">{rollbackVersion}</span></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
 
                         <form name="check_for_rollbacks" className="rollback-form" action={adminUrl}>
+                            <input type="hidden" name="page" value="wp-rollback" />
                             <input type="hidden" name="wpr_rollback_nonce" value={nonce} />
+                            <input type="hidden" name="_wpnonce" value={nonce} />
                             <input type="hidden" name="plugin_file" value={currentPluginInfo.plugin_file} />
+                            <input type="hidden" name="plugin_version" value={rollbackVersion} />
+                            <input type="hidden" name="rollback_name" value={currentPluginInfo.rollback_name} />
+                            <input type="hidden" name="installed_version" value={currentPluginInfo.current_version} />
+
                             <input type="hidden" name="plugin_slug" value={pluginInfo.slug} />
                             <Button isPrimary type={'submit'}>{__('Rollback', 'wp-rollback')}</Button>
                             <Button isSecondary onClick={closeModal}>{__('Cancel', 'wp-rollback')}</Button>

@@ -1,23 +1,9 @@
 <?php
-
-function wpr_plugin_settings_page(): void
-{
-    add_options_page(
-        __('WP Rollback', 'wp-rollback'),
-        __('WP Rollback', 'wp-rollback'),
-        'manage_options',
-        'wp_rollback',
-        function () {
-            ?>
-            <div id="root-wp-rollback-admin"></div>
-            <?php
-        }
-    );
-}
-
-//add_action('admin_menu', 'wpr_plugin_settings_page', 10);
-
-
+/**
+ * WP Rollback Plugin Admin
+ *
+ * @package WP Rollback
+ */
 function wpr_plugin_admin_scripts(): void
 {
     $admin_js = 'build/admin.js';

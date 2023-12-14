@@ -277,21 +277,21 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
 				return;
 			}
 
-			$suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
+//			$suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 
 			// CSS
-			wp_register_style( 'wp_rollback_css', plugin_dir_url( __FILE__ ) . 'assets/css/wp-rollback.css' );
-			wp_enqueue_style( 'wp_rollback_css' );
+//			wp_register_style( 'wp_rollback_css', plugin_dir_url( __FILE__ ) . 'assets/css/wp-rollback.css' );
+//			wp_enqueue_style( 'wp_rollback_css' );
 
-			wp_register_style( 'wp_rollback_modal_css', plugin_dir_url( __FILE__ ) . 'assets/css/magnific-popup.css' );
-			wp_enqueue_style( 'wp_rollback_modal_css' );
+//			wp_register_style( 'wp_rollback_modal_css', plugin_dir_url( __FILE__ ) . 'assets/css/magnific-popup.css' );
+//			wp_enqueue_style( 'wp_rollback_modal_css' );
 
 			// JS
-			wp_register_script( 'wp_rollback_modal', plugin_dir_url( __FILE__ ) . 'assets/js/jquery.magnific-popup' . $suffix . '.js', array( 'jquery' ) );
-			wp_enqueue_script( 'wp_rollback_modal' );
+//			wp_register_script( 'wp_rollback_modal', plugin_dir_url( __FILE__ ) . 'assets/js/jquery.magnific-popup' . $suffix . '.js', array( 'jquery' ) );
+//			wp_enqueue_script( 'wp_rollback_modal' );
 
-			wp_register_script( 'wp_rollback_script', plugin_dir_url( __FILE__ ) . 'assets/js/wp-rollback.js', array( 'jquery' ) );
-			wp_enqueue_script( 'wp_rollback_script' );
+//			wp_register_script( 'wp_rollback_script', plugin_dir_url( __FILE__ ) . 'assets/js/wp-rollback.js', array( 'jquery' ) );
+//			wp_enqueue_script( 'wp_rollback_script' );
 
 			wp_enqueue_script( 'updates' );
 
@@ -364,9 +364,10 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
 
 			$args = wp_parse_args( $_GET, $defaults );
 
+            check_admin_referer( 'wpr_rollback_nonce' );
+
 			if ( ! empty( $args['plugin_version'] ) ) {
 				// Plugin: rolling back.
-				check_admin_referer( 'wpr_rollback_nonce' );
 				include WP_ROLLBACK_PLUGIN_DIR . '/includes/class-rollback-plugin-upgrader.php';
 				include WP_ROLLBACK_PLUGIN_DIR . '/includes/rollback-action.php';
 			} elseif ( ! empty( $args['theme_version'] ) ) {
@@ -375,23 +376,22 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
 				include WP_ROLLBACK_PLUGIN_DIR . '/includes/class-rollback-theme-upgrader.php';
 				include WP_ROLLBACK_PLUGIN_DIR . '/includes/rollback-action.php';
 			} else {
-				// This is the menu.
-				check_admin_referer( 'wpr_rollback_nonce' );
-				include WP_ROLLBACK_PLUGIN_DIR . '/includes/rollback-menu.php';
-
-			}
+                // Rollback main screen.
+                echo '<div id="root-wp-rollback-admin"></div>';
+            }
 
 		}
 
 
-		/**
-		 * Get Plugin Changelog
-		 *
-		 * Uses WP.org API to get a plugin's
-		 *
-		 * @return null|string
-		 */
-		public function get_plugin_changelog() {
+        /**
+         * Get Plugin Changelog
+         *
+         * Uses WP.org API to get a plugin's
+         *
+         * @return bool|string|null
+         */
+		public function get_plugin_changelog(): bool|string|null
+        {
 
 			// Need slug to continue.
 			if ( ! isset( $_POST['slug'] ) || empty( $_POST['slug'] ) ) {
@@ -576,17 +576,19 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
 		public function admin_menu() {
 
 			// Only show menu item when necessary (user is interacting with plugin, ie rolling back something)
-			if ( isset( $_GET['page'] ) && $_GET['page'] == 'wp-rollback' ) {
+			if ( isset( $_GET['page'] ) && $_GET['page'] === 'wp-rollback' ) {
 
 				// Add it in a native WP way, like WP updates do... (a dashboard page)
-				add_dashboard_page(
-					__( 'Rollback', 'wp-rollback' ), __( 'Rollback', 'wp-rollback' ), 'update_plugins', 'wp-rollback', array(
-						self::$instance,
-						'html',
-					)
-				);
+                add_dashboard_page(
+                    __('Rollback', 'wp-rollback'), // Page title
+                    __('Rollback', 'wp-rollback'), // Menu title
+                    'update_plugins',             // Capability
+                    'wp-rollback',                // Menu slug
+                    [ self::$instance, 'html' ]   // Callback
+                );
 
-			}
+
+            }
 
 		}
 
@@ -645,12 +647,13 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
 			}
 
 			// Base rollback URL
-			$rollback_url = admin_url('options-general.php');
+			$rollback_url = admin_url('index.php');
 
 			$rollback_url = add_query_arg(
 				apply_filters(
 					'wpr_plugin_query_args', [
-						'page' => 'wp_rollback',
+						'page' => 'wp-rollback',
+						'type' => 'plugin',
 						'plugin_file' => $plugin_file,
 						'current_version' => urlencode( $plugin_data['Version'] ),
 						'rollback_name'   => urlencode( $plugin_data['Name'] ),

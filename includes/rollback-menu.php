@@ -128,8 +128,7 @@ $plugins = get_plugins();
                 <div class="rollback-details">
                     <table class="widefat">
                         <tbody>
-                        <?php
-                        do_action('wpr_pre_rollback_table'); ?>
+                        <?php  do_action('wpr_pre_rollback_table'); ?>
                         <tr>
                             <td class="row-title">
                                 <label for="tablecell">
