@@ -1,7 +1,7 @@
 import './admin.scss';
-import {Button, Modal, Spinner} from '@wordpress/components';
+import {Button, Dashicon, Modal, Spinner} from '@wordpress/components';
 import {render, useEffect, useState} from '@wordpress/element';
-import {__} from '@wordpress/i18n';
+import {__, sprintf} from '@wordpress/i18n';
 import domReady from '@wordpress/dom-ready';
 import {decodeEntities} from '@wordpress/html-entities';
 import {getQueryArgs} from '@wordpress/url';
@@ -14,7 +14,9 @@ const AdminPage = () => {
     const currentPluginInfo = getQueryArgs(window.location.search);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [rollbackVersion, setIsRollbackVersion] = useState(currentPluginInfo.current_version);
-    const {nonce, adminUrl} = wprData;
+    const {nonce, adminUrl, referrer} = wprData;
+
+    console.log(referrer);
 
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
@@ -60,8 +62,13 @@ const AdminPage = () => {
             <div id={`wpr-wrap`} className={`wpr-wrap`}>
                 <div className={'wpr-loading-content'}>
                     <div className={'wpr-loading-text'}>
-                        <Spinner />
-                        <p>{__('Loading Plugin Data', 'wp-rollback')}</p>
+                        <Spinner
+                            style={{
+                                height: 'calc(4px * 20)',
+                                width: 'calc(4px * 20)',
+                            }}
+                        />
+                        <p>{__('Loading...', 'wp-rollback')}</p>
                     </div>
                 </div>
             </div>
@@ -106,8 +113,6 @@ const AdminPage = () => {
             return `${Math.floor(diffInSeconds / 31536000)} years ago`;
         }
     }
-
-    console.log(pluginInfo);
 
     return (
         <div className={'wpr-wrapper'}>
@@ -169,20 +174,29 @@ const AdminPage = () => {
                 <div className={'wpr-button-wrap'}>
                     <Button isPrimary onClick={openModal}
                             className={'wpr-button-submit'}>{__('Rollback', 'wp-rollback')}</Button>
-                    <Button isSecondary onClick={openModal}
+                    <Button isSecondary onClick={() => window.location.href = referrer}
                             className={'wpr-button-cancel'}>{__('Cancel', 'wp-rollback')}</Button>
 
                 </div>
 
                 {isModalOpen && (
+
                     <Modal
-                        title={`Rollback ${pluginInfo.name} to version ${rollbackVersion}`}
+                        title={`Are you sure you want to proceed?`}
                         onRequestClose={closeModal}
                         disabled={(rollbackVersion === false)}
                         className={'wpr-modal'}
+                        icon={<Dashicon icon="warning" />}
                     >
-                        <div className={'wpr-modal-notice notice notice-error'}
-                             dangerouslySetInnerHTML={{__html: __('<p><strong>Notice:</strong> We strongly recommend you <strong>create a complete backup</strong> of your WordPress files and database prior to performing a rollback. We are not responsible for any misuse, deletions, white screens, fatal errors, or any other issue resulting from the use of this plugin.</p>', 'wp-rollback')}} />
+
+                        <p className={'wpr-modal-intro'} dangerouslySetInnerHTML={{
+                            __html: sprintf(
+                                // Translators: %1$s: Plugin name, %2$s: Rollback version
+                                __('You are about to rollback %1$s to version %2$s. Please confirm you would like to proceed.', 'wp-rollback'),
+                                `<strong>${pluginInfo.name}</strong>`,
+                                `<strong>${rollbackVersion}</strong>`,
+                            ),
+                        }}></p>
 
                         <div className="rollback-details">
                             <table className="widefat">
@@ -197,7 +211,9 @@ const AdminPage = () => {
                                     <td className="row-title">
                                         <label htmlFor="tablecell">{__('Installed Version:', 'wp-rollback')}</label>
                                     </td>
-                                    <td><span className="wpr-installed-version">{currentPluginInfo.current_version}</span></td>
+                                    <td><span
+                                        className="wpr-installed-version">{currentPluginInfo.current_version}</span>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td className="row-title">
@@ -208,6 +224,9 @@ const AdminPage = () => {
                                 </tbody>
                             </table>
                         </div>
+
+                        <div className={'wpr-modal-notice notice notice-warning'}
+                             dangerouslySetInnerHTML={{__html: __('<p><strong>Notice:</strong> We strongly recommend you <strong>create a complete backup</strong> of your WordPress files and database prior to performing a rollback. We are not responsible for any misuse, deletions, white screens, fatal errors, or any other issue resulting from the use of this plugin.</p>', 'wp-rollback')}} />
 
 
                         <form name="check_for_rollbacks" className="rollback-form" action={adminUrl}>
@@ -220,8 +239,10 @@ const AdminPage = () => {
                             <input type="hidden" name="installed_version" value={currentPluginInfo.current_version} />
 
                             <input type="hidden" name="plugin_slug" value={pluginInfo.slug} />
-                            <Button isPrimary type={'submit'}>{__('Rollback', 'wp-rollback')}</Button>
-                            <Button isSecondary onClick={closeModal}>{__('Cancel', 'wp-rollback')}</Button>
+                            <div className={'wpr-modal-button-wrap'}>
+                                <Button isPrimary type={'submit'}>{__('Rollback', 'wp-rollback')}</Button>
+                                <Button isSecondary onClick={closeModal} className={'wpr-button-cancel'}>{__('Cancel', 'wp-rollback')}</Button>
+                            </div>
                         </form>
 
 

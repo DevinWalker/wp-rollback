@@ -24,6 +24,7 @@ function wpr_plugin_admin_scripts(): void
     wp_localize_script('wp-rollback-plugin-admin-editor', 'wprData', [
         'nonce' => $nonce,
         'adminUrl' => admin_url('index.php'),
+        'referrer' => wp_get_referer(),
     ]);
 
 
