@@ -5,7 +5,7 @@ body {
 $border-color: #E1E1E1;
 $color-text: #24292F;
 $color-light-blue: #F1F8FF;
-$container-width: 800px;
+$container-width: 802px;
 
 @mixin all-caps-heading {
     font-weight: 400;
@@ -35,6 +35,12 @@ $container-width: 800px;
     }
 }
 
+.wpr-content-banner {
+    border-bottom: 1px solid $border-color;
+    height: 259px;
+    background: #FFF;
+}
+
 .wpr-content-header {
     padding: 30px;
     display: flex;
@@ -52,8 +58,20 @@ $container-width: 800px;
     padding: 0;
 }
 
-// Plugin Info
+.wpr-api-error {
+    padding: 15px 20px;
+    margin: 200px auto;
+    width: 600px;
+    background: #FFF;
+    border: 1px solid $border-color;
 
+    h1 {
+        font-size: 17px;
+    }
+
+}
+
+// Plugin Info
 .wpr-plugin-info {
     flex-grow: 1;
 
@@ -119,6 +137,9 @@ $container-width: 800px;
     background: #FCFCFC;
 
     &:hover {
+        background: #FFF;
+    }
+    &.wpr-active-row {
         background: #F1F8FF;
     }
 }

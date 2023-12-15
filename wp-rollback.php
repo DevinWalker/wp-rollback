@@ -110,23 +110,30 @@ if ( ! class_exists('WP_Rollback')) :
          * @since     1.0
          * @static
          * @staticvar array $instance
-         * @return    WP_Rollback
+         * @return WP_Rollback|null
          * @uses      WP_Rollback::load_textdomain() load the language files
          * @see       WP_Rollback()
          * @uses      WP_Rollback::setup_constants() Setup the constants needed
          */
-        public static function instance()
+        public static function instance(): ?WP_Rollback
         {
-            if ( ! isset(self::$instance) && ! (self::$instance instanceof WP_Rollback) && is_admin()) {
-                self::$instance = new WP_Rollback();
-                self::$instance->setup_constants();
+            if ( ! isset(self::$instance) && ! (self::$instance instanceof WP_Rollback)) {
+                try {
+                    self::$instance = new WP_Rollback();
+                    self::$instance->setup_constants();
+                    self::$instance->hooks();
 
-                // Only setup plugin rollback on specific page
-                if (isset($_GET['plugin_file']) && $_GET['page'] === 'wp-rollback') {
-                    self::$instance->setup_plugin_vars();
+
+                    // Only setup plugin rollback on specific page
+                    if (isset($_GET['plugin_file']) && $_GET['page'] === 'wp-rollback') {
+                        self::$instance->setup_plugin_vars();
+                    }
+                } catch (Exception $e) {
+                    // Handle exceptions or log errors
+                    error_log('WP_Rollback initialization failed: ' . $e->getMessage());
+
+                    return null;
                 }
-
-                self::$instance->hooks();
             }
 
             return self::$instance;
@@ -226,6 +233,8 @@ if ( ! class_exists('WP_Rollback')) :
             add_action('wp_ajax_is_wordpress_theme', [self::$instance, 'is_wordpress_theme']);
             add_action('set_site_transient_update_themes', [self::$instance, 'wpr_theme_updates_list']);
 
+            add_action('rest_api_init', [self::$instance, 'register_rest_route']);
+
             add_filter('wp_prepare_themes_for_js', [self::$instance, 'wpr_prepare_themes_js']);
             add_filter('plugin_action_links', [self::$instance, 'plugin_action_links'], 20, 4);
 
@@ -252,7 +261,6 @@ if ( ! class_exists('WP_Rollback')) :
         public function scripts($hook): void
         {
             if ('themes.php' === $hook) {
-
                 $theme_script_asset = require WP_ROLLBACK_PLUGIN_DIR . '/build/themes.asset.php';
 
                 wp_enqueue_script(
@@ -267,6 +275,7 @@ if ( ! class_exists('WP_Rollback')) :
                         'ajaxurl' => admin_url(),
                         'ajax_loader' => admin_url('images/spinner.gif'),
                         'nonce' => wp_create_nonce('wpr_rollback_nonce'),
+                        'apiNonce' => wp_create_nonce('wpr_rollback_api_nonce'),
                         'text_rollback_label' => __('Rollback', 'wp-rollback'),
                         'text_not_rollbackable' => __(
                             'No Rollback Available: This is a non-WordPress.org theme.',
@@ -283,6 +292,7 @@ if ( ! class_exists('WP_Rollback')) :
 
             $script_asset = require WP_ROLLBACK_PLUGIN_DIR . '/build/admin.asset.php';
 
+            wp_enqueue_script('updates');
             wp_enqueue_script(
                 'wp-rollback-plugin-admin-editor',
                 plugins_url('build/admin.js', WP_ROLLBACK_PLUGIN_FILE),
@@ -291,13 +301,9 @@ if ( ! class_exists('WP_Rollback')) :
             );
             wp_set_script_translations('wp-rollback-plugin-block-editor', 'wp-rollback');
 
-            // Create a nonce
-            $nonce = wp_create_nonce('wpr_rollback_nonce');
-            wp_enqueue_script('updates');
-
             // Localize the script with vars for JS.
             wp_localize_script('wp-rollback-plugin-admin-editor', 'wprData', [
-                'nonce' => $nonce,
+                'rollback_nonce' => wp_create_nonce('wpr_rollback_nonce'),
                 'adminUrl' => admin_url('index.php'),
                 'referrer' => wp_get_referer(),
                 'text_no_changelog_found' => isset($_GET['plugin_slug']) ? sprintf(
@@ -316,7 +322,6 @@ if ( ! class_exists('WP_Rollback')) :
                 ['wp-components'],
                 filemtime(WP_ROLLBACK_PLUGIN_DIR . "/build/admin.css")
             );
-
         }
 
         /**
@@ -352,10 +357,33 @@ if ( ! class_exists('WP_Rollback')) :
             }
         }
 
+        public function register_rest_route()
+        {
+            include WP_ROLLBACK_PLUGIN_DIR . '/src/rollback-api-requests.php';
+
+            register_rest_route('wp-rollback/v1', '/fetch-info/', [
+                'methods' => 'GET',
+                'callback' => function (WP_REST_Request $request) {
+                    $fetcher = new WP_Rollback_API_Fetcher();
+                    return $fetcher->fetch_plugin_or_theme_info($request['type'], $request['slug']);
+                },
+                'args' => [
+                    'type' => [
+                        'required' => true,
+                        'type' => 'string',
+                    ],
+                    'slug' => [
+                        'required' => true,
+                        'type' => 'string',
+                    ],
+                ],
+            ]);
+        }
+
         /**
          * HTML
          */
-        public function html()
+        public function html(): void
         {
             // Permissions check
             if ( ! current_user_can('update_plugins')) {
