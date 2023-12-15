@@ -5,6 +5,7 @@ import {__, sprintf} from '@wordpress/i18n';
 import domReady from '@wordpress/dom-ready';
 import {decodeEntities} from '@wordpress/html-entities';
 import {getQueryArgs} from '@wordpress/url';
+import ExpandableText from './ExpandableText';
 
 const AdminPage = () => {
 
@@ -19,7 +20,6 @@ const AdminPage = () => {
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
 
-    console.log(wprData.api_nonce);
     useEffect(() => {
         let restUrl = `/wp-json/wp-rollback/v1/fetch-info/?type=${queryArgs.type}&slug=${queryArgs.type === 'theme' ? queryArgs.theme_file : queryArgs.plugin_slug}`;
 
@@ -54,7 +54,6 @@ const AdminPage = () => {
         }
     }, [rollbackInfo]);
 
-
     function checkImage(url, callback) {
         var img = new Image();
         img.onload = () => callback(true);
@@ -84,13 +83,15 @@ const AdminPage = () => {
     if (rollbackInfo.message) {
         return (
             <div id={`wpr-wrap`} className={`wpr-wrap`}>
-             <div className={`wpr-api-error`}>
-                <h1>{rollbackInfo.code}</h1>
-                <p>{rollbackInfo.message}</p>
+                <div className={`wpr-api-error`}>
+                    <h1>{rollbackInfo.code}</h1>
+                    <p>{rollbackInfo.message}</p>
                 </div>
             </div>
         );
     }
+
+    console.log(rollbackInfo);
 
     function getTimeAgo(dateString) {
 
@@ -129,38 +130,100 @@ const AdminPage = () => {
                 <p className={'wpr-intro-text'}>{__('Select which version you would like to rollback to from the releases listed below.', '')}</p>
             </div>
             <div className="wpr-content-wrap">
-                {rollbackInfo.banners && (
+                {rollbackInfo.banners && queryArgs.type === 'plugin' && (
                     <div className="wpr-content-banner">
                         <img src={rollbackInfo.banners.high} width={800} height={'auto'}
                              className={'wpr-plugin-banner'}
                              alt={rollbackInfo.name} />
                     </div>
                 )}
-                {rollbackInfo.screenshot_url && (
-                    <div className="wpr-content-banner">
-                        <img src={rollbackInfo.screenshot_url} width={800} height={'auto'}
-                             className={'wpr-theme-screensht'}
-                             alt={rollbackInfo.name} />
-                    </div>
-                )}
+
                 <div className="wpr-content-header">
-                    {imageUrl && <img src={imageUrl} width={64} height={64} className={'wpr-plugin-avatar'}
-                                      alt={rollbackInfo.name} />}
+
+                    {rollbackInfo.screenshot_url && queryArgs.type === 'theme' && (
+                        <div className="wpr-content-banner wpr-content-banner__theme">
+                            <img src={rollbackInfo.screenshot_url} width={240} height={180}
+                                 className={'wpr-theme-screenshot'}
+                                 alt={rollbackInfo.name} />
+                        </div>
+                    )}
+
+                    {imageUrl && queryArgs.type === 'plugin' && (
+                        <img src={imageUrl} width={64} height={64} className={'wpr-plugin-avatar'}
+                             alt={rollbackInfo.name} />
+                    )}
 
                     <div className={'wpr-plugin-info'}>
-                        <h2 className={'wpr-plugin-name'}>{decodeEntities(rollbackInfo.name)}</h2>
-                        <div className={'wpr-pill'}><span
+                        <h2 className={'wpr-plugin-name'}>
+                            {queryArgs.type === 'plugin' && (
+                                <a href={`https://wordpress.org/plugins/${rollbackInfo.slug}/`} target={'_blank'}
+                                   className={'wpr-heading-link'}
+                                   alt={sprintf(__('View %s on WordPress.org', 'wp-rollback'), rollbackInfo.name)}
+                                >
+                                    {decodeEntities(rollbackInfo.name)}
+                                    <Dashicon icon="external" />
+                                </a>
+                            )}
+                            {queryArgs.type === 'theme' && (
+                                <a href={rollbackInfo.homepage} target={'_blank'}
+                                   className={'wpr-heading-link'}
+                                   alt={sprintf(__('View %s on WordPress.org', 'wp-rollback'), rollbackInfo.name)}>
+                                    {decodeEntities(rollbackInfo.name)}
+                                    <Dashicon icon="external" />
+                                </a>
+                            )}
+
+                        </h2>
+
+                        {queryArgs.type === 'theme' && rollbackInfo.sections.description && (
+                            <div className={'wpr-theme-description'}>
+                                <ExpandableText text={rollbackInfo.sections.description} />
+                            </div>
+                        )}
+
+                        <div className={'wpr-pill wpr-pill__black'}><span
                             className={'wpr-pill-text'}>{__('Installed version:', 'wp-rollback')}{' '}
                             <strong>{rollbackInfo.version}</strong></span></div>
+
+                        {queryArgs.type === 'plugin' && (
+                            <div className={'wpr-pill'}>
+                                <span
+                                    className={'wpr-pill-text'}>{__('Plugin author:', 'wp-rollback')}{' '}
+                                    <span className={'wpr-pill__link'}
+                                          dangerouslySetInnerHTML={{
+                                              __html: rollbackInfo.author,
+                                          }}>
+                                 </span>
+                                </span>
+                            </div>
+                        )}
+
                     </div>
 
-                    <div className={'wpr-last-updated'}>
-                        <h3>Last Updated</h3>
-                        <div className={'wpr-updater-wrap'}>
-                            <div className={'wpr-updater-info'}>
-                                <span className={'wpr-plugin-lastupdate'}>{getTimeAgo(rollbackInfo.last_updated)}</span>
+                    <div className={'wpr-meta-wrap'}>
+                        {queryArgs.type === 'theme' && (
+                            <div className={'wpr-meta-item wpr-meta-item__author-wrap'}>
+                                <h3>Theme Author</h3>
+                                <div className={'wpr-theme-author-inner'}>
+                                    <img src={rollbackInfo.author.avatar} width={64} height={64} />
+                                    <div className={'wpr-theme-author-info'}><a
+                                        href={rollbackInfo.author.author_url}
+                                        target={'_blank'}>{rollbackInfo.author.display_name}</a>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        )}
+
+                        {queryArgs.type === 'plugin' && (
+                            <div className={'wpr-meta-item wpr-meta-item__last-updated'}>
+                                <h3>Last Updated</h3>
+                                <div className={'wpr-updater-info'}>
+                                    <Dashicon icon="clock" />
+                                    <span
+                                        className={'wpr-plugin-lastupdate'}>{getTimeAgo(rollbackInfo.last_updated)}</span>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
 
@@ -293,7 +356,6 @@ const AdminPage = () => {
 
 
 };
-
 
 domReady(function () {
     if (document.getElementById('root-wp-rollback-admin')) {
