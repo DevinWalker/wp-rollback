@@ -267,14 +267,14 @@ if ( ! class_exists('WP_Rollback')) :
                     'wp-rollback-themes-script',
                     plugin_dir_url(__FILE__) . 'build/themes.js',
                     $theme_script_asset['dependencies'],
-                    $theme_script_asset['version'],
+                    $theme_script_asset['version']
                 );
                 // Localize for i18n
                 wp_localize_script(
                     'wp-rollback-themes-script', 'wprData', [
                         'ajaxurl' => admin_url(),
                         'ajax_loader' => admin_url('images/spinner.gif'),
-                        'nonce' => wp_create_nonce('wpr_rollback_nonce'),
+                        'rollback_nonce' => wp_create_nonce('wpr_rollback_nonce'),
                         'apiNonce' => wp_create_nonce('wpr_rollback_api_nonce'),
                         'text_rollback_label' => __('Rollback', 'wp-rollback'),
                         'text_not_rollbackable' => __(

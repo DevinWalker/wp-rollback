@@ -54,7 +54,7 @@ const wprThemeRollback = theme => {
     const themeData = wprGetThemeData(theme);
 
     if (themeData !== null && themeData.hasRollback) {
-        const rollbackButtonHtml = `<a href="index.php?page=wp-rollback&type=theme&theme_file=${theme}&current_version=${themeData.version}&rollback_name=${encodeURIComponent(themeData.name)}&_wpnonce=${wprData.nonce}" class="button wpr-theme-rollback">${wprData.text_rollback_label}</a>`;
+        const rollbackButtonHtml = `<a href="index.php?page=wp-rollback&type=theme&theme_file=${theme}&current_version=${themeData.version}&rollback_name=${encodeURIComponent(themeData.name)}&_wpnonce=${wprData.rollback_nonce}" class="button wpr-theme-rollback">${wprData.text_rollback_label}</a>`;
         document.querySelector('.theme-wrap .theme-actions').insertAdjacentHTML('beforeend', rollbackButtonHtml);
     } else {
         document.querySelector('.theme-wrap .theme-actions').insertAdjacentHTML('beforeend', `<span class="no-rollback" style="position: absolute;left: 23px;bottom: 16px;font-size: 12px;font-style: italic;color: rgb(181, 181, 181);">${wprData.text_not_rollbackable}</span>`);

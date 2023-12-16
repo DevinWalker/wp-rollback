@@ -15,7 +15,7 @@ const AdminPage = () => {
     const queryArgs = getQueryArgs(window.location.search);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [rollbackVersion, setIsRollbackVersion] = useState(queryArgs.current_version);
-    const {rollbackNonce, adminUrl, referrer} = wprData;
+    const {adminUrl, referrer} = wprData;
 
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
@@ -261,7 +261,6 @@ const AdminPage = () => {
                             className={'wpr-button-submit'}>{__('Rollback', 'wp-rollback')}</Button>
                     <Button isSecondary onClick={() => window.location.href = referrer}
                             className={'wpr-button-cancel'}>{__('Cancel', 'wp-rollback')}</Button>
-
                 </div>
 
                 {isModalOpen && (
@@ -289,7 +288,7 @@ const AdminPage = () => {
                                 <tr>
                                     <td className="row-title">
                                         <label
-                                            htmlFor="tablecell">    {queryArgs.type === 'plugin' ? __('Plugin Name:', 'wp-rollback') : __('Theme Name:', 'wp-rollback')}
+                                            htmlFor="tablecell">{queryArgs.type === 'plugin' ? __('Plugin Name:', 'wp-rollback') : __('Theme Name:', 'wp-rollback')}
                                         </label>
                                     </td>
                                     <td><span className="wpr-plugin-name">{rollbackInfo.name}</span></td>
@@ -318,8 +317,8 @@ const AdminPage = () => {
 
                         <form name="check_for_rollbacks" className="rollback-form" action={adminUrl}>
                             <input type="hidden" name="page" value="wp-rollback" />
-                            <input type="hidden" name="wpr_rollback_nonce" value={rollbackNonce} />
-                            <input type="hidden" name="_wpnonce" value={rollbackNonce} />
+                            <input type="hidden" name="wpr_rollback_nonce" value={wprData.rollback_nonce} />
+                            <input type="hidden" name="_wpnonce" value={wprData.rollback_nonce} />
 
                             {queryArgs.type === 'plugin' && (
                                 <div>
