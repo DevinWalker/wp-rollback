@@ -126,6 +126,11 @@ $container-width: 802px;
 }
 
 
+.wpr-plugin-avatar-wrap {
+    width: 64px;
+    height: 64px;
+}
+
 .wpr-plugin-avatar {
     border: 1px solid $border-color;
     width: 64px;
@@ -144,12 +149,16 @@ $container-width: 802px;
         color: #FFF;
     }
 
-
     .wpr-pill-text {
         font-size: 14px;
         margin: 0;
         padding: 0;
     }
+
+    &__author {
+        margin-left: 8px;
+    }
+
 }
 
 // Right side of header / Meta Data
@@ -164,8 +173,13 @@ $container-width: 802px;
         font-weight: 500;
     }
 
+    .wpr-updater-info .dashicons {
+        font-size: 16px;
+    }
+
     .wpr-plugin-lastupdate {
-        font-size: 13px;
+        font-size: 14px;
+        font-style: italic;
     }
 
 }

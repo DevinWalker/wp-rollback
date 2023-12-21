@@ -54,6 +54,7 @@ const AdminPage = () => {
         }
     }, [rollbackInfo]);
 
+    // @TODO: Refactor to remove this function because the API should return false if the image doesn't exist.
     function checkImage(url, callback) {
         var img = new Image();
         img.onload = () => callback(true);
@@ -91,8 +92,6 @@ const AdminPage = () => {
         );
     }
 
-    console.log(rollbackInfo);
-
     function getTimeAgo(dateString) {
 
         // Convert to 24-hour format and remove 'GMT'
@@ -123,6 +122,8 @@ const AdminPage = () => {
         }
     }
 
+    console.log(rollbackInfo);
+
     return (
         <div className={'wpr-wrapper'}>
             <div className={'wpr-logo-wrap'}>
@@ -130,9 +131,9 @@ const AdminPage = () => {
                 <p className={'wpr-intro-text'}>{__('Select which version you would like to rollback to from the releases listed below.', '')}</p>
             </div>
             <div className="wpr-content-wrap">
-                {rollbackInfo.banners && queryArgs.type === 'plugin' && (
+                {rollbackInfo.banners && queryArgs.type === 'plugin' && (rollbackInfo.banners.high || rollbackInfo.banners.low) && (
                     <div className="wpr-content-banner">
-                        <img src={rollbackInfo.banners.high} width={800} height={'auto'}
+                        <img src={( false !== rollbackInfo.banners.high ? rollbackInfo.banners.high : rollbackInfo.banners.low )} width={800} height={'auto'}
                              className={'wpr-plugin-banner'}
                              alt={rollbackInfo.name} />
                     </div>
@@ -149,8 +150,11 @@ const AdminPage = () => {
                     )}
 
                     {imageUrl && queryArgs.type === 'plugin' && (
-                        <img src={imageUrl} width={64} height={64} className={'wpr-plugin-avatar'}
-                             alt={rollbackInfo.name} />
+                        <div className={'wpr-plugin-avatar-wrap'}>
+                            <img src={imageUrl} width={64} height={64} className={'wpr-plugin-avatar'}
+                                 alt={rollbackInfo.name} />
+                        </div>
+
                     )}
 
                     <div className={'wpr-plugin-info'}>
@@ -186,7 +190,7 @@ const AdminPage = () => {
                             <strong>{rollbackInfo.version}</strong></span></div>
 
                         {queryArgs.type === 'plugin' && (
-                            <div className={'wpr-pill'}>
+                            <div className={'wpr-pill wpr-pill__author'}>
                                 <span
                                     className={'wpr-pill-text'}>{__('Plugin author:', 'wp-rollback')}{' '}
                                     <span className={'wpr-pill__link'}
@@ -266,7 +270,7 @@ const AdminPage = () => {
                 {isModalOpen && (
 
                     <Modal
-                        title={`Are you sure you want to proceed?`}
+                        title={__('Are you sure you want to proceed?', 'wp-rollback')}
                         onRequestClose={closeModal}
                         disabled={(rollbackVersion === false)}
                         className={'wpr-modal'}
