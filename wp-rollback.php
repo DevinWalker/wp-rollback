@@ -51,28 +51,6 @@ if ( ! class_exists('WP_Rollback')) :
         private static $instance;
 
         /**
-         * WP_Rollback Settings Object
-         *
-         * @since 1.0
-         * @var object
-         */
-        public $wpr_settings;
-
-        /**
-         * Plugins API url.
-         *
-         * @var string
-         */
-        public $plugins_api = 'https://api.wordpress.org/plugins';
-
-        /**
-         * Themes repo url.
-         *
-         * @var string
-         */
-        public $themes_repo = 'https://themes.svn.wordpress.org';
-
-        /**
          * Plugin file.
          *
          * @var string
@@ -202,9 +180,6 @@ if ( ! class_exists('WP_Rollback')) :
         private function setup_plugin_vars()
         {
             $this->set_plugin_slug();
-
-            $svn_tags = $this->get_svn_tags('plugin', $this->plugin_slug);
-            $this->set_svn_versions_data($svn_tags);
         }
 
         /**
@@ -221,15 +196,7 @@ if ( ! class_exists('WP_Rollback')) :
             // Admin
             add_action('admin_enqueue_scripts', [self::$instance, 'scripts']);
             add_action('admin_menu', [self::$instance, 'admin_menu'], 20);
-            add_action(
-                'pre_current_active_plugins',
-                [
-                    self::$instance,
-                    'pre_current_active_plugins',
-                ],
-                20,
-                1
-            );
+            add_action('pre_current_active_plugins', [self::$instance, 'pre_current_active_plugins'], 20, 1);
             add_action('wp_ajax_is_wordpress_theme', [self::$instance, 'is_wordpress_theme']);
             add_action('set_site_transient_update_themes', [self::$instance, 'wpr_theme_updates_list']);
 
@@ -365,6 +332,7 @@ if ( ! class_exists('WP_Rollback')) :
                 'methods' => 'GET',
                 'callback' => function (WP_REST_Request $request) {
                     $fetcher = new WP_Rollback_API_Fetcher();
+
                     return $fetcher->fetch_plugin_or_theme_info($request['type'], $request['slug']);
                 },
                 'args' => [
@@ -453,70 +421,6 @@ if ( ! class_exists('WP_Rollback')) :
             wp_die();
         }
 
-
-        /**
-         * Get Subversion Tags
-         *
-         * cURLs wp.org repo to get the proper tags
-         *
-         * @param $type
-         * @param $slug
-         *
-         * @return null|string
-         */
-        public function get_svn_tags($type, $slug)
-        {
-            if ('plugin' === $type) {
-                $url = $this->plugins_api . '/info/1.0/' . $this->plugin_slug . '.json';
-            } elseif ('theme' === $type) {
-                $url = $this->themes_repo . '/' . $slug;
-            }
-
-            $response = wp_remote_get($url);
-
-            // Do we have an error?
-            if (wp_remote_retrieve_response_code($response) !== 200) {
-                return null;
-            }
-
-            // Nope: Return that bad boy
-            return wp_remote_retrieve_body($response);
-        }
-
-        /**
-         * Set SVN Version Data
-         *
-         * @param $html
-         *
-         * @return array|bool
-         */
-        public function set_svn_versions_data($html)
-        {
-            if ( ! $html) {
-                return false;
-            }
-
-            if (($json = json_decode($html)) && ($html != $json)) {
-                $versions = array_keys((array)$json->versions);
-            } else {
-                $DOM = new DOMDocument();
-                $DOM->loadHTML($html);
-                $versions = [];
-                $items = $DOM->getElementsByTagName('a');
-
-                foreach ($items as $item) {
-                    $href = str_replace('/', '', $item->getAttribute('href')); // Remove trailing slash
-
-                    if (strpos($href, 'http') === false && '..' !== $href) {
-                        $versions[] = $href;
-                    }
-                }
-            }
-
-            $this->versions = array_reverse($versions);
-
-            return $versions;
-        }
 
         /**
          * Versions Select
@@ -716,9 +620,9 @@ if ( ! class_exists('WP_Rollback')) :
 
 
         /**
-         * Theme Action Links
+         * Multisite: Theme Action Links
          *
-         * Adds a "rollback" link into the plugins listing page w/ appropriate query strings
+         * Adds a "rollback" link into the theme listing page w/ appropriate query strings for multisite installs.
          *
          * @param $actions
          * @param $theme WP_Theme
