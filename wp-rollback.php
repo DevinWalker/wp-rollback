@@ -214,7 +214,7 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
 
             // AJAX functions
             add_filter( 'wp_ajax_wpr_check_changelog', [ self::$instance, 'get_plugin_changelog' ] );
-            add_filter( 'wp_ajax_wpr_check_versions', [ self::$instance, 'get_svn_tags' ] );
+
         }
 
         /**

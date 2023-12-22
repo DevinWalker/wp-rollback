@@ -318,7 +318,6 @@ const AdminPage = () => {
                         <div className={'wpr-modal-notice notice notice-warning'}
                              dangerouslySetInnerHTML={{__html: __('<p><strong>Notice:</strong> We strongly recommend you <strong>create a complete backup</strong> of your WordPress files and database prior to performing a rollback. We are not responsible for any misuse, deletions, white screens, fatal errors, or any other issue resulting from the use of this plugin.</p>', 'wp-rollback')}} />
 
-
                         <form name="check_for_rollbacks" className="rollback-form" action={adminUrl}>
                             <input type="hidden" name="page" value="wp-rollback" />
                             <input type="hidden" name="wpr_rollback_nonce" value={wprData.rollback_nonce} />
