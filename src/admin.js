@@ -187,7 +187,7 @@ const AdminPage = () => {
 
                         <div className={'wpr-pill wpr-pill__black'}><span
                             className={'wpr-pill-text'}>{__('Installed version:', 'wp-rollback')}{' '}
-                            <strong>{rollbackInfo.version}</strong></span></div>
+                            <strong>{queryArgs.current_version}</strong></span></div>
 
                         {queryArgs.type === 'plugin' && (
                             <div className={'wpr-pill wpr-pill__author'}>
@@ -253,6 +253,9 @@ const AdminPage = () => {
                                                <span
                                                    className={'wpr-version-lineitem-current'}>{__('Currently Installed', 'wp-rollback')}</span>
                                            )}
+
+                                           <Button isLink onClick={openModal}
+                                                   className={'wpr-version-changelog'}>{__('Rollback', 'wp-rollback')}</Button>
                                        </label>
                                    </div>
                                </div>

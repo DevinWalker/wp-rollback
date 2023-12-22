@@ -209,11 +209,9 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
             // REST API
             add_action( 'rest_api_init', [ self::$instance, 'register_rest_route' ] );
 
+            // Filters
             add_filter( 'wp_prepare_themes_for_js', [ self::$instance, 'wpr_prepare_themes_js' ] );
             add_filter( 'plugin_action_links', [ self::$instance, 'plugin_action_links' ], 20, 4 );
-
-            // AJAX functions
-            add_filter( 'wp_ajax_wpr_check_changelog', [ self::$instance, 'get_plugin_changelog' ] );
 
         }
 
@@ -385,99 +383,6 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
                 // Rollback main screen.
                 echo '<div id="root-wp-rollback-admin"></div>';
             }
-        }
-
-
-        /**
-         * Get Plugin Changelog
-         *
-         * Uses WP.org API to get a plugin's
-         *
-         * @return bool|null
-         */
-        public function get_plugin_changelog() {
-            // Need slug to continue.
-            if ( ! isset( $_POST['slug'] ) || empty( $_POST['slug'] ) ) {
-                return false;
-            }
-
-            $url = 'https://api.wordpress.org/plugins/info/1.0/' . $_POST['slug'];
-
-            $response = wp_remote_get( $url );
-
-            // Do we have an error?
-            if ( wp_remote_retrieve_response_code( $response ) !== 200 ) {
-                return null;
-            }
-
-            $response = maybe_unserialize( wp_remote_retrieve_body( $response ) );
-
-            // Nope: Return that bad boy
-            echo $response->sections['changelog'];
-
-            wp_die();
-        }
-
-
-        /**
-         * Versions Select
-         *
-         * Outputs the version radio buttons to select a rollback; types = 'plugin' or 'theme'.
-         *
-         * @param $type
-         *
-         * @return bool|string
-         */
-        public function versions_select( $type ) {
-            if ( empty( $this->versions ) ) {
-                $versions_html = '<div class="wpr-error"><p>' . sprintf(
-                        __(
-                            'It appears there are no version to select. This is likely due to the %s author not using tags for their versions and only committing new releases to the repository trunk.',
-                            'wp-rollback'
-                        ),
-                        $type
-                    ) . '</p></div>';
-
-                return apply_filters( 'versions_failure_html', $versions_html );
-            }
-
-            $versions_html = '<ul class="wpr-version-list">';
-
-            usort( $this->versions, 'version_compare' );
-
-            $this->versions = array_reverse( $this->versions );
-
-            // Loop through versions and output in a radio list.
-            foreach ( $this->versions as $version ) {
-                $versions_html .= '<li class="wpr-version-li">';
-                $versions_html .= '<label><input type="radio" value="' . esc_attr(
-                        $version
-                    ) . '" name="' . $type . '_version">' . $version;
-
-                // Is this the current version?
-                if ( $version === $this->current_version ) {
-                    $versions_html .= '<span class="current-version">' . __(
-                            'Installed Version',
-                            'wp-rollback'
-                        ) . '</span>';
-                }
-
-                $versions_html .= '</label>';
-
-                // View changelog link.
-                if ( 'plugin' === $type ) {
-                    $versions_html .= ' <a href="#" class="wpr-changelog-link" data-version="' . $version . '">' . __(
-                            'View Changelog',
-                            'wp-rollback'
-                        ) . '</a>';
-                }
-
-                $versions_html .= '</li>';
-            }
-
-            $versions_html .= '</ul>';
-
-            return apply_filters( 'versions_select_html', $versions_html );
         }
 
         /**
