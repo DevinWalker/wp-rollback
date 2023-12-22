@@ -127,21 +127,29 @@ $container-width: 802px;
 
 
 .wpr-plugin-avatar-wrap {
-    width: 64px;
-    height: 64px;
+    width: 96px;
+    height: 96px;
 }
 
 .wpr-plugin-avatar {
     border: 1px solid $border-color;
-    width: 64px;
-    height: 64px;
+    width: 96px;
+    height: 96px;
 }
 
+
+// Pills displaying meta data
+
+.wpr-pill-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
 
 .wpr-pill {
     background: $color-light-blue;
     border-radius: 500px;
-    display: inline-block;
     padding: 6px 12px;
 
     &__black {
@@ -153,10 +161,6 @@ $container-width: 802px;
         font-size: 14px;
         margin: 0;
         padding: 0;
-    }
-
-    &__author {
-        margin-left: 8px;
     }
 
 }
@@ -180,6 +184,10 @@ $container-width: 802px;
     .wpr-plugin-lastupdate {
         font-size: 14px;
         font-style: italic;
+    }
+
+    .wpr-view-changelog {
+        margin-bottom: 25px;
     }
 
 }
@@ -286,6 +294,10 @@ $container-width: 802px;
     .dashicons {
         color: #dba617;
         margin-right: 8px;
+    }
+
+    &__changelog .dashicons {
+        color: #1d2327;
     }
 
     .wpr-modal-intro {

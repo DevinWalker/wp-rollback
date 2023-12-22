@@ -13,12 +13,15 @@ const AdminPage = () => {
     const [rollbackInfo, setRollbackInfo] = useState(false);
     const [imageUrl, setImageUrl] = useState(null);
     const queryArgs = getQueryArgs(window.location.search);
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+    const [isChangelogModalOpen, setIsChangelogModalOpen] = useState(false);
     const [rollbackVersion, setIsRollbackVersion] = useState(queryArgs.current_version);
     const {adminUrl, referrer} = wprData;
 
-    const openModal = () => setIsModalOpen(true);
-    const closeModal = () => setIsModalOpen(false);
+    const openConfirmModal = () => setIsConfirmModalOpen(true);
+    const openChangelogModal = () => setIsChangelogModalOpen(true);
+    const closeConfirmModal = () => setIsConfirmModalOpen(false);
+    const closeChangelogModal = () => setIsChangelogModalOpen(false);
 
     useEffect(() => {
         let restUrl = `/wp-json/wp-rollback/v1/fetch-info/?type=${queryArgs.type}&slug=${queryArgs.type === 'theme' ? queryArgs.theme_file : queryArgs.plugin_slug}`;
@@ -122,8 +125,6 @@ const AdminPage = () => {
         }
     }
 
-    console.log(rollbackInfo);
-
     return (
         <div className={'wpr-wrapper'}>
             <div className={'wpr-logo-wrap'}>
@@ -133,9 +134,11 @@ const AdminPage = () => {
             <div className="wpr-content-wrap">
                 {rollbackInfo.banners && queryArgs.type === 'plugin' && (rollbackInfo.banners.high || rollbackInfo.banners.low) && (
                     <div className="wpr-content-banner">
-                        <img src={( false !== rollbackInfo.banners.high ? rollbackInfo.banners.high : rollbackInfo.banners.low )} width={800} height={'auto'}
-                             className={'wpr-plugin-banner'}
-                             alt={rollbackInfo.name} />
+                        <img
+                            src={(false !== rollbackInfo.banners.high ? rollbackInfo.banners.high : rollbackInfo.banners.low)}
+                            width={800} height={'auto'}
+                            className={'wpr-plugin-banner'}
+                            alt={rollbackInfo.name} />
                     </div>
                 )}
 
@@ -151,7 +154,7 @@ const AdminPage = () => {
 
                     {imageUrl && queryArgs.type === 'plugin' && (
                         <div className={'wpr-plugin-avatar-wrap'}>
-                            <img src={imageUrl} width={64} height={64} className={'wpr-plugin-avatar'}
+                            <img src={imageUrl} width={96} height={96} className={'wpr-plugin-avatar'}
                                  alt={rollbackInfo.name} />
                         </div>
 
@@ -185,29 +188,30 @@ const AdminPage = () => {
                             </div>
                         )}
 
-                        <div className={'wpr-pill wpr-pill__black'}><span
-                            className={'wpr-pill-text'}>{__('Installed version:', 'wp-rollback')}{' '}
-                            <strong>{queryArgs.current_version}</strong></span></div>
+                        <div className={'wpr-pill-wrap'}>
+                            <div className={'wpr-pill wpr-pill__black'}><span
+                                className={'wpr-pill-text'}>{__('Installed version:', 'wp-rollback')}{' '}
+                                <strong>{queryArgs.current_version}</strong></span></div>
 
-                        {queryArgs.type === 'plugin' && (
-                            <div className={'wpr-pill wpr-pill__author'}>
-                                <span
-                                    className={'wpr-pill-text'}>{__('Plugin author:', 'wp-rollback')}{' '}
-                                    <span className={'wpr-pill__link'}
-                                          dangerouslySetInnerHTML={{
-                                              __html: rollbackInfo.author,
-                                          }}>
-                                 </span>
-                                </span>
-                            </div>
-                        )}
+                            {queryArgs.type === 'plugin' && (
+                                <div className={'wpr-pill wpr-pill__author'}>
+                                    <span className={'wpr-pill-text'}>{__('Plugin author:', 'wp-rollback')}{' '}
+                                        <span className={'wpr-pill__link'}
+                                              dangerouslySetInnerHTML={{
+                                                  __html: rollbackInfo.author,
+                                              }}>
+                                         </span>
+                                    </span>
+                                </div>
+                            )}
+                        </div>
 
                     </div>
 
                     <div className={'wpr-meta-wrap'}>
                         {queryArgs.type === 'theme' && (
                             <div className={'wpr-meta-item wpr-meta-item__author-wrap'}>
-                                <h3>Theme Author</h3>
+                                <h3>{__('Theme Author', 'wp-rollback')}</h3>
                                 <div className={'wpr-theme-author-inner'}>
                                     <img src={rollbackInfo.author.avatar} width={64} height={64} />
                                     <div className={'wpr-theme-author-info'}><a
@@ -219,7 +223,11 @@ const AdminPage = () => {
                         )}
 
                         {queryArgs.type === 'plugin' && (
-                            <div className={'wpr-meta-item wpr-meta-item__last-updated'}>
+                            <div className={'wpr-meta-wrap__plugins'}>
+                                <div className={'wpr-view-changelog'}>
+                                    <Button isSecondary onClick={openChangelogModal}
+                                            className={'wpr-version-changelog'}>{__('View Changelog', 'wp-rollback')}</Button>
+                                </div>
                                 <h3>Last Updated</h3>
                                 <div className={'wpr-updater-info'}>
                                     <Dashicon icon="clock" />
@@ -254,8 +262,6 @@ const AdminPage = () => {
                                                    className={'wpr-version-lineitem-current'}>{__('Currently Installed', 'wp-rollback')}</span>
                                            )}
 
-                                           <Button isLink onClick={openModal}
-                                                   className={'wpr-version-changelog'}>{__('Rollback', 'wp-rollback')}</Button>
                                        </label>
                                    </div>
                                </div>
@@ -264,22 +270,34 @@ const AdminPage = () => {
                 </div>
 
                 <div className={'wpr-button-wrap'}>
-                    <Button isPrimary onClick={openModal}
+                    <Button isPrimary onClick={openConfirmModal}
                             className={'wpr-button-submit'}>{__('Rollback', 'wp-rollback')}</Button>
                     <Button isSecondary onClick={() => window.location.href = referrer}
                             className={'wpr-button-cancel'}>{__('Cancel', 'wp-rollback')}</Button>
                 </div>
 
-                {isModalOpen && (
+                {isChangelogModalOpen && (
+                    <Modal
+                        title={__('Plugin Changelog', 'wp-rollback')}
+                        onRequestClose={closeChangelogModal}
+                        disabled={(rollbackVersion === false)}
+                        className={'wpr-modal wpr-modal__changelog'}
+                        icon={<Dashicon icon="hammer" />}
+                    >
+                        <div className={'wpr-modal-intro'} dangerouslySetInnerHTML={{
+                            __html: rollbackInfo.sections.changelog,
+                        }}></div>
+                    </Modal>
+                )}
 
+                {isConfirmModalOpen && (
                     <Modal
                         title={__('Are you sure you want to proceed?', 'wp-rollback')}
-                        onRequestClose={closeModal}
+                        onRequestClose={closeConfirmModal}
                         disabled={(rollbackVersion === false)}
                         className={'wpr-modal'}
                         icon={<Dashicon icon="warning" />}
                     >
-
                         <p className={'wpr-modal-intro'} dangerouslySetInnerHTML={{
                             __html: sprintf(
                                 // Translators: %1$s: Plugin name, %2$s: Rollback version
@@ -345,7 +363,7 @@ const AdminPage = () => {
 
                             <div className={'wpr-modal-button-wrap'}>
                                 <Button isPrimary type={'submit'}>{__('Rollback', 'wp-rollback')}</Button>
-                                <Button isSecondary onClick={closeModal}
+                                <Button isSecondary onClick={closeConfirmModal}
                                         className={'wpr-button-cancel'}>{__('Cancel', 'wp-rollback')}</Button>
                             </div>
                         </form>
