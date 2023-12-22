@@ -4,6 +4,7 @@ Tags: rollback, revert, downgrade, version, plugins, themes, version, versions, 
 Requires at least: 4.8
 Donate Link: https://givewp.com/
 Tested up to: 6.5
+Requires PHP: 7.4
 Stable tag: 2.0.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -36,7 +37,7 @@ WP Rollback was created to be as intuitive to the natural WordPress experience a
 
 **BUT!!**
 
-We do have documentation on the plugin [Github Wiki](https://github.com/impress-org/wp-rollback/wiki).
+We do have documentation on the plugin [GitHub Wiki](https://github.com/impress-org/wp-rollback/wiki).
 
 == Installation ==
 
