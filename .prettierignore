@@ -1,0 +1,12 @@
+# Ignore node modules
+node_modules/*
+
+# Ignore Composer packages
+vendor/*
+
+# Ignore Directories
+sample-data/*
+
+# Ignore Files
+package-lock.json
+composer.lock
