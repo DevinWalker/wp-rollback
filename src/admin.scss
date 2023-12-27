@@ -25,7 +25,19 @@ $container-width: 802px;
         color: $color-text;
     }
 
+    a {
+        outline: none;
+        box-shadow: none;
+
+        &:focus {
+            outline: none;
+            box-shadow: none;
+        }
+    }
+
 }
+
+// Header Logo Wrap
 
 .wpr-logo-wrap {
     max-width: 600px;
@@ -33,7 +45,17 @@ $container-width: 802px;
     text-align: center;
 
     h1 {
-        margin: 0 0 30px;
+        display: none;
+    }
+
+    img {
+        width: 250px;
+        height: auto;
+        margin: 0 0 25px;
+    }
+    p{
+        margin: 0;
+        padding: 0;
     }
 }
 
