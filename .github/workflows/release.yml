@@ -11,6 +11,7 @@ jobs:
             wp_org_slug: wp-rollback
             zip_name: wp-rollback
             text_domain: wp-rollback
+            install_composer_packages: false
         secrets:
             SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
             SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
