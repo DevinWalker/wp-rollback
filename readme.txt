@@ -1,4 +1,4 @@
-=== WP Rollback ===
+=== WP Rollback - Rollback Plugins and Themes ===
 Contributors: dlocc, drrobotnik, webdevmattcrom, givewp
 Tags: rollback, revert, downgrade, version, plugins, themes, version, versions, backup, backups, revision, revisions
 Requires at least: 4.8
@@ -84,29 +84,31 @@ The documentation for this plugin is located on our [Github Wiki](https://github
 
 = Can this plugin be translated? =
 
-Yes! All strings are internationalized and ready to be translated. Simply use the languages/wp-rollback.pot file and your favorite translation tool. Once finished, please reach out to us on the WordPress.org forums or better yet, submit a pull request on the [Github Repo](https://github.com/impress-org/wp-rollback/).
+Yes! All strings are internationalized and ready to be translated. Simply use the languages/wp-rollback.pot file and your favorite translation tool. Once finished, please reach out to us on the WordPress.org forums or better yet, submit a pull request on the [GitHub Repo](https://github.com/impress-org/wp-rollback/).
 
 == Screenshots ==
 
-1. The Rollback link on the Plugins page.
+1. Click the Rollback link on the Plugins page to begin a plugin rollback.
 
-2. The Rollback Versions page for a plugin.
+2. Select the version you would like to switch to on the version selection page.
 
-3. The Update plugin screen.
+3. Confirm you would like to proceed with the rollback.
 
-4. The Rollback button on the Theme Modal popup.
+4. The plugin will update to the selected version.
 
-5. The Rollback Versions page for a theme.
+5. Click the Rollback button on the Theme details screen to begin a theme rollback.
 
-6. The Rollback modal confirmation popup.
-
-7. The Update theme screen.
+5. The theme Rollback version selection page works exactly like the plugins page.
 
 == Upgrade Notice ==
 
 This is the first version of this plugin. It is a tool for your convenience. Rollback at your own risk!
 
 == Changelog ==
+
+= 2.0.0 =
+* New: Introducing version 2.0! ?? In this new version the UI is now better looking and snappier than ever. 
+* New: We've also added a new feature that allows you to rollback to the trunk version of a plugin or theme. This is useful for beta testing releases and more. 
 
 = 1.7.3 =
 * Fix: Resolved an issue with plugin rollbacks not correctly setting a filepath for the plugin being rolled back. Props to WP.org user @itmesteren for the fix.

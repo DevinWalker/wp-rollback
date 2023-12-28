@@ -47,8 +47,13 @@ const AdminPage = () => {
                         if ( exists ) {
                             setImageUrl( `https://ps.w.org/${rollbackInfo.slug}/assets/icon-128x128.jpg` );
                         } else {
-                            // TODO: Add fallback image
-                            setImageUrl( 'https://i.imgur.com/XqQZQZb.png' );
+                            checkImage( `https://ps.w.org/${rollbackInfo.slug}/assets/icon-128x128.gif`, ( exists ) => {
+                                if ( exists ) {
+                                    setImageUrl( `https://ps.w.org/${rollbackInfo.slug}/assets/icon-128x128.gif` );
+                                } else {
+                                    setImageUrl( wprData.avatarFallback );
+                                }
+                            } );
                         }
                     } );
                 }
@@ -123,6 +128,9 @@ const AdminPage = () => {
             return `${Math.floor( diffInSeconds / 31536000 )} years ago`;
         }
     }
+
+    console.log(rollbackInfo);
+    console.log(queryArgs);
 
     return (
         <div className={'wpr-wrapper'}>

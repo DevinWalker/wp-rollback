@@ -239,7 +239,8 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
                 wp_localize_script(
                     'wp-rollback-themes-script', 'wprData', [
                         'ajaxurl'               => admin_url(),
-                        'logo'                  => plugins_url( 'src/logo.svg', __FILE__ ),
+                        'logo'                  => plugins_url( 'src/assets/logo.svg', __FILE__ ),
+                        'avatarFallback'                  => plugins_url( 'src/assets/avatar-plugin-fallback.jpg', __FILE__ ),
                         'rollback_nonce'        => wp_create_nonce( 'wpr_rollback_nonce' ),
                         'apiNonce'              => wp_create_nonce( 'wpr_rollback_api_nonce' ),
                         'text_rollback_label'   => __( 'Rollback', 'wp-rollback' ),
@@ -271,7 +272,8 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
             wp_localize_script( 'wp-rollback-plugin-admin-editor', 'wprData', [
                 'rollback_nonce'          => wp_create_nonce( 'wpr_rollback_nonce' ),
                 'adminUrl'                => admin_url( 'index.php' ),
-                'logo'                  => plugins_url( 'src/logo.svg', __FILE__ ),
+                'logo'                  => plugins_url( 'src/assets/logo.svg', __FILE__ ),
+                'avatarFallback'                  => plugins_url( 'src/assets/avatar-plugin-fallback.jpg', __FILE__ ),
                 'referrer'                => wp_get_referer(),
                 'text_no_changelog_found' => isset( $_GET['plugin_slug'] ) ? sprintf(
                     __(
