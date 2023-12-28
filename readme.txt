@@ -107,8 +107,7 @@ This is the first version of this plugin. It is a tool for your convenience. Rol
 == Changelog ==
 
 = 2.0.0 =
-* New: Introducing version 2.0! ?? In this new version the UI is now better looking and snappier than ever. 
-* New: We've also added a new feature that allows you to rollback to the trunk version of a plugin or theme. This is useful for beta testing releases and more. 
+* New: Introducing version 2.0! In this new version the UI is now better looking and snappier than ever. The branding has also been updated to look and feel more modern.
 
 = 1.7.3 =
 * Fix: Resolved an issue with plugin rollbacks not correctly setting a filepath for the plugin being rolled back. Props to WP.org user @itmesteren for the fix.
