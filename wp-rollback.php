@@ -266,7 +266,8 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
                 $script_asset['dependencies'],
                 $script_asset['version']
             );
-            wp_set_script_translations( 'wp-rollback-plugin-block-editor', 'wp-rollback' );
+            // For i18n.
+            wp_set_script_translations( 'wp-rollback-plugin-admin-editor', 'wp-rollback', WP_ROLLBACK_PLUGIN_DIR . 'languages' );
 
             // Localize the script with vars for JS.
             wp_localize_script( 'wp-rollback-plugin-admin-editor', 'wprData', [
