@@ -5,7 +5,7 @@
  * Description: Rollback (or forward) any WordPress.org plugin, theme or block like a boss.
  * Author: WP Rollback
  * Author URI: https://wprollback.com/
- * Version: 2.0.1
+ * Version: 2.0.2
  * Text Domain: wp-rollback
  * Domain Path: /languages
  *

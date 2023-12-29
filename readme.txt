@@ -5,7 +5,7 @@ Requires at least: 4.8
 Donate Link: https://givewp.com/
 Tested up to: 6.5
 Requires PHP: 7.4
-Stable tag: 2.0.1
+Stable tag: 2.0.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -105,6 +105,9 @@ Yes! All strings are internationalized and ready to be translated. Simply use th
 This is the first version of this plugin. It is a tool for your convenience. Rollback at your own risk!
 
 == Changelog ==
+
+= 2.0.2 =
+* Fix: Resolves an issue with WP Rollback not being able to communicate to its REST API on WordPress subdirectory installs. Thanks, @emaralive for reporting the issue. 
 
 = 2.0.1 =
 * Fix: Resolved an issue with the POT file not properly being generated at release. This resolves the issue with the new UI not being able to be translated.
