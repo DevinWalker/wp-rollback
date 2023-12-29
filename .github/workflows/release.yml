@@ -10,7 +10,6 @@ jobs:
         name: New release
         runs-on: ubuntu-20.04
         environment: live
-        needs: tests
         steps:
             -   name: Checkout code
                 uses: actions/checkout@v2
@@ -49,15 +48,15 @@ jobs:
             -   name: Build assets for production
                 run: npm run build
 
-#            -   name: WordPress Plugin Deploy
-#                id: deploy
-#                uses: 10up/action-wordpress-plugin-deploy@stable
-#                with:
-#                    generate-zip: true
-#                env:
-#                    SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
-#                    SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
-#                    SLUG: wp-rollback
+            #            -   name: WordPress Plugin Deploy
+            #                id: deploy
+            #                uses: 10up/action-wordpress-plugin-deploy@stable
+            #                with:
+            #                    generate-zip: true
+            #                env:
+            #                    SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+            #                    SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+            #                    SLUG: wp-rollback
 
             -   name: Upload release asset
                 uses: actions/upload-release-asset@v1
