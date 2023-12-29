@@ -24,7 +24,10 @@ const AdminPage = () => {
     const closeChangelogModal = () => setIsChangelogModalOpen( false );
 
     useEffect( () => {
-        let restUrl = `/wp-json/wp-rollback/v1/fetch-info/?type=${queryArgs.type}&slug=${queryArgs.type === 'theme' ? queryArgs.theme_file : queryArgs.plugin_slug}`;
+
+        let restUrl = `${wprData.baseUrl}/wp-json/wp-rollback/v1/fetch-info/?type=${queryArgs.type}&slug=${queryArgs.type === 'theme' ? queryArgs.theme_file : queryArgs.plugin_slug}`;
+
+
 
         fetch( restUrl )
             .then( ( response ) => response.json() )
