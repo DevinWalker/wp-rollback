@@ -5,7 +5,7 @@ Requires at least: 4.8
 Donate Link: https://givewp.com/
 Tested up to: 6.5
 Requires PHP: 7.4
-Stable tag: 2.0.0
+Stable tag: 2.0.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -105,6 +105,9 @@ Yes! All strings are internationalized and ready to be translated. Simply use th
 This is the first version of this plugin. It is a tool for your convenience. Rollback at your own risk!
 
 == Changelog ==
+
+= 2.0.1 =
+* Fix: Resolved an issue with the POT file not properly being generated at release. This resolves the issue with the new UI not being able to be translated.
 
 = 2.0.0 =
 * New: Introducing version 2.0! In this new version the UI is now better looking and snappier than ever. The branding has also been updated to look and feel more modern.
