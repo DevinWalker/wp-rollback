@@ -278,6 +278,7 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
                 'avatarFallback'                  => plugins_url( 'src/assets/avatar-plugin-fallback.jpg', __FILE__ ),
                 'referrer'                => wp_get_referer(),
                 'text_no_changelog_found' => isset( $_GET['plugin_slug'] ) ? sprintf(
+                    // translators: %s Link.
                     __(
                         'Sorry, we couldn\'t find a changelog entry found for this version. Try checking the <a href="%s" target="_blank">developer log</a> on WP.org.',
                         'wp-rollback'
