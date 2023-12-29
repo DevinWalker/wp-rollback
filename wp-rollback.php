@@ -240,7 +240,7 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
                     'wp-rollback-themes-script', 'wprData', [
                         'ajaxurl'               => admin_url(),
                         'logo'                  => plugins_url( 'src/assets/logo.svg', __FILE__ ),
-                        'avatarFallback'                  => plugins_url( 'src/assets/avatar-plugin-fallback.jpg', __FILE__ ),
+                        'avatarFallback'        => plugins_url( 'src/assets/avatar-plugin-fallback.jpg', __FILE__ ),
                         'rollback_nonce'        => wp_create_nonce( 'wpr_rollback_nonce' ),
                         'apiNonce'              => wp_create_nonce( 'wpr_rollback_api_nonce' ),
                         'text_rollback_label'   => __( 'Rollback', 'wp-rollback' ),
@@ -273,9 +273,9 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
             wp_localize_script( 'wp-rollback-plugin-admin-editor', 'wprData', [
                 'rollback_nonce'          => wp_create_nonce( 'wpr_rollback_nonce' ),
                 'adminUrl'                => admin_url( 'index.php' ),
-                'baseUrl'                =>  get_site_url(),
-                'logo'                  => plugins_url( 'src/assets/logo.svg', __FILE__ ),
-                'avatarFallback'                  => plugins_url( 'src/assets/avatar-plugin-fallback.jpg', __FILE__ ),
+                'baseUrl'                 => get_site_url(),
+                'logo'                    => plugins_url( 'src/assets/logo.svg', __FILE__ ),
+                'avatarFallback'          => plugins_url( 'src/assets/avatar-plugin-fallback.jpg', __FILE__ ),
                 'referrer'                => wp_get_referer(),
                 'text_no_changelog_found' => isset( $_GET['plugin_slug'] ) ? sprintf(
                     __(
@@ -476,7 +476,7 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
 
             // If plugin is missing package data do not output Rollback option.
             if ( ! isset( $plugin_data['package'] ) ||
-                 (strpos($plugin_data['package'], 'downloads.wordpress.org') === false) ) {
+                 ( strpos( $plugin_data['package'], 'downloads.wordpress.org' ) === false ) ) {
                 return $actions;
             }
 
