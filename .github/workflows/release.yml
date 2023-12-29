@@ -35,7 +35,7 @@ jobs:
                 run: |
                     npm install -g npm@7
                     npm ci
-                    npm run dev
+                    npm run start
 
                 # In order to run this WordPress also needs to be installed
             -   name: Generate pot file
