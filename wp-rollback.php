@@ -475,10 +475,8 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
             $plugin_data = apply_filters( 'wpr_plugin_data', $plugin_data );
 
             // If plugin is missing package data do not output Rollback option.
-            if ( ! isset( $plugin_data['package'] ) || ! str_contains(
-                    $plugin_data['package'],
-                    'downloads.wordpress.org'
-                ) ) {
+            if ( ! isset( $plugin_data['package'] ) ||
+                 (strpos($plugin_data['package'], 'downloads.wordpress.org') === false) ) {
                 return $actions;
             }
 
