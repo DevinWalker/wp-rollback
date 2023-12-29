@@ -149,7 +149,7 @@ const AdminPage = () => {
                     <a href={'https://wprollback.com/'} target={'_blank'}><img src={wprData.logo} width={250} height={'auto'} alt={'WP Rollback'}/></a>
                 </div>
 
-                <p className={'wpr-intro-text'}>{__( 'Select which version you would like to rollback to from the releases listed below.', '' )}</p>
+                <p className={'wpr-intro-text'}>{__( 'Select which version you would like to rollback to from the releases listed below.', 'wp-rollback' )}</p>
             </div>
             <div className="wpr-content-wrap">
                 {rollbackInfo.banners && queryArgs.type === 'plugin' && ( rollbackInfo.banners.high || rollbackInfo.banners.low ) && (
