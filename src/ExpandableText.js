@@ -1,5 +1,6 @@
 import {Dashicon} from '@wordpress/components';
 import {useState} from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
 
 const ExpandableText = ({ text }) => {
     const [isExpanded, setIsExpanded] = useState(false);
@@ -21,12 +22,12 @@ const ExpandableText = ({ text }) => {
                         {isExpanded ? (
                             <span>
                                 <Dashicon icon={'arrow-up'} />
-                                {' read less'}
+                                {__( 'Read less', 'wp-rollback' )}
                             </span>
                         ) : (
                             <span>
                                 <Dashicon icon={'arrow-down'} />
-                                {' read more'}
+                                {__( 'Read more', 'wp-rollback' )}
                             </span>
                         )}
                     </span>
