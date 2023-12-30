@@ -4,6 +4,8 @@ import { Button, Dashicon, Modal } from '@wordpress/components';
 
 const ConfirmModal = ( props ) => {
 
+    const rollbackName = props.rollbackInfo.name ?? props.rollbackInfo.Name;
+
     return(
         <Modal
             title={__( 'Are you sure you want to proceed?', 'wp-rollback' )}
@@ -16,7 +18,7 @@ const ConfirmModal = ( props ) => {
                 __html: sprintf(
                     // Translators: %1$s: Plugin name, %2$s: Rollback version
                     __( 'You are about to rollback %1$s to version %2$s. Please confirm you would like to proceed.', 'wp-rollback' ),
-                    `<strong>${props.rollbackInfo.name}</strong>`,
+                    `<strong>${rollbackName}</strong>`,
                     `<strong>${props.rollbackVersion}</strong>`,
                 ),
             }}></p>
@@ -30,7 +32,7 @@ const ConfirmModal = ( props ) => {
                                 htmlFor="tablecell">{props.queryArgs.type === 'plugin' ? __( 'Plugin Name:', 'wp-rollback' ) : __( 'Theme Name:', 'wp-rollback' )}
                             </label>
                         </td>
-                        <td><span className="wpr-plugin-name">{props.rollbackInfo.name}</span></td>
+                        <td><span className="wpr-plugin-name">{rollbackName}</span></td>
                     </tr>
                     <tr className="alternate">
                         <td className="row-title">

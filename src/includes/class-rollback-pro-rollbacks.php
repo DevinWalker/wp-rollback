@@ -54,12 +54,18 @@ class WP_Rollback_Pro_Rollbacks {
 
     public function get_rollback_pro_versions($plugin_slug) {
         $rollback_dir = $this->get_rollback_storage_directory();
-        $versions = array();
+        $versions = [];
         foreach (glob($rollback_dir . '/' . $plugin_slug . '-*.zip') as $filename) {
-            $versions[] = basename($filename, '.zip');
+            // Extract the file name without the extension
+            $file_name_without_extension = basename($filename, '.zip');
+
+            // Remove the plugin slug and trailing hyphen to isolate the version number
+            $version = str_replace($plugin_slug . '-', '', $file_name_without_extension);
+
+            // Add the version number to the array
+            $versions[] = $version;
         }
         return $versions;
-
     }
 
     public function create_rollback_directory() {
