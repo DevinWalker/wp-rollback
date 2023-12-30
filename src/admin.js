@@ -1,7 +1,7 @@
 import './admin.scss';
 import { Button, Dashicon, Modal, Spinner } from '@wordpress/components';
 import { render, useEffect, useState } from '@wordpress/element';
-import { __, sprintf } from '@wordpress/i18n';
+import { __, _n, sprintf } from '@wordpress/i18n';
 import domReady from '@wordpress/dom-ready';
 import { decodeEntities } from '@wordpress/html-entities';
 import { getQueryArgs } from '@wordpress/url';
@@ -118,17 +118,23 @@ const AdminPage = () => {
         const diffInSeconds = Math.floor( ( now - date ) / 1000 );
 
         if ( diffInSeconds < 60 ) {
-            return `${diffInSeconds} seconds ago`;
+            // translators: %s Number of seconds.
+            return sprintf( _n( '%s second ago', '%s seconds ago', diffInSeconds, 'wp-rollback' ), diffInSeconds );
         } else if ( diffInSeconds < 3600 ) {
-            return `${Math.floor( diffInSeconds / 60 )} minutes ago`;
+            // translators: %s Number of minutes.
+            return sprintf( _n( '%s minute ago', '%s minutes ago', Math.floor( diffInSeconds / 60 ), 'wp-rollback' ), Math.floor( diffInSeconds / 60 ) );
         } else if ( diffInSeconds < 86400 ) {
-            return `${Math.floor( diffInSeconds / 3600 )} hours ago`;
+            // translators: %s Number of hours.
+            return sprintf( _n( '%s hour ago', '%s hours ago', Math.floor( diffInSeconds / 3600 ), 'wp-rollback' ), Math.floor( diffInSeconds / 3600 ) );
         } else if ( diffInSeconds < 2592000 ) { // 30 days
-            return `${Math.floor( diffInSeconds / 86400 )} days ago`;
+            // translators: %s Number of days.
+            return sprintf( _n( '%s day ago', '%s days ago', Math.floor( diffInSeconds / 86400 ), 'wp-rollback' ), Math.floor( diffInSeconds / 86400 ) );
         } else if ( diffInSeconds < 31536000 ) { // 365 days
-            return `${Math.floor( diffInSeconds / 2592000 )} months ago`;
+            // translators: %s Number of monthes.
+            return sprintf( _n( '%s month ago', '%s months ago', Math.floor( diffInSeconds / 2592000 ), 'wp-rollback' ), Math.floor( diffInSeconds / 2592000 ) );
         } else {
-            return `${Math.floor( diffInSeconds / 31536000 )} years ago`;
+            // translators: %s Number of years.
+            return sprintf( _n( '%s year ago', '%s years ago', Math.floor( diffInSeconds / 31536000 ), 'wp-rollback' ), Math.floor( diffInSeconds / 31536000 ) );
         }
     }
 
@@ -143,7 +149,7 @@ const AdminPage = () => {
                     <a href={'https://wprollback.com/'} target={'_blank'}><img src={wprData.logo} width={250} height={'auto'} alt={'WP Rollback'}/></a>
                 </div>
 
-                <p className={'wpr-intro-text'}>{__( 'Select which version you would like to rollback to from the releases listed below.', '' )}</p>
+                <p className={'wpr-intro-text'}>{__( 'Select which version you would like to rollback to from the releases listed below.', 'wp-rollback' )}</p>
             </div>
             <div className="wpr-content-wrap">
                 {rollbackInfo.banners && queryArgs.type === 'plugin' && ( rollbackInfo.banners.high || rollbackInfo.banners.low ) && (
@@ -179,6 +185,7 @@ const AdminPage = () => {
                             {queryArgs.type === 'plugin' && (
                                 <a href={`https://wordpress.org/plugins/${rollbackInfo.slug}/`} target={'_blank'}
                                    className={'wpr-heading-link'}
+                                   // translators: %s Plugin or Theme name.
                                    alt={sprintf( __( 'View %s on WordPress.org', 'wp-rollback' ), rollbackInfo.name )}
                                 >
                                     {decodeEntities( rollbackInfo.name )}
@@ -188,6 +195,7 @@ const AdminPage = () => {
                             {queryArgs.type === 'theme' && (
                                 <a href={rollbackInfo.homepage} target={'_blank'}
                                    className={'wpr-heading-link'}
+                                   // translators: %s Plugin or Theme name.
                                    alt={sprintf( __( 'View %s on WordPress.org', 'wp-rollback' ), rollbackInfo.name )}>
                                     {decodeEntities( rollbackInfo.name )}
                                     <Dashicon icon="external"/>
@@ -242,7 +250,7 @@ const AdminPage = () => {
                                     <Button isSecondary onClick={openChangelogModal}
                                             className={'wpr-version-changelog'}>{__( 'View Changelog', 'wp-rollback' )}</Button>
                                 </div>
-                                <h3>Last Updated</h3>
+                                <h3>{__( 'Last Updated', 'wp-rollback' )}</h3>
                                 <div className={'wpr-updater-info'}>
                                     <Dashicon icon="clock"/>
                                     <span
