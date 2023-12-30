@@ -338,7 +338,7 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
                 'callback' => function ( WP_REST_Request $request ) {
                     $fetcher = new WP_Rollback_API_Fetcher();
 
-                    return $fetcher->fetch_plugin_or_theme_info( $request['type'], $request['slug'] );
+                    return $fetcher->fetch_plugin_or_theme_info( $request );
                 },
                 'args'     => [
                     'type' => [
@@ -478,10 +478,10 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
             $plugin_data = apply_filters( 'wpr_plugin_data', $plugin_data );
 
             // If plugin is missing package data do not output Rollback option.
-            if ( ! isset( $plugin_data['package'] ) ||
-                 ( strpos( $plugin_data['package'], 'downloads.wordpress.org' ) === false ) ) {
-                return $actions;
-            }
+//            if ( ! isset( $plugin_data['package'] ) ||
+//                 ( strpos( $plugin_data['package'], 'downloads.wordpress.org' ) === false ) ) {
+//                return $actions;
+//            }
 
             // Must have version.
             if ( ! isset( $plugin_data['Version'] ) ) {

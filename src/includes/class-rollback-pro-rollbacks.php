@@ -30,7 +30,7 @@ class WP_Rollback_Pro_Rollbacks {
         }
 
         $plugin_data = get_plugin_data( $path );
-        $version = isset( $plugin_data['Version'] ) ? $plugin_data['Version'] : 'unknown';
+        $version     = isset( $plugin_data['Version'] ) ? $plugin_data['Version'] : 'unknown';
 
         $this->create_rollback_directory();
         $rollback_dir = wp_upload_dir()['basedir'] . '/wp-rollback';
@@ -46,9 +46,24 @@ class WP_Rollback_Pro_Rollbacks {
         return $options;
     }
 
-    public function create_rollback_directory() {
+    public function get_rollback_storage_directory(): string {
         $upload_dir   = wp_upload_dir();
-        $rollback_dir = $upload_dir['basedir'] . '/wp-rollback';
+
+        return $upload_dir['basedir'] . '/wp-rollback';
+    }
+
+    public function get_rollback_pro_versions($plugin_slug) {
+        $rollback_dir = $this->get_rollback_storage_directory();
+        $versions = array();
+        foreach (glob($rollback_dir . '/' . $plugin_slug . '-*.zip') as $filename) {
+            $versions[] = basename($filename, '.zip');
+        }
+        return $versions;
+
+    }
+
+    public function create_rollback_directory() {
+        $rollback_dir = $this->get_rollback_storage_directory();
         if ( ! file_exists( $rollback_dir ) ) {
             wp_mkdir_p( $rollback_dir );
         }
