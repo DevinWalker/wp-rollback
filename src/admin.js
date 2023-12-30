@@ -6,6 +6,7 @@ import domReady from '@wordpress/dom-ready';
 import { decodeEntities } from '@wordpress/html-entities';
 import { getQueryArgs } from '@wordpress/url';
 import ExpandableText from './ExpandableText';
+import RollbackSubmit from './RollbackSubmit';
 
 const AdminPage = () => {
 
