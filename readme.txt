@@ -5,7 +5,7 @@ Requires at least: 4.8
 Donate Link: https://givewp.com/
 Tested up to: 6.5
 Requires PHP: 7.4
-Stable tag: 2.0.3
+Stable tag: 2.0.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -43,8 +43,8 @@ We do have documentation on the plugin [GitHub Wiki](https://github.com/impress-
 
 = Minimum Requirements =
 
-* WordPress 4.8 or greater
-* PHP version 5.3 or greater
+* WordPress 5.5 or greater
+* PHP version 7.4 or greater
 * MySQL version 5.0 or greater
 
 = Automatic installation =
@@ -105,6 +105,10 @@ Yes! All strings are internationalized and ready to be translated. Simply use th
 This is the first version of this plugin. It is a tool for your convenience. Rollback at your own risk!
 
 == Changelog ==
+
+= 2.0.4 =
+* Fix: Resolved issue REST route not including proper permission callback which created a PHP notice. Thanks, @rom1our for submitting the issue.
+* Fix: Resolve issue with REST API and multisite installs not being able to properly communicate with the endpoint.
 
 = 2.0.3 =
 * Fix: A few additional strings in JavaScript needed to be internationalized. Thanks, @pedro-mendonca for contributing the fix.
