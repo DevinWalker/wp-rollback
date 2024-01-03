@@ -63,6 +63,7 @@ const wprThemeRollback = theme => {
 
 const wprGetThemeData = theme => {
     const themeData = wp.themes?.data?.themes;
+
     if (!Array.isArray(themeData)) {
         console.error('Invalid theme data');
         return null;

@@ -5,7 +5,7 @@
  * Description: Rollback (or forward) any WordPress.org plugin, theme or block like a boss.
  * Author: WP Rollback
  * Author URI: https://wprollback.com/
- * Version: 2.0.3
+ * Version: 2.0.4
  * Text Domain: wp-rollback
  * Domain Path: /languages
  *
@@ -188,13 +188,7 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
         private function hooks(): void {
 
             // Multisite compatibility: only loads on main site.
-            if ( is_network_admin() ) {
-                $this->multisite_compatibility = new WP_Rollback_Multisite_Compatibility( $this );
-            }
-
-            if ( is_multisite() && ! is_network_admin() ) {
-                return;
-            }
+            $this->multisite_compatibility = new WP_Rollback_Multisite_Compatibility( $this );
 
             // i18n
             add_action( 'plugins_loaded', [ self::$instance, 'load_textdomain' ] );
@@ -226,12 +220,14 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
          * @return void
          */
         public function scripts( $hook ): void {
-            if ( 'themes.php' === $hook ) {
+
+            // Theme's listing page JS
+            if ( 'themes.php' === $hook && !is_multisite() ) {
                 $theme_script_asset = require WP_ROLLBACK_PLUGIN_DIR . '/build/themes.asset.php';
 
                 wp_enqueue_script(
                     'wp-rollback-themes-script',
-                    plugin_dir_url( __FILE__ ) . 'build/themes.js',
+                    WP_ROLLBACK_PLUGIN_URL . 'build/themes.js',
                     $theme_script_asset['dependencies'],
                     $theme_script_asset['version']
                 );
@@ -239,10 +235,9 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
                 wp_localize_script(
                     'wp-rollback-themes-script', 'wprData', [
                         'ajaxurl'               => admin_url(),
-                        'logo'                  => plugins_url( 'src/assets/logo.svg', __FILE__ ),
-                        'avatarFallback'                  => plugins_url( 'src/assets/avatar-plugin-fallback.jpg', __FILE__ ),
                         'rollback_nonce'        => wp_create_nonce( 'wpr_rollback_nonce' ),
-                        'apiNonce'              => wp_create_nonce( 'wpr_rollback_api_nonce' ),
+                        'logo'                  => plugins_url( 'src/assets/logo.svg', WP_ROLLBACK_PLUGIN_FILE ),
+                        'avatarFallback'        => plugins_url( 'src/assets/avatar-plugin-fallback.jpg', WP_ROLLBACK_PLUGIN_FILE ),
                         'text_rollback_label'   => __( 'Rollback', 'wp-rollback' ),
                         'text_not_rollbackable' => __(
                             'No Rollback Available: This is a non-WordPress.org theme.',
@@ -272,13 +267,14 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
             // Localize the script with vars for JS.
             wp_localize_script( 'wp-rollback-plugin-admin-editor', 'wprData', [
                 'rollback_nonce'          => wp_create_nonce( 'wpr_rollback_nonce' ),
+                'restApiNonce'            => wp_create_nonce( 'wp_rest' ),
                 'adminUrl'                => admin_url( 'index.php' ),
-                'baseUrl'                =>  get_site_url(),
-                'logo'                  => plugins_url( 'src/assets/logo.svg', __FILE__ ),
-                'avatarFallback'                  => plugins_url( 'src/assets/avatar-plugin-fallback.jpg', __FILE__ ),
+                'restUrl'                 => esc_url_raw( rest_url() ),
+                'logo'                    => plugins_url( 'src/assets/logo.svg', WP_ROLLBACK_PLUGIN_FILE ),
+                'avatarFallback'          => plugins_url( 'src/assets/avatar-plugin-fallback.jpg', WP_ROLLBACK_PLUGIN_FILE ),
                 'referrer'                => wp_get_referer(),
                 'text_no_changelog_found' => isset( $_GET['plugin_slug'] ) ? sprintf(
-                    // translators: %s Link.
+                // translators: %s Link.
                     __(
                         'Sorry, we couldn\'t find a changelog entry found for this version. Try checking the <a href="%s" target="_blank">developer log</a> on WP.org.',
                         'wp-rollback'
@@ -332,13 +328,16 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
             include WP_ROLLBACK_PLUGIN_DIR . '/src/class-rollback-api-requests.php';
 
             register_rest_route( 'wp-rollback/v1', '/fetch-info/', [
-                'methods'  => 'GET',
-                'callback' => function ( WP_REST_Request $request ) {
+                'methods'             => 'GET',
+                'callback'            => function ( WP_REST_Request $request ) {
                     $fetcher = new WP_Rollback_API_Fetcher();
 
                     return $fetcher->fetch_plugin_or_theme_info( $request['type'], $request['slug'] );
                 },
-                'args'     => [
+                'permission_callback' => function () {
+                    return current_user_can( 'update_plugins' );
+                },
+                'args'                => [
                     'type' => [
                         'required' => true,
                         'type'     => 'string',
@@ -472,12 +471,17 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
          * @return array $actions
          */
         public function plugin_action_links( $actions, $plugin_file, $plugin_data, $context ): array {
+
+            if ( is_multisite() && !is_network_admin()) {
+                return $actions;
+            }
+
             // Filter for other devs.
             $plugin_data = apply_filters( 'wpr_plugin_data', $plugin_data );
 
             // If plugin is missing package data do not output Rollback option.
             if ( ! isset( $plugin_data['package'] ) ||
-                 (strpos($plugin_data['package'], 'downloads.wordpress.org') === false) ) {
+                 ( strpos( $plugin_data['package'], 'downloads.wordpress.org' ) === false ) ) {
                 return $actions;
             }
 
@@ -487,7 +491,7 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
             }
 
             // Base rollback URL
-            $rollback_url = admin_url( 'index.php' );
+            $rollback_url = is_network_admin() ? network_admin_url( 'index.php' ) : admin_url( 'index.php' );
 
             $rollback_url = add_query_arg(
                 apply_filters(
@@ -683,7 +687,7 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
 
             // Loop through themes and provide a 'hasRollback' boolean key for JS.
             foreach ( $prepared_themes as $key => $value ) {
-                $themes[ $key ]                = $prepared_themes[ $key ];
+                $themes[ $key ]                = $value;
                 $themes[ $key ]['hasRollback'] = isset( $rollbacks[ $key ] );
             }
 
