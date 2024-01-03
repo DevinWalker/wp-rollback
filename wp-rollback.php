@@ -188,13 +188,7 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
         private function hooks(): void {
 
             // Multisite compatibility: only loads on main site.
-            if ( is_network_admin() ) {
-                $this->multisite_compatibility = new WP_Rollback_Multisite_Compatibility( $this );
-            }
-
-            if ( is_multisite() && ! is_network_admin() ) {
-                return;
-            }
+            $this->multisite_compatibility = new WP_Rollback_Multisite_Compatibility( $this );
 
             // i18n
             add_action( 'plugins_loaded', [ self::$instance, 'load_textdomain' ] );
@@ -228,7 +222,7 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
         public function scripts( $hook ): void {
 
             // Theme's listing page JS
-            if ( 'themes.php' === $hook ) {
+            if ( 'themes.php' === $hook && !is_multisite() ) {
                 $theme_script_asset = require WP_ROLLBACK_PLUGIN_DIR . '/build/themes.asset.php';
 
                 wp_enqueue_script(
@@ -477,6 +471,11 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
          * @return array $actions
          */
         public function plugin_action_links( $actions, $plugin_file, $plugin_data, $context ): array {
+
+            if ( !is_network_admin()) {
+                return $actions;
+            }
+
             // Filter for other devs.
             $plugin_data = apply_filters( 'wpr_plugin_data', $plugin_data );
 
@@ -492,7 +491,7 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
             }
 
             // Base rollback URL
-            $rollback_url = admin_url( 'index.php' );
+            $rollback_url = is_network_admin() ? network_admin_url( 'index.php' ) : admin_url( 'index.php' );
 
             $rollback_url = add_query_arg(
                 apply_filters(
@@ -688,7 +687,7 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
 
             // Loop through themes and provide a 'hasRollback' boolean key for JS.
             foreach ( $prepared_themes as $key => $value ) {
-                $themes[ $key ]                = $prepared_themes[ $key ];
+                $themes[ $key ]                = $value;
                 $themes[ $key ]['hasRollback'] = isset( $rollbacks[ $key ] );
             }
 

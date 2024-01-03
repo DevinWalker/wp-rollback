@@ -140,9 +140,6 @@ const AdminPage = () => {
         }
     }
 
-    console.log(rollbackInfo);
-    console.log(queryArgs);
-
     return (
         <div className={'wpr-wrapper'}>
             <div className={'wpr-logo-wrap'}>
