@@ -23,8 +23,6 @@ class WP_Rollback_API_Fetcher {
             "https://api.wordpress.org/themes/info/1.2/?action=theme_information&request[slug]=" . $request['slug'] . "&request[fields][versions]=1" :
             "https://api.wordpress.org/plugins/info/1.2/?action=plugin_information&request[slug]=" . $request['slug'] . "&request[fields][versions]=1";
 
-        error_log( print_r( $url, true ), 3, __DIR__ . '/debug_custom.log' );
-
         $response = wp_remote_get( $url );
         if ( is_wp_error( $response ) ) {
             return false;
