@@ -472,7 +472,7 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
          */
         public function plugin_action_links( $actions, $plugin_file, $plugin_data, $context ): array {
 
-            if ( !is_network_admin()) {
+            if ( is_multisite() && !is_network_admin()) {
                 return $actions;
             }
 
