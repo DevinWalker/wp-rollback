@@ -25,11 +25,13 @@ const AdminPage = () => {
 
     useEffect( () => {
 
-        let restUrl = `${wprData.baseUrl}/wp-json/wp-rollback/v1/fetch-info/?type=${queryArgs.type}&slug=${queryArgs.type === 'theme' ? queryArgs.theme_file : queryArgs.plugin_slug}`;
+        let restUrl = `${wprData.restUrl}wp-rollback/v1/fetch-info/?type=${queryArgs.type}&slug=${queryArgs.type === 'theme' ? queryArgs.theme_file : queryArgs.plugin_slug}`;
 
+        const headers = new Headers({
+            'X-WP-Nonce': wprData.restApiNonce // Assuming nonce is stored in wprData.nonce
+        });
 
-
-        fetch( restUrl )
+        fetch( restUrl, { headers: headers } )
             .then( ( response ) => response.json() )
             .then( ( data ) => {
                 setRollbackInfo( data );
@@ -38,7 +40,7 @@ const AdminPage = () => {
             .catch( ( error ) => {
                 console.error( 'Error fetching data:', error );
             } );
-    }, [] );
+    }, [wprData] );
 
     useEffect( () => {
         if ( rollbackInfo && rollbackInfo.slug ) {  // Check if rollbackInfo is loaded and has a slug
