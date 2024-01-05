@@ -343,7 +343,9 @@ const AdminPage = () => {
                                             htmlFor="tablecell">{queryArgs.type === 'plugin' ? __( 'Plugin Name:', 'wp-rollback' ) : __( 'Theme Name:', 'wp-rollback' )}
                                         </label>
                                     </td>
-                                    <td><span className="wpr-plugin-name">{rollbackInfo.name}</span></td>
+                                    <td><span className="wpr-plugin-name" dangerouslySetInnerHTML={{
+                                        __html:rollbackInfo.name
+                                    }}></span></td>
                                 </tr>
                                 <tr className="alternate">
                                     <td className="row-title">
