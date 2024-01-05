@@ -263,10 +263,14 @@ const AdminPage = () => {
 
                 <div className={'wpr-versions-container'}>
                     {Object.keys( rollbackInfo.versions )
-                        .sort( ( a, b ) => b.localeCompare( a, undefined, {
-                            numeric    : true,
-                            sensitivity: 'base',
-                        } ) ) // reverse the order
+                        .sort((a, b) => {
+                            if (a === 'trunk') return 1; // Always places 'trunk' at the end
+                            if (b === 'trunk') return -1; // Always places 'trunk' at the end
+                            return b.localeCompare(a, undefined, {
+                                numeric: true,
+                                sensitivity: 'base',
+                            });
+                        })
                         .map( ( version, index ) => (
                             <div key={index}
                                  className={`wpr-version-wrap ${rollbackVersion === version ? 'wpr-active-row' : ''}`}>
