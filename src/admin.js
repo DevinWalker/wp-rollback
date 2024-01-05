@@ -1,11 +1,12 @@
 import './admin.scss';
-import { Button, Dashicon, Modal, Spinner } from '@wordpress/components';
+import { Button, Dashicon, Modal, Popover, Spinner } from '@wordpress/components';
 import { render, useEffect, useState } from '@wordpress/element';
 import { __, _n, sprintf } from '@wordpress/i18n';
 import domReady from '@wordpress/dom-ready';
 import { decodeEntities } from '@wordpress/html-entities';
 import { getQueryArgs } from '@wordpress/url';
 import ExpandableText from './ExpandableText';
+import TrunkPopover from './TrunkPopover';
 
 const AdminPage = () => {
 
@@ -27,9 +28,9 @@ const AdminPage = () => {
 
         let restUrl = `${wprData.restUrl}wp-rollback/v1/fetch-info/?type=${queryArgs.type}&slug=${queryArgs.type === 'theme' ? queryArgs.theme_file : queryArgs.plugin_slug}`;
 
-        const headers = new Headers({
-            'X-WP-Nonce': wprData.restApiNonce // Assuming nonce is stored in wprData.nonce
-        });
+        const headers = new Headers( {
+            'X-WP-Nonce': wprData.restApiNonce, // Assuming nonce is stored in wprData.nonce
+        } );
 
         fetch( restUrl, { headers: headers } )
             .then( ( response ) => response.json() )
@@ -40,7 +41,7 @@ const AdminPage = () => {
             .catch( ( error ) => {
                 console.error( 'Error fetching data:', error );
             } );
-    }, [wprData] );
+    }, [ wprData ] );
 
     useEffect( () => {
         if ( rollbackInfo && rollbackInfo.slug ) {  // Check if rollbackInfo is loaded and has a slug
@@ -184,7 +185,7 @@ const AdminPage = () => {
                             {queryArgs.type === 'plugin' && (
                                 <a href={`https://wordpress.org/plugins/${rollbackInfo.slug}/`} target={'_blank'}
                                    className={'wpr-heading-link'}
-                                   // translators: %s Plugin or Theme name.
+                                    // translators: %s Plugin or Theme name.
                                    alt={sprintf( __( 'View %s on WordPress.org', 'wp-rollback' ), rollbackInfo.name )}
                                 >
                                     {decodeEntities( rollbackInfo.name )}
@@ -194,7 +195,7 @@ const AdminPage = () => {
                             {queryArgs.type === 'theme' && (
                                 <a href={rollbackInfo.homepage} target={'_blank'}
                                    className={'wpr-heading-link'}
-                                   // translators: %s Plugin or Theme name.
+                                    // translators: %s Plugin or Theme name.
                                    alt={sprintf( __( 'View %s on WordPress.org', 'wp-rollback' ), rollbackInfo.name )}>
                                     {decodeEntities( rollbackInfo.name )}
                                     <Dashicon icon="external"/>
@@ -262,7 +263,6 @@ const AdminPage = () => {
 
                 <div className={'wpr-versions-container'}>
                     {Object.keys( rollbackInfo.versions )
-                        .filter( version => version !== 'trunk' ) // remove 'trunk'
                         .sort( ( a, b ) => b.localeCompare( a, undefined, {
                             numeric    : true,
                             sensitivity: 'base',
@@ -278,11 +278,13 @@ const AdminPage = () => {
                                                onChange={() => setIsRollbackVersion( version )} // Add this line
                                         />
                                         <span className={'wpr-version-lineitem'}>{version}</span>
-                                        {( queryArgs.current_version === version ) && ( version !== 'trunk' ) && (
+                                        {( queryArgs.current_version === version ) && (
                                             <span
                                                 className={'wpr-version-lineitem-current'}>{__( 'Currently Installed', 'wp-rollback' )}</span>
                                         )}
-
+                                        {( 'trunk' === version ) && (
+                                            <TrunkPopover />
+                                        )}
                                     </label>
                                 </div>
                             </div>
@@ -388,8 +390,6 @@ const AdminPage = () => {
                                         className={'wpr-button-cancel'}>{__( 'Cancel', 'wp-rollback' )}</Button>
                             </div>
                         </form>
-
-
                     </Modal>
                 )}
 
