@@ -43,36 +43,36 @@ const AdminPage = () => {
             } );
     }, [ wprData ] );
 
-    useEffect( () => {
-        if ( rollbackInfo && rollbackInfo.slug ) {  // Check if rollbackInfo is loaded and has a slug
-            checkImage( `https://ps.w.org/${rollbackInfo.slug}/assets/icon-128x128.png`, ( exists ) => {
-                if ( exists ) {
-                    setImageUrl( `https://ps.w.org/${rollbackInfo.slug}/assets/icon-128x128.png` );
-                } else {
-                    checkImage( `https://ps.w.org/${rollbackInfo.slug}/assets/icon-128x128.jpg`, ( exists ) => {
-                        if ( exists ) {
-                            setImageUrl( `https://ps.w.org/${rollbackInfo.slug}/assets/icon-128x128.jpg` );
-                        } else {
-                            checkImage( `https://ps.w.org/${rollbackInfo.slug}/assets/icon-128x128.gif`, ( exists ) => {
-                                if ( exists ) {
-                                    setImageUrl( `https://ps.w.org/${rollbackInfo.slug}/assets/icon-128x128.gif` );
-                                } else {
-                                    setImageUrl( wprData.avatarFallback );
-                                }
-                            } );
-                        }
-                    } );
-                }
-            } );
-        }
-    }, [ rollbackInfo ] );
+    useEffect(() => {
+        const checkAndSetImage = async () => {
+            if (rollbackInfo && rollbackInfo.slug) {
+                const sizes = ['icon-256x256', 'icon-128x128', 'icon'];
+                const extensions = ['png', 'jpg', 'gif', 'svg'];
 
-    // @TODO: Refactor to remove this function because the API should return false if the image doesn't exist.
-    function checkImage( url, callback ) {
-        var img = new Image();
-        img.onload = () => callback( true );
-        img.onerror = () => callback( false );
-        img.src = url;
+                for (let size of sizes) {
+                    for (let ext of extensions) {
+                        const url = `https://ps.w.org/${rollbackInfo.slug}/assets/${size}.${ext}`;
+                        const exists = await checkImage(url);
+                        if (exists) {
+                            setImageUrl(url);
+                            return;
+                        }
+                    }
+                }
+                setImageUrl(wprData.avatarFallback);
+            }
+        };
+
+        checkAndSetImage();
+    }, [rollbackInfo]);
+
+    function checkImage(url) {
+        return new Promise((resolve, reject) => {
+            var img = new Image();
+            img.onload = () => resolve(true);
+            img.onerror = () => resolve(false);
+            img.src = url;
+        });
     }
 
     if ( isLoading ) {
