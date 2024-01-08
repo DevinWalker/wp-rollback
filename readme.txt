@@ -5,7 +5,7 @@ Requires at least: 4.8
 Donate Link: https://givewp.com/
 Tested up to: 6.5
 Requires PHP: 7.4
-Stable tag: 2.0.4
+Stable tag: 2.0.5
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -105,6 +105,11 @@ Yes! All strings are internationalized and ready to be translated. Simply use th
 This is the first version of this plugin. It is a tool for your convenience. Rollback at your own risk!
 
 == Changelog ==
+
+= 2.0.5 =
+* New: In this version we've brought back the "trunk" option to rollback to. This allows plugin or theme developers who use trunk for beta testing to rollback to the latest trunk version. Thanks, @megamenu for suggesting this be brought back.
+* Fix: Refactored how plugin avatar images are checked so that all available image types and sizes are checked. This resolves an issue where some plugins would not display an avatar image.
+* Fix: On the final rollback confirmation screen, the plugin name field was outputting raw HTML. This has been fixed to properly display the plugin name, even if it contains some html characters.
 
 = 2.0.4 =
 * Fix: Resolved issue REST route not including proper permission callback which created a PHP notice. Thanks, @rom1our for submitting the issue.

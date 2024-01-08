@@ -53,7 +53,8 @@ $container-width: 802px;
         height: auto;
         margin: 0 0 25px;
     }
-    p{
+
+    p {
         margin: 0;
         padding: 0;
     }
@@ -265,32 +266,39 @@ $container-width: 802px;
     &.wpr-active-row {
         background: #F1F8FF;
     }
+
+    .wpr-popover-wrap {
+        display: inline-block;
+        margin-left: 10px;
+    }
 }
 
+// Radios listing versions
 .wpr-version-radio-wrap {
     margin: 0;
     padding: 0;
 
     label {
-        display: block;
+        display: flex;
         padding: 20px 30px;
+        align-items: center;
     }
 
     input[type="radio"] {
-        margin: -5px 0 0;
+        margin: 0;
     }
 
     span.wpr-version-lineitem {
         font-size: 18px;
         font-weight: 600;
-        margin: 0 0 6px 8px;
+        margin: 0 0 0 8px;
     }
 
     span.wpr-version-lineitem-current {
         font-size: 15px;
         font-style: italic;
         font-weight: 400;
-        margin: 0 0 6px 20px;
+        margin: 0 0 0 20px;
     }
 }
 
@@ -346,9 +354,23 @@ $container-width: 802px;
 
 }
 
+// Popover
+.wpr-popover {
+    padding: 12px;
+    background: #FFF;
+    border: 1px solid $border-color;
+    box-shadow: 0 0 10px rgb(0 0 0 / 9%);
+    max-width: 300px;
+    font-size: 15px;
+    line-height: 1.4em;
+
+    .components-popover__content {
+        width: auto;
+    }
+
+}
 
 // Loading
-
 .wpr-loading-content {
     display: flex;
     justify-content: center;

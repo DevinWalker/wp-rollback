@@ -1,11 +1,12 @@
 import './admin.scss';
-import { Button, Dashicon, Spinner } from '@wordpress/components';
+import { Button, Dashicon, Popover, Spinner } from '@wordpress/components';
 import { render, useEffect, useState } from '@wordpress/element';
 import { __, _n, sprintf } from '@wordpress/i18n';
 import domReady from '@wordpress/dom-ready';
 import { decodeEntities } from '@wordpress/html-entities';
 import { getQueryArgs } from '@wordpress/url';
 import ExpandableText from './ExpandableText';
+import TrunkPopover from './TrunkPopover';
 import RollbackSubmit from './RollbackSubmit';
 
 const AdminPage = () => {
@@ -25,9 +26,9 @@ const AdminPage = () => {
 
         let restUrl = `${wprData.restUrl}wp-rollback/v1/fetch-info/?type=${queryArgs.type}&slug=${queryArgs.type === 'theme' ? queryArgs.theme_file : queryArgs.plugin_slug}`;
 
-        const headers = new Headers({
-            'X-WP-Nonce': wprData.restApiNonce // Assuming nonce is stored in wprData.nonce
-        });
+        const headers = new Headers( {
+            'X-WP-Nonce': wprData.restApiNonce, // Assuming nonce is stored in wprData.nonce
+        } );
 
         fetch( restUrl, { headers: headers } )
             .then( ( response ) => response.json() )
@@ -38,38 +39,38 @@ const AdminPage = () => {
             .catch( ( error ) => {
                 console.error( 'Error fetching data:', error );
             } );
-    }, [wprData] );
+    }, [ wprData ] );
 
-    useEffect( () => {
-        if ( rollbackInfo && rollbackInfo.slug ) {  // Check if rollbackInfo is loaded and has a slug
-            checkImage( `https://ps.w.org/${rollbackInfo.slug}/assets/icon-128x128.png`, ( exists ) => {
-                if ( exists ) {
-                    setImageUrl( `https://ps.w.org/${rollbackInfo.slug}/assets/icon-128x128.png` );
-                } else {
-                    checkImage( `https://ps.w.org/${rollbackInfo.slug}/assets/icon-128x128.jpg`, ( exists ) => {
-                        if ( exists ) {
-                            setImageUrl( `https://ps.w.org/${rollbackInfo.slug}/assets/icon-128x128.jpg` );
-                        } else {
-                            checkImage( `https://ps.w.org/${rollbackInfo.slug}/assets/icon-128x128.gif`, ( exists ) => {
-                                if ( exists ) {
-                                    setImageUrl( `https://ps.w.org/${rollbackInfo.slug}/assets/icon-128x128.gif` );
-                                } else {
-                                    setImageUrl( wprData.avatarFallback );
-                                }
-                            } );
+    useEffect(() => {
+        const checkAndSetImage = async () => {
+            if (rollbackInfo && rollbackInfo.slug) {
+                const sizes = ['icon-256x256', 'icon-128x128', 'icon'];
+                const extensions = ['png', 'jpg', 'gif', 'svg'];
+
+                for (let size of sizes) {
+                    for (let ext of extensions) {
+                        const url = `https://ps.w.org/${rollbackInfo.slug}/assets/${size}.${ext}`;
+                        const exists = await checkImage(url);
+                        if (exists) {
+                            setImageUrl(url);
+                            return;
                         }
-                    } );
+                    }
                 }
-            } );
-        }
-    }, [ rollbackInfo ] );
+                setImageUrl(wprData.avatarFallback);
+            }
+        };
 
-    // @TODO: Refactor to remove this function because the API should return false if the image doesn't exist.
-    function checkImage( url, callback ) {
-        var img = new Image();
-        img.onload = () => callback( true );
-        img.onerror = () => callback( false );
-        img.src = url;
+        checkAndSetImage();
+    }, [rollbackInfo]);
+
+    function checkImage(url) {
+        return new Promise((resolve, reject) => {
+            var img = new Image();
+            img.onload = () => resolve(true);
+            img.onerror = () => resolve(false);
+            img.src = url;
+        });
     }
 
     if ( isLoading ) {
@@ -264,11 +265,14 @@ const AdminPage = () => {
 
                 <div className={'wpr-versions-container'}>
                     {Object.keys( rollbackInfo.versions )
-                        .filter( version => version !== 'trunk' ) // remove 'trunk'
-                        .sort( ( a, b ) => b.localeCompare( a, undefined, {
-                            numeric    : true,
-                            sensitivity: 'base',
-                        } ) ) // reverse the order
+                        .sort((a, b) => {
+                            if (a === 'trunk') return 1; // Always places 'trunk' at the end
+                            if (b === 'trunk') return -1; // Always places 'trunk' at the end
+                            return b.localeCompare(a, undefined, {
+                                numeric: true,
+                                sensitivity: 'base',
+                            });
+                        })
                         .map( ( version, index ) => (
                             <div key={index}
                                  className={`wpr-version-wrap ${rollbackVersion === version ? 'wpr-active-row' : ''}`}>
@@ -280,11 +284,13 @@ const AdminPage = () => {
                                                onChange={() => setIsRollbackVersion( version )} // Add this line
                                         />
                                         <span className={'wpr-version-lineitem'}>{version}</span>
-                                        {( queryArgs.current_version === version ) && ( version !== 'trunk' ) && (
+                                        {( queryArgs.current_version === version ) && (
                                             <span
                                                 className={'wpr-version-lineitem-current'}>{__( 'Currently Installed', 'wp-rollback' )}</span>
                                         )}
-
+                                        {( 'trunk' === version ) && (
+                                            <TrunkPopover />
+                                        )}
                                     </label>
                                 </div>
                             </div>
