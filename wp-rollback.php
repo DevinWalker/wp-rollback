@@ -5,7 +5,7 @@
  * Description: Rollback (or forward) any WordPress.org plugin, theme or block like a boss.
  * Author: WP Rollback
  * Author URI: https://wprollback.com/
- * Version: 2.0.5
+ * Version: 2.0.6
  * Text Domain: wp-rollback
  * Domain Path: /languages
  *
@@ -107,8 +107,8 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
                     self::$instance->setup_constants();
 
                     // TODO: Create separate includes method.
-                    include_once WP_ROLLBACK_PLUGIN_DIR . '/src/includes/class-rollback-multisite-compatibility.php';
-                    include_once WP_ROLLBACK_PLUGIN_DIR . '/src/includes/class-rollback-pro-rollbacks.php';
+                    include_once WP_ROLLBACK_PLUGIN_DIR . 'src/includes/class-rollback-multisite-compatibility.php';
+                    include_once WP_ROLLBACK_PLUGIN_DIR . 'src/includes/class-rollback-pro-rollbacks.php';
 
                     $pro_rollbacks = new WP_Rollback_Pro_Rollbacks();
 
@@ -226,7 +226,7 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
 
             // Theme's listing page JS
             if ( 'themes.php' === $hook && !is_multisite() ) {
-                $theme_script_asset = require WP_ROLLBACK_PLUGIN_DIR . '/build/themes.asset.php';
+                $theme_script_asset = require WP_ROLLBACK_PLUGIN_DIR . 'build/themes.asset.php';
 
                 wp_enqueue_script(
                     'wp-rollback-themes-script',
@@ -255,7 +255,7 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
                 return;
             }
 
-            $script_asset = require WP_ROLLBACK_PLUGIN_DIR . '/build/admin.asset.php';
+            $script_asset = require WP_ROLLBACK_PLUGIN_DIR . 'build/admin.asset.php';
 
             wp_enqueue_script( 'updates' );
             wp_enqueue_script(
@@ -291,7 +291,7 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
                 'wp-rollback-plugin-admin',
                 plugins_url( 'build/admin.css', WP_ROLLBACK_PLUGIN_FILE ),
                 [ 'wp-components' ],
-                filemtime( WP_ROLLBACK_PLUGIN_DIR . '/build/admin.css' )
+                filemtime( WP_ROLLBACK_PLUGIN_DIR . 'build/admin.css' )
             );
         }
 
@@ -328,7 +328,7 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
         }
 
         public function register_rest_route() {
-            include WP_ROLLBACK_PLUGIN_DIR . '/src/includes/class-rollback-api-requests.php';
+            include WP_ROLLBACK_PLUGIN_DIR . 'src/includes/class-rollback-api-requests.php';
 
             register_rest_route( 'wp-rollback/v1', '/fetch-info/', [
                 'methods'             => 'GET',
@@ -381,12 +381,12 @@ if ( ! class_exists( 'WP_Rollback' ) ) :
 
             if ( ! empty( $args['plugin_version'] ) ) {
                 // Plugin: rolling back.
-                include WP_ROLLBACK_PLUGIN_DIR . '/src/includes/class-rollback-plugin-upgrader.php';
-                include WP_ROLLBACK_PLUGIN_DIR . '/src/includes/rollback-action.php';
+                include WP_ROLLBACK_PLUGIN_DIR . 'src/includes/class-rollback-plugin-upgrader.php';
+                include WP_ROLLBACK_PLUGIN_DIR . 'src/includes/rollback-action.php';
             } elseif ( ! empty( $args['theme_version'] ) ) {
                 // Theme: rolling back.
-                include WP_ROLLBACK_PLUGIN_DIR . '/src/includes/class-rollback-theme-upgrader.php';
-                include WP_ROLLBACK_PLUGIN_DIR . '/src/includes/rollback-action.php';
+                include WP_ROLLBACK_PLUGIN_DIR . 'src/includes/class-rollback-theme-upgrader.php';
+                include WP_ROLLBACK_PLUGIN_DIR . 'src/includes/rollback-action.php';
             } else {
                 // Rollback main screen.
                 echo '<div id="root-wp-rollback-admin"></div>';
