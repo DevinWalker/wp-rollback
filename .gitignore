@@ -8,14 +8,10 @@ logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-# Coverage directory used by tools like istanbul
-coverage
+.idea
 
 # Compiled binary addons (https://nodejs.org/api/addons.html)
-build/Release
 /build
-/src/Strauss
 
 # Dependency directories
 node_modules
@@ -29,11 +25,20 @@ node_modules
 # Output of 'npm pack'
 *.tgz
 
-# dotenv environment variables file
+# dotenv environment variables files and directories
 .env
+.prettierignore
+.prettierrc
+.gitignore
+/.idea/
+.vscode
+.DS_Store
 
 # No composer stuff
 /vendor/
 
 # No language files
 /languages/*
+
+# Catch alls
+wp-rollback.zip
