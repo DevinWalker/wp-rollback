@@ -1,10 +1,10 @@
 import './admin.scss';
-import { Button, Dashicon, Modal, Popover, Spinner } from '@wordpress/components';
-import { render, useEffect, useState } from '@wordpress/element';
-import { __, _n, sprintf } from '@wordpress/i18n';
+import {Button, Dashicon, Modal, Spinner} from '@wordpress/components';
+import {render, useEffect, useState} from '@wordpress/element';
+import {__, _n, sprintf} from '@wordpress/i18n';
 import domReady from '@wordpress/dom-ready';
-import { decodeEntities } from '@wordpress/html-entities';
-import { getQueryArgs } from '@wordpress/url';
+import {decodeEntities} from '@wordpress/html-entities';
+import {addQueryArgs, getQueryArgs} from '@wordpress/url';
 import ExpandableText from './ExpandableText';
 import TrunkPopover from './TrunkPopover';
 
@@ -17,7 +17,7 @@ const AdminPage = () => {
     const [ isConfirmModalOpen, setIsConfirmModalOpen ] = useState( false );
     const [ isChangelogModalOpen, setIsChangelogModalOpen ] = useState( false );
     const [ rollbackVersion, setIsRollbackVersion ] = useState( queryArgs.current_version );
-    const { adminUrl, referrer } = wprData;
+    const {adminUrl, referrer} = wprData;
 
     const openConfirmModal = () => setIsConfirmModalOpen( true );
     const openChangelogModal = () => setIsChangelogModalOpen( true );
@@ -26,13 +26,16 @@ const AdminPage = () => {
 
     useEffect( () => {
 
-        let restUrl = `${wprData.restUrl}wp-rollback/v1/fetch-info/?type=${queryArgs.type}&slug=${queryArgs.type === 'theme' ? queryArgs.theme_file : queryArgs.plugin_slug}`;
+        let restUrl = addQueryArgs( wprData.restUrl + 'wp-rollback/v1/fetch-info/', {
+            type: queryArgs.type,
+            slug: queryArgs.type === 'theme' ? queryArgs.theme_file : queryArgs.plugin_slug,
+        } );
 
         const headers = new Headers( {
             'X-WP-Nonce': wprData.restApiNonce, // Assuming nonce is stored in wprData.nonce
         } );
 
-        fetch( restUrl, { headers: headers } )
+        fetch( restUrl, {headers: headers} )
             .then( ( response ) => response.json() )
             .then( ( data ) => {
                 setRollbackInfo( data );
@@ -43,36 +46,36 @@ const AdminPage = () => {
             } );
     }, [ wprData ] );
 
-    useEffect(() => {
+    useEffect( () => {
         const checkAndSetImage = async () => {
-            if (rollbackInfo && rollbackInfo.slug) {
-                const sizes = ['icon-256x256', 'icon-128x128', 'icon'];
-                const extensions = ['png', 'jpg', 'gif', 'svg'];
+            if ( rollbackInfo && rollbackInfo.slug ) {
+                const sizes = [ 'icon-256x256', 'icon-128x128', 'icon' ];
+                const extensions = [ 'png', 'jpg', 'gif', 'svg' ];
 
-                for (let size of sizes) {
-                    for (let ext of extensions) {
+                for ( let size of sizes ) {
+                    for ( let ext of extensions ) {
                         const url = `https://ps.w.org/${rollbackInfo.slug}/assets/${size}.${ext}`;
-                        const exists = await checkImage(url);
-                        if (exists) {
-                            setImageUrl(url);
+                        const exists = await checkImage( url );
+                        if ( exists ) {
+                            setImageUrl( url );
                             return;
                         }
                     }
                 }
-                setImageUrl(wprData.avatarFallback);
+                setImageUrl( wprData.avatarFallback );
             }
         };
 
         checkAndSetImage();
-    }, [rollbackInfo]);
+    }, [ rollbackInfo ] );
 
-    function checkImage(url) {
-        return new Promise((resolve, reject) => {
+    function checkImage( url ) {
+        return new Promise( ( resolve, reject ) => {
             var img = new Image();
-            img.onload = () => resolve(true);
-            img.onerror = () => resolve(false);
+            img.onload = () => resolve( true );
+            img.onerror = () => resolve( false );
             img.src = url;
-        });
+        } );
     }
 
     if ( isLoading ) {
@@ -109,7 +112,7 @@ const AdminPage = () => {
 
         // Convert to 24-hour format and remove 'GMT'
         let adjustedDateString = dateString.replace( 'am', ' AM' ).replace( 'pm', ' PM' ).replace( ' GMT', '' );
-        adjustedDateString = new Date( adjustedDateString ).toLocaleString( 'en-US', { timeZone: 'GMT' } );
+        adjustedDateString = new Date( adjustedDateString ).toLocaleString( 'en-US', {timeZone: 'GMT'} );
 
         const date = new Date( adjustedDateString );
         if ( isNaN( date.getTime() ) ) {
@@ -146,7 +149,7 @@ const AdminPage = () => {
             <div className={'wpr-logo-wrap'}>
                 <div className={'wpr-logo'}>
                     <h1>{__( 'WP Rollback', 'wp-rollback' )}</h1>
-                    <a href={'https://wprollback.com/'} target={'_blank'}><img src={wprData.logo} width={250} height={'auto'} alt={'WP Rollback'}/></a>
+                    <a href={'https://wprollback.com/'} target={'_blank'}><img src={wprData.logo} width={250} height={'auto'} alt={'WP Rollback'} /></a>
                 </div>
 
                 <p className={'wpr-intro-text'}>{__( 'Select which version you would like to rollback to from the releases listed below.', 'wp-rollback' )}</p>
@@ -158,7 +161,7 @@ const AdminPage = () => {
                             src={( false !== rollbackInfo.banners.high ? rollbackInfo.banners.high : rollbackInfo.banners.low )}
                             width={800} height={'auto'}
                             className={'wpr-plugin-banner'}
-                            alt={rollbackInfo.name}/>
+                            alt={rollbackInfo.name} />
                     </div>
                 )}
 
@@ -168,14 +171,14 @@ const AdminPage = () => {
                         <div className="wpr-content-banner wpr-content-banner__theme">
                             <img src={rollbackInfo.screenshot_url} width={240} height={180}
                                  className={'wpr-theme-screenshot'}
-                                 alt={rollbackInfo.name}/>
+                                 alt={rollbackInfo.name} />
                         </div>
                     )}
 
                     {imageUrl && queryArgs.type === 'plugin' && (
                         <div className={'wpr-plugin-avatar-wrap'}>
                             <img src={imageUrl} width={96} height={96} className={'wpr-plugin-avatar'}
-                                 alt={rollbackInfo.name}/>
+                                 alt={rollbackInfo.name} />
                         </div>
 
                     )}
@@ -189,7 +192,7 @@ const AdminPage = () => {
                                    alt={sprintf( __( 'View %s on WordPress.org', 'wp-rollback' ), rollbackInfo.name )}
                                 >
                                     {decodeEntities( rollbackInfo.name )}
-                                    <Dashicon icon="external"/>
+                                    <Dashicon icon="external" />
                                 </a>
                             )}
                             {queryArgs.type === 'theme' && (
@@ -198,7 +201,7 @@ const AdminPage = () => {
                                     // translators: %s Plugin or Theme name.
                                    alt={sprintf( __( 'View %s on WordPress.org', 'wp-rollback' ), rollbackInfo.name )}>
                                     {decodeEntities( rollbackInfo.name )}
-                                    <Dashicon icon="external"/>
+                                    <Dashicon icon="external" />
                                 </a>
                             )}
 
@@ -206,7 +209,7 @@ const AdminPage = () => {
 
                         {queryArgs.type === 'theme' && rollbackInfo.sections.description && (
                             <div className={'wpr-theme-description'}>
-                                <ExpandableText text={rollbackInfo.sections.description}/>
+                                <ExpandableText text={rollbackInfo.sections.description} />
                             </div>
                         )}
 
@@ -235,7 +238,7 @@ const AdminPage = () => {
                             <div className={'wpr-meta-item wpr-meta-item__author-wrap'}>
                                 <h3>{__( 'Theme Author', 'wp-rollback' )}</h3>
                                 <div className={'wpr-theme-author-inner'}>
-                                    <img src={rollbackInfo.author.avatar} width={64} height={64}/>
+                                    <img src={rollbackInfo.author.avatar} width={64} height={64} />
                                     <div className={'wpr-theme-author-info'}><a
                                         href={rollbackInfo.author.author_url}
                                         target={'_blank'}>{rollbackInfo.author.display_name}</a>
@@ -252,7 +255,7 @@ const AdminPage = () => {
                                 </div>
                                 <h3>{__( 'Last Updated', 'wp-rollback' )}</h3>
                                 <div className={'wpr-updater-info'}>
-                                    <Dashicon icon="clock"/>
+                                    <Dashicon icon="clock" />
                                     <span
                                         className={'wpr-plugin-lastupdate'}>{getTimeAgo( rollbackInfo.last_updated )}</span>
                                 </div>
@@ -263,14 +266,18 @@ const AdminPage = () => {
 
                 <div className={'wpr-versions-container'}>
                     {Object.keys( rollbackInfo.versions )
-                        .sort((a, b) => {
-                            if (a === 'trunk') return 1; // Always places 'trunk' at the end
-                            if (b === 'trunk') return -1; // Always places 'trunk' at the end
-                            return b.localeCompare(a, undefined, {
-                                numeric: true,
+                        .sort( ( a, b ) => {
+                            if ( a === 'trunk' ) {
+                                return 1;
+                            } // Always places 'trunk' at the end
+                            if ( b === 'trunk' ) {
+                                return -1;
+                            } // Always places 'trunk' at the end
+                            return b.localeCompare( a, undefined, {
+                                numeric    : true,
                                 sensitivity: 'base',
-                            });
-                        })
+                            } );
+                        } )
                         .map( ( version, index ) => (
                             <div key={index}
                                  className={`wpr-version-wrap ${rollbackVersion === version ? 'wpr-active-row' : ''}`}>
@@ -309,7 +316,7 @@ const AdminPage = () => {
                         onRequestClose={closeChangelogModal}
                         disabled={( rollbackVersion === false )}
                         className={'wpr-modal wpr-modal__changelog'}
-                        icon={<Dashicon icon="hammer"/>}
+                        icon={<Dashicon icon="hammer" />}
                     >
                         <div className={'wpr-modal-intro'} dangerouslySetInnerHTML={{
                             __html: rollbackInfo.sections.changelog,
@@ -323,7 +330,7 @@ const AdminPage = () => {
                         onRequestClose={closeConfirmModal}
                         disabled={( rollbackVersion === false )}
                         className={'wpr-modal'}
-                        icon={<Dashicon icon="warning"/>}
+                        icon={<Dashicon icon="warning" />}
                     >
                         <p className={'wpr-modal-intro'} dangerouslySetInnerHTML={{
                             __html: sprintf(
@@ -344,7 +351,7 @@ const AdminPage = () => {
                                         </label>
                                     </td>
                                     <td><span className="wpr-plugin-name" dangerouslySetInnerHTML={{
-                                        __html:rollbackInfo.name
+                                        __html: rollbackInfo.name,
                                     }}></span></td>
                                 </tr>
                                 <tr className="alternate">
@@ -366,29 +373,29 @@ const AdminPage = () => {
                         </div>
 
                         <div className={'wpr-modal-notice notice notice-warning'}
-                             dangerouslySetInnerHTML={{ __html: __( '<p><strong>Notice:</strong> We strongly recommend you <strong>create a complete backup</strong> of your WordPress files and database prior to performing a rollback. We are not responsible for any misuse, deletions, white screens, fatal errors, or any other issue resulting from the use of this plugin.</p>', 'wp-rollback' ) }}/>
+                             dangerouslySetInnerHTML={{__html: __( '<p><strong>Notice:</strong> We strongly recommend you <strong>create a complete backup</strong> of your WordPress files and database prior to performing a rollback. We are not responsible for any misuse, deletions, white screens, fatal errors, or any other issue resulting from the use of this plugin.</p>', 'wp-rollback' )}} />
 
                         <form name="check_for_rollbacks" className="rollback-form" action={adminUrl}>
-                            <input type="hidden" name="page" value="wp-rollback"/>
-                            <input type="hidden" name="wpr_rollback_nonce" value={wprData.rollback_nonce}/>
-                            <input type="hidden" name="_wpnonce" value={wprData.rollback_nonce}/>
+                            <input type="hidden" name="page" value="wp-rollback" />
+                            <input type="hidden" name="wpr_rollback_nonce" value={wprData.rollback_nonce} />
+                            <input type="hidden" name="_wpnonce" value={wprData.rollback_nonce} />
 
                             {queryArgs.type === 'plugin' && (
                                 <div>
-                                    <input type="hidden" name="plugin_file" value={queryArgs.plugin_file}/>
-                                    <input type="hidden" name="plugin_version" value={rollbackVersion}/>
-                                    <input type="hidden" name="plugin_slug" value={rollbackInfo.slug}/>
+                                    <input type="hidden" name="plugin_file" value={queryArgs.plugin_file} />
+                                    <input type="hidden" name="plugin_version" value={rollbackVersion} />
+                                    <input type="hidden" name="plugin_slug" value={rollbackInfo.slug} />
                                 </div>
                             )}
                             {queryArgs.type === 'theme' && (
                                 <div>
-                                    <input type="hidden" name="theme_file" value={queryArgs.theme_file}/>
-                                    <input type="hidden" name="theme_version" value={rollbackVersion}/>
+                                    <input type="hidden" name="theme_file" value={queryArgs.theme_file} />
+                                    <input type="hidden" name="theme_version" value={rollbackVersion} />
                                 </div>
                             )}
 
-                            <input type="hidden" name="rollback_name" value={queryArgs.rollback_name}/>
-                            <input type="hidden" name="installed_version" value={queryArgs.current_version}/>
+                            <input type="hidden" name="rollback_name" value={queryArgs.rollback_name} />
+                            <input type="hidden" name="installed_version" value={queryArgs.current_version} />
 
                             <div className={'wpr-modal-button-wrap'}>
                                 <Button isPrimary type={'submit'}>{__( 'Rollback', 'wp-rollback' )}</Button>
@@ -408,6 +415,6 @@ const AdminPage = () => {
 
 domReady( function() {
     if ( document.getElementById( 'root-wp-rollback-admin' ) ) {
-        render( <AdminPage/>, document.getElementById( 'root-wp-rollback-admin' ) );
+        render( <AdminPage />, document.getElementById( 'root-wp-rollback-admin' ) );
     }
 } );
