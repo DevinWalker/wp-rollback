@@ -4,9 +4,7 @@ logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-# Coverage directory used by tools like istanbul
-coverage
+.idea
 
 # Compiled binary addons (https://nodejs.org/api/addons.html)
 /build

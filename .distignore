@@ -10,7 +10,8 @@ src/*.js
 .prettierrc.js
 composer.json
 composer.lock
-package.jsonpackage-lock.json
+package.json
+package-lock.json
 README.md
 
 webpack.config.js
