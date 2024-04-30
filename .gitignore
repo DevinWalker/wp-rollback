@@ -1,3 +1,7 @@
+.idea/
+.vscode/
+.DS_Store
+
 # Logs
 logs
 *.log
@@ -14,7 +18,7 @@ build/Release
 /src/Strauss
 
 # Dependency directories
-node_modules/
+node_modules
 
 # Optional npm cache directory
 .npm
