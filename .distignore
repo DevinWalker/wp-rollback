@@ -1,14 +1,13 @@
 .git
 .github
-.wordpress-org
-node_modules
+.wordpress-orgnode_modules
 src/*.js
-src/**/*.js
 
 .editorconfig
 .gitignore
 .prettierignore
 .prettierrc.json
+.prettierrc.js
 composer.json
 composer.lock
 package.json

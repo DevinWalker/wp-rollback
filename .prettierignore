@@ -1,12 +1,12 @@
-# Ignore node modules
-node_modules/*
+# Ignore directories
+.github
+assets
+build
+node_modules
+languages
 
-# Ignore Composer packages
-vendor/*
-
-# Ignore Directories
-sample-data/*
-
-# Ignore Files
-package-lock.json
+# Ignore files
 composer.lock
+package-lock.json
+phpcs.xml
+.php-cs-fixer.cache
