@@ -1,6 +1,6 @@
 {
     "name": "wp-rollback",
-    "version": "2.0.0",
+    "version": "2.0.7",
     "description": "Rollback (or forward) any WordPress.org plugin, theme, or block like a boss.",
     "homepage": "https://wprollback.com",
     "author": "WP Rollback",
