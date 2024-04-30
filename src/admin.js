@@ -1,6 +1,6 @@
 import './admin.scss';
 import {Button, Dashicon, Modal, Spinner} from '@wordpress/components';
-import {render, useEffect, useState} from '@wordpress/element';
+import {createRoot, useEffect, useState} from '@wordpress/element';
 import {__, _n, sprintf} from '@wordpress/i18n';
 import domReady from '@wordpress/dom-ready';
 import {decodeEntities} from '@wordpress/html-entities';
@@ -413,8 +413,18 @@ const AdminPage = () => {
 
 };
 
-domReady( function() {
-    if ( document.getElementById( 'root-wp-rollback-admin' ) ) {
-        render( <AdminPage />, document.getElementById( 'root-wp-rollback-admin' ) );
+domReady(function() {
+    const container = document.getElementById('root-wp-rollback-admin');
+    if (!container) {
+        return;
     }
-} );
+
+    const component = <AdminPage />;
+
+    // Use createRoot if available, otherwise fallback to ReactDOM.render
+    if (createRoot) {
+        createRoot(container).render(component);
+    } else {
+        ReactDOM.render(component, container);
+    }
+});
