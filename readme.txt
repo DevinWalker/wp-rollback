@@ -1,7 +1,7 @@
 === WP Rollback - Rollback Plugins and Themes ===
 Contributors: dlocc, drrobotnik, webdevmattcrom, givewp
 Tags: rollback, revert, downgrade, version, plugins, themes, version, versions, backup, backups, revision, revisions
-Requires at least: 5.0
+Requires at least: 6.0
 Donate Link: https://givewp.com/
 Tested up to: 6.6
 Requires PHP: 7.4
@@ -109,6 +109,7 @@ This is the first version of this plugin. It is a tool for your convenience. Rol
 = 2.0.7 =
 * Fix: Resolved a bug with plain permalink websites which caused a `rest_no_route` error when trying to rollback a plugin or theme. Thanks, @afizesan for helping pinpoint the issue.
 * Fix: Update the way the React app is loaded to suppress React 18+ warnings.
+* Tweak: Bumped the plugin's minimum required WordPress version to 6.0+ for best compatibility with new React components in UI.
 
 = 2.0.6 =
 Fix: The release corrects the paths used in plugin file includes and requires. The unnecessary forward slashes at the start of each file path have been removed. This change ensures proper file inclusion and requirement, avoiding potential issues with file not found errors.
