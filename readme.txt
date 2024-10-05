@@ -1,6 +1,6 @@
 === WP Rollback - Rollback Plugins and Themes ===
 Contributors: dlocc, drrobotnik, webdevmattcrom, givewp
-Tags: rollback, revert, downgrade, version, plugins, themes, version, versions, backup, backups, revision, revisions
+Tags: rollback, revert, downgrade, version, plugins
 Requires at least: 6.0
 Donate Link: https://givewp.com/
 Tested up to: 6.6
