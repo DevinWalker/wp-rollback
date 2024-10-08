@@ -5,6 +5,12 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .idea
+/bin/*
+!/bin/lint-staged-phpcbf.sh
+!/bin/wordpress-phpunit-test-intialize.sh
+!/bin/woocommerce-test-framework-setup.sh
+!/bin/strauss-installar.sh
+/languages
 
 # Compiled binary addons (https://nodejs.org/api/addons.html)
 /build
