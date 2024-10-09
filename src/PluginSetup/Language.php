@@ -59,7 +59,7 @@ class Language
     public static function getRelativePath(): string
     {
         $pluginRelativePath = dirname(plugin_basename(Constants::$PLUGIN_ROOT_FILE)) . '/languages/';
-        $pluginRelativePath = ltrim(apply_filters('stellarpay_languages_directory', $pluginRelativePath), '/\\');
+        $pluginRelativePath = ltrim(apply_filters('wprollback_languages_directory', $pluginRelativePath), '/\\');
 
         return trailingslashit($pluginRelativePath);
     }

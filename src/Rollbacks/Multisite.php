@@ -8,7 +8,10 @@
  * @since      : 2.0.0
  */
 
-namespace WpRollback;
+namespace WpRollback\Rollbacks;
+
+use WpRollback\WP_Theme;
+use WpRollback\WpRollback;
 
 class Multisite {
 

@@ -5,6 +5,8 @@ namespace WpRollback;
 use stdClass;
 use WP_REST_Request;
 use WpRollback\Core\Constants;
+use WpRollback\Rollbacks\ApiRequests;
+use WpRollback\Rollbacks\Multisite;
 
 class WpRollback {
 
@@ -154,38 +156,6 @@ class WpRollback {
             [ 'wp-components' ],
             filemtime( Constants::$PLUGIN_DIR . 'build/admin.css' )
         );
-    }
-
-    /**
-     * Loads the plugin language files
-     *
-     * @access public
-     * @since  1.0
-     * @return void
-     */
-    public function load_textdomain() {
-        // Set filter for plugin's languages directory
-        $wpr_lang_dir = dirname( plugin_basename( Constants::$PLUGIN_ROOT_FILE ) ) . '/languages/';
-        $wpr_lang_dir = apply_filters( 'wpr_languages_directory', $wpr_lang_dir );
-
-        // Traditional WordPress plugin locale filter
-        $locale = apply_filters( 'plugin_locale', get_locale(), 'wp-rollback' );
-        $mofile = sprintf( '%1$s-%2$s.mo', 'wp-rollback', $locale );
-
-        // Setup paths to current locale file
-        $mofile_local  = $wpr_lang_dir . $mofile;
-        $mofile_global = WP_LANG_DIR . '/wp-rollback/' . $mofile;
-
-        if ( file_exists( $mofile_global ) ) {
-            // Look in global /wp-content/languages/wpr folder
-            load_textdomain( 'wp-rollback', $mofile_global );
-        } elseif ( file_exists( $mofile_local ) ) {
-            // Look in local /wp-content/plugins/wpr/languages/ folder
-            load_textdomain( 'wp-rollback', $mofile_local );
-        } else {
-            // Load the default language files
-            load_plugin_textdomain( 'wp-rollback', false, $wpr_lang_dir );
-        }
     }
 
     public function register_rest_route() {

@@ -9,7 +9,7 @@
  */
 
 
-namespace WpRollback;
+namespace WpRollback\Rollbacks;
 
 use Plugin_Upgrader;
 use WP_Error;

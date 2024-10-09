@@ -1,6 +1,6 @@
 <?php
 
-namespace WpRollback;
+namespace WpRollback\Rollbacks;
 
 class ApiRequests {
 

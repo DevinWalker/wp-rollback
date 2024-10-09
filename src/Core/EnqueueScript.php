@@ -136,7 +136,7 @@ class EnqueueScript
         $scriptPrefix = Constants::PLUGIN_SLUG;
         $this->pluginDirPath = Constants::$PLUGIN_DIR;
         $this->pluginDirUrl = Constants::$PLUGIN_URL;
-        $this->textDomain = 'stellarpay';
+        $this->textDomain = Constants::TEXT_DOMAIN;
         $this->originalScriptId = $scriptId;
         $this->scriptId = "$scriptPrefix-$scriptId-js";
         $this->relativeScriptPath = $scriptPath;

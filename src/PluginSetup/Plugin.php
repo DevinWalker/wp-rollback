@@ -19,7 +19,6 @@ use WpRollback\Core\Exceptions\Primitives\InvalidArgumentException;
 use WpRollback\Core\Hooks;
 use WpRollback\Core\Request;
 use function WpRollback\Core\container;
-use function WpRollback\Core\dbMetaKeyGenerator;
 
 /**
  * Class Plugin
@@ -48,6 +47,7 @@ class Plugin
      */
     private array $serviceProviders = [
         \WpRollback\Core\ServiceProvider::class,
+        \WpRollback\Rollbacks\ServiceProvider::class,
     ];
 
     /**
@@ -83,15 +83,7 @@ class Plugin
             10,
             2
         );
-        Hooks::addFilter(
-            'plugin_action_links_' . Constants::$PLUGIN_ROOT_FILE_RELATIVE_PATH,
-            PluginMeta::class,
-            'addPluginSettingsMeta'
-        );
 
-        Hooks::addAction('admin_enqueue_scripts', self::class, 'addDeactivationAssets');
-        Hooks::addAction('deactivated_plugin', self::class, 'handleDeactivation');
-        Hooks::addAction('admin_footer', self::class, 'renderDeactivationModal');
     }
 
     /**
@@ -183,64 +175,4 @@ class Plugin
         container(Constants::class);
     }
 
-    /**
-     * Add the assets for the Deactivation modal.
-     *
-     * @param string $hook_suffix The current admin page.
-     * @unreleased
-     */
-    public function addDeactivationAssets(string $hook_suffix): void
-    {
-        if ('plugins.php' !== $hook_suffix) {
-            return;
-        }
-
-        $scriptId = 'wprollback-plugin-deactivation';
-
-        (new EnqueueScript($scriptId, "/build/$scriptId.js"))
-            ->loadInFooter()
-            ->loadStyle()
-            ->enqueue();
-    }
-
-    /**
-     * Handle the plugin deactivation.
-     *
-     * This function updates the option `delete_all_data_on_delete`
-     * when the plugin is deactivated.
-     *
-     * @param string $plugin Path to the plugin file relative to the plugins directory.
-     * @unreleased
-     */
-    public function handleDeactivation(string $plugin): void
-    {
-        if (Constants::$PLUGIN_ROOT_FILE_RELATIVE_PATH !== $plugin) {
-            return;
-        }
-
-        if (!$this->request->hasPermission('deactivate_plugin')) {
-            return;
-        }
-
-        check_admin_referer('deactivate-plugin_' . $plugin);
-
-    }
-
-    /**
-     * Render the Deactivation modal.
-     *
-     * @unreleased
-     */
-    public function renderDeactivationModal(): void
-    {
-        global $pagenow;
-
-        if ('plugins.php' !== $pagenow) {
-            return;
-        }
-
-        include_once __DIR__ . '/Views/Deactivation/templates/DeactivationModal.php';
-    }
 }
-
-// @todo setup exception handler
