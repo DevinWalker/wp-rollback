@@ -1,0 +1,240 @@
+// Premium Upsell Styles
+.wpr-premium-rollback-page {
+
+    .wpr-rollback-component-wrap {
+        border: 0;
+    }
+
+    // Custom subheader for premium assets
+    .wpr-subheader {
+        margin-bottom: 2rem;
+        
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1d2327;
+        }
+        
+        p {
+            color: #646970;
+            font-size: 1rem;
+            margin: 0;
+            line-height: 1.5;
+        }
+    }
+
+    .wpr-premium-upsell {
+        background: #fff;
+        border: 1px solid #ddd;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .wpr-premium-notice {
+        margin-bottom: 1.5rem;
+        
+        .components-notice__content {
+            margin: 0;
+            
+            p {
+                margin: 0;
+                font-size: 16px;
+            }
+        }
+    }
+
+    // Available Versions Section (moved higher)
+    .wpr-available-versions {
+        background: #f6f7f7;
+        border: 1px solid #ddd;
+        padding: 1.25rem;
+        margin-bottom: 1.5rem;
+        margin-left: -1.5rem;
+        margin-right: -1.5rem;
+        border-right: 0;
+        border-left: 0;
+
+        h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1d2327;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+
+            &::before {
+                content: '🔒';
+                font-size: 0.9rem;
+            }
+        }
+
+        .wpr-versions-container {
+            min-height: 0;
+        }
+
+        .wpr-versions-note {
+            color: #646970;
+            margin-bottom: 1rem;
+            font-style: italic;
+            font-size: 0.9rem;
+        }
+
+        // Disabled versions list styling
+        .wpr-version-option {
+            opacity: 0.6;
+            pointer-events: none;
+            position: relative;
+
+            &::after {
+                content: '🔒 Pro';
+                position: absolute;
+                right: 1rem;
+                top: 50%;
+                transform: translateY(-50%);
+                background: #646970;
+                color: white;
+                padding: 0.2rem 0.5rem;
+                font-size: 0.7rem;
+                font-weight: 500;
+            }
+        }
+    }
+
+    .wpr-premium-features {
+        margin-bottom: 1.5rem;
+
+        h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #1d2327;
+            text-align: center;
+        }
+    }
+
+    .wpr-premium-features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+    }
+
+    .wpr-premium-feature-card {
+        border: 1px solid #ddd;
+        transition: border-color 0.2s ease;
+        background: #fff;
+
+        &:hover {
+            border-color: #135e96;
+        }
+    }
+
+    .wpr-premium-feature-card-body {
+        padding: 1.25rem;
+    }
+
+    .wpr-premium-feature-icon {
+        width: 30px;
+        height: 30px;
+        background: #f0f6fc;
+        border: 1px solid #e3f0f9;
+        border-radius: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+
+        .components-icon {
+            color: #135e96;
+        }
+    }
+
+    .wpr-premium-feature-title {
+        font-size: 0.95rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: #1d2327;
+        line-height: 1.3;
+    }
+
+    .wpr-premium-feature-description {
+        color: #646970;
+        line-height: 1.4;
+        margin: 0;
+        font-size: 0.85rem;
+    }
+
+    .wpr-premium-guarantee {
+        margin-bottom: 1.5rem;
+        
+        .wpr-premium-guarantee-card {
+            background: #f0f6fc;
+            border: 1px solid #cfe5f6;
+            color: #1d2327;
+        }
+        
+        .wpr-premium-guarantee-card-body {
+            padding: 1.25rem;
+        }
+            
+        h4 {
+            color: #135e96;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+        
+        p {
+            color: #646970;
+            margin: 0;
+            line-height: 1.4;
+            font-size: 0.9rem;
+        }
+        
+        .components-icon {
+            color: #135e96;
+        }
+    }
+
+    .wpr-premium-actions {
+        text-align: center;
+        display: flex;
+        gap: 0.75rem;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    // Responsive Design
+    @media (max-width: 768px) {
+        .wpr-subheader {
+            margin-bottom: 1.5rem;
+            
+            h1 {
+                font-size: 1.3rem;
+            }
+            
+            p {
+                font-size: 0.95rem;
+            }
+        }
+        
+        .wpr-premium-upsell {
+            padding: 1rem;
+        }
+        
+        .wpr-premium-features-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .wpr-premium-actions {
+            flex-direction: column;
+        }
+
+        .wpr-available-versions {
+            padding: 1rem;
+        }
+    }
+} 

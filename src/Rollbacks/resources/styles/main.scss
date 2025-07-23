@@ -1,0 +1,20 @@
+// Import shared core variables and mixins using relative paths
+@use "../../../../../shared-core/src/Frontend/styles/variables" as *;
+@use "../../../../../shared-core/src/Frontend/styles/mixins" as *;
+@use "@wordpress/dataviews/build-style/style.css";
+
+// Import component-specific styles
+@use "free-complete-template";
+@use "premium-upsell";
+
+.wpr-complete-template {
+    margin-bottom: 25px;
+}
+
+.wpr-rollback-options { 
+    margin-bottom: 25px;
+}
+
+.dataviews-wrapper {
+    background-color: #FFF;
+}

@@ -1,11 +1,11 @@
 === WP Rollback - Rollback Plugins and Themes ===
-Contributors: dlocc, drrobotnik, webdevmattcrom, givewp
-Tags: rollback, revert, downgrade, version, plugins, themes, version, versions, backup, backups, revision, revisions
-Requires at least: 6.0
-Donate Link: https://givewp.com/
-Tested up to: 6.6
+Contributors: dlocc, drrobotnik, webdevmattcrom
+Tags: rollback, revert, downgrade, version, plugins
+Requires at least: 6.5
+Donate Link: https://wprollback.com/
+Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.0.7
+Stable tag: 3.0.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -18,6 +18,8 @@ Quickly and easily rollback any theme or plugin from WordPress.org to any previo
 = 🔙 Rollback WordPress.org Plugins and Themes =
 
 While it's considered best practice to always keep your WordPress plugins and themes updated, we understand there are times you may need to quickly revert to a previous version. This plugin makes that process as easy as a few mouse clicks. Simply select the version of the plugin or theme that you'd like to rollback to, confirm, and in a few moments you'll be using the version requested. No more fumbling to find the version, downloading, unzipping, FTPing, learning Subversion or hair pulling.
+
+For advanced features like premium plugin/theme support (Envato, Kadence Pro, Astra Pro, etc.), comprehensive activity logging, multisite network support, and priority support, consider upgrading to [WP Rollback Pro](https://wprollback.com/).
 
 = Muy Importante (Very Important): Always Test and Backup =
 
@@ -82,6 +84,10 @@ Nope. We warned you in **bold** print several times in many places. And our plug
 
 The documentation for this plugin is located on our [Github Wiki](https://github.com/impress-org/wp-rollback/wiki). This is where we make regular updates.
 
+= What's the difference between WP Rollback Free and Pro? =
+
+WP Rollback Free provides essential rollback functionality for WordPress.org plugins and themes. WP Rollback Pro adds powerful features including premium plugin/theme support (Gravity Forms, Elementor, Kadence Pro, Astra Pro, Divi, etc.), comprehensive activity logging, multisite network support, and priority support. [Learn more about Pro features](https://wprollback.com/).
+
 = Can this plugin be translated? =
 
 Yes! All strings are internationalized and ready to be translated. Simply use the languages/wp-rollback.pot file and your favorite translation tool. Once finished, please reach out to us on the WordPress.org forums or better yet, submit a pull request on the [GitHub Repo](https://github.com/impress-org/wp-rollback/).
@@ -105,6 +111,13 @@ Yes! All strings are internationalized and ready to be translated. Simply use th
 This is the first version of this plugin. It is a tool for your convenience. Rollback at your own risk!
 
 == Changelog ==
+
+= 3.0.0 =
+* New: Added additional "WP Rollback" menu item under WP-Admin > Tools. 
+* New: Added new "Plugin" and "Themes" list views to select a rollback more easily.
+* New: WP Rollback now stores premium assets locally on your server for easy future access.
+* New: Added upsells to the new [WP Rollback Pro](https://wprollback.com/).
+* New: Updated plugin to support PHP versions 7.4 - 8.4.
 
 = 2.0.7 =
 * Fix: Resolved a bug with plain permalink websites which caused a `rest_no_route` error when trying to rollback a plugin or theme. Thanks, @afizesan for helping pinpoint the issue.
