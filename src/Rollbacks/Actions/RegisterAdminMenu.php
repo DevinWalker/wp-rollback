@@ -4,7 +4,7 @@
  * Menu registration for WP Rollback free plugin.
  *
  * @package WpRollback\Free\Rollbacks\Actions
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 declare(strict_types=1);
@@ -17,7 +17,7 @@ use WpRollback\SharedCore\Rollbacks\Actions\BaseRegisterAdminMenu;
 /**
  * RegisterAdminMenu implementation for free version.
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 class RegisterAdminMenu extends BaseRegisterAdminMenu
 {

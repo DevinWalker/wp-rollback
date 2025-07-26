@@ -2,7 +2,7 @@
 
 /**
  * @package WpRollback\Free\Rollbacks\ThemeRollback
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 declare(strict_types=1);
@@ -14,7 +14,7 @@ use Theme_Upgrader;
 use WP_Error;
 
 /**
- * @since 1.0.0
+ * @since 3.0.0
  */
 class ThemeUpgrader extends Theme_Upgrader
 {

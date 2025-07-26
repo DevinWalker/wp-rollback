@@ -4,7 +4,7 @@
  * This is used to add plugin row meta-links.
  *
  * @package WpRollback\PluginSetup
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 declare(strict_types=1);
@@ -15,14 +15,14 @@ use WpRollback\Free\Core\Constants;
 use WpRollback\SharedCore\Core\SharedCore;
 
 /**
- * @since 1.0.0
+ * @since 3.0.0
  */
 class PluginMeta
 {
     /**
      * Adds a link in the wider column. Typically used to add docs and support plugin row meta-links.
      *
-     * @since 1.0.0
+     * @since 3.0.0
      */
     public static function addPluginRowMeta(array $pluginMeta, string $pluginFile): array
     {

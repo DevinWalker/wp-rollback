@@ -2,7 +2,7 @@
  * Register Free Templates
  *
  * @package
- * @since 1.0.0
+ * @since 3.0.0
  */
 import { __ } from '@wordpress/i18n';
 import { Dashicon } from '@wordpress/components';

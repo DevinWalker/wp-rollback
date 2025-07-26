@@ -2,7 +2,7 @@
 
 /**
  * @package WpRollback\Free\Rollbacks
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 declare(strict_types=1);
@@ -16,7 +16,7 @@ use WpRollback\Free\Rollbacks\ThemeRollback\Actions\UpdateThemeList;
 use WpRollback\SharedCore\Core\Helpers\ContainerHelper;
 
 /**
- * @since 1.0.0
+ * @since 3.0.0
  */
 class MultisiteSupport
 {

@@ -4,7 +4,7 @@
  * This controller uses to check whether theme is available on WP.ORG
  *
  * @package WpRollback\Free\Rollbacks\ThemeRollback\Controllers
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 declare(strict_types=1);
@@ -17,12 +17,12 @@ use WpRollback\SharedCore\Core\Contracts\Controller;
 use function WpRollback\SharedCore\Core\Helpers\remote_get;
 
 /**
- * @since 1.0.0
+ * @since 3.0.0
  */
 class TypeConfirmationController extends Controller
 {
     /**
-     * @since 1.0.0
+     * @since 3.0.0
      * @throws Exception
      */
     public function __invoke(): void

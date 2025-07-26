@@ -4,7 +4,7 @@
  * Plugin Scripts
  *
  * @package WpRollback\Free\PluginSetup
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 declare(strict_types=1);
@@ -18,14 +18,14 @@ use WpRollback\SharedCore\Rollbacks\Registry\RollbackStepRegisterer;
 /**
  * Handles script and style registration for the free plugin.
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 class PluginScripts
 {
     /**
      * Initialize scripts.
      *
-     * @since 1.0.0
+     * @since 3.0.0
      * @return void
      */
     public function initialize(): void
@@ -36,7 +36,7 @@ class PluginScripts
     /**
      * Enqueue plugin assets.
      *
-     * @since 1.0.0
+     * @since 3.0.0
      * @return void
      */
     public function enqueueAssets(): void
@@ -55,7 +55,7 @@ class PluginScripts
     /**
      * Get rollback steps data for script localization.
      *
-     * @since 1.0.0
+     * @since 3.0.0
      * @return array
      */
     protected function getRollbackSteps(): array

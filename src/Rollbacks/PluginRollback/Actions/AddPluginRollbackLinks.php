@@ -7,7 +7,7 @@
  * It uses the unified handler with appropriate configuration for the free version.
  *
  * @package WpRollback\Free\Rollbacks\PluginRollback\Actions
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 declare(strict_types=1);
@@ -20,7 +20,7 @@ use WpRollback\Free\Core\Constants;
 /**
  * Class AddPluginRollbackLinks
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 class AddPluginRollbackLinks extends SharedAddPluginRollbackLinks
 {

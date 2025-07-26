@@ -2,7 +2,7 @@
 
 /**
  * @package WpRollback\Free\Core
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 declare(strict_types=1);
@@ -14,7 +14,7 @@ use WpRollback\SharedCore\Core\BaseConstants;
 /**
  * Free plugin constants implementation.
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 class Constants extends BaseConstants
 {
@@ -25,7 +25,7 @@ class Constants extends BaseConstants
     {
         parent::__construct(
             'wp-rollback',    // Text domain
-            '3.0.0',          // Version
+            '3.0.1',          // Version
             'wp-rollback',    // Slug
             'wp-rollback-nonce', // Nonce
             self::findPluginFile('wp-rollback', __FILE__) // Plugin file path

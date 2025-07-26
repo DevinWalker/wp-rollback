@@ -4,7 +4,7 @@
  * Service Provider
  *
  * @package WpRollback\Free\Core
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 declare(strict_types=1);
@@ -31,7 +31,7 @@ class ServiceProvider implements ServiceProviderContract
     /**
      * This function registers the service provider.
      *
-     * @since 1.0.0
+     * @since 3.0.0
      * @throws BindingResolutionException
      */
     public function register(): void
@@ -69,7 +69,7 @@ class ServiceProvider implements ServiceProviderContract
     /**
      * This function boots the service provider.
      *
-     * @since 1.0.0
+     * @since 3.0.0
      */
     public function boot(): void
     {

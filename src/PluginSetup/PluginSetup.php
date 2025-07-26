@@ -4,7 +4,7 @@
  * This class is used to manage the application features and make it available to the application.
  *
  * @package WpRollback\PluginSetup
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 declare(strict_types=1);
@@ -25,28 +25,28 @@ use WpRollback\SharedCore\Core\SharedCore;
 /**
  * Class Plugin
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 class PluginSetup extends BasePluginSetup
 {
     /**
      * The Request class is used to manage the request data.
      *
-     * @since 1.0.0
+     * @since 3.0.0
      */
     protected Request $request;
 
     /**
      * Constants instance
      *
-     * @since 1.0.0
+     * @since 3.0.0
      */
     protected ?Constants $constants = null;
 
     /**
      * This is a list of service providers that will be loaded into the application.
      *
-     * @since 1.0.0
+     * @since 3.0.0
      */
     protected array $serviceProviders = [
         \WpRollback\Free\Core\ServiceProvider::class,
@@ -58,7 +58,7 @@ class PluginSetup extends BasePluginSetup
     /**
      * Bootstraps the WpRollback Plugin
      *
-     * @since 1.0.0
+     * @since 3.0.0
      *
      * @throws BindingResolutionException
      */
@@ -79,14 +79,14 @@ class PluginSetup extends BasePluginSetup
     /**
      * Initiate WpRollback when WordPress Initializes plugins.
      *
-     * @since 1.0.0
+     * @since 3.0.0
      */
     public function init(): void
     {
         /**
          * Fires before the WpRollback core is initialized.
          *
-         * @since 1.0.0
+         * @since 3.0.0
          */
         do_action('before_wpr_init');
 
@@ -106,7 +106,7 @@ class PluginSetup extends BasePluginSetup
         /**
          * Fire the action after WpRollback core loads.
          *
-         * @since 1.0.0
+         * @since 3.0.0
          *
          * @param self $instance Plugin class instance.
          *
@@ -117,7 +117,7 @@ class PluginSetup extends BasePluginSetup
     /**
      * This function is used to set up language for application.
      *
-     * @since 1.0.0
+     * @since 3.0.0
      */
     protected function setupLanguage(): void
     {
@@ -127,7 +127,7 @@ class PluginSetup extends BasePluginSetup
     /**
      * This function is used to load service providers.
      *
-     * @since 1.0.0
+     * @since 3.0.0
      */
     protected function loadServiceProviders(): void
     {
@@ -161,7 +161,7 @@ class PluginSetup extends BasePluginSetup
     }
 
     /**
-     * @since 1.0.0.
+     * @since 3.0.0.
      */
     protected function registerLibraries(): void
     {
@@ -179,7 +179,7 @@ class PluginSetup extends BasePluginSetup
     /**
      * Get the Constants instance
      *
-     * @since 1.0.0
+     * @since 3.0.0
      *
      * @return Constants
      */

@@ -3,7 +3,7 @@
 /**
  *
  * @package WpRollback\Free\Rollbacks\ThemeRollback\Actions
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 declare(strict_types=1);
@@ -15,7 +15,7 @@ use WpRollback\SharedCore\Core\Helpers\ContainerHelper;
 use WpRollback\SharedCore\Rollbacks\ThemeRollback\Actions\UpdateThemeList;
 
 /**
- * @since 1.0.0
+ * @since 3.0.0
  */
 class PrepareThemeJS
 {

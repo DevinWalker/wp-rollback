@@ -2,9 +2,7 @@
 
 # WP Rollback
 
-Effortlessly rollback (or downgrade, as some may call it) any theme or plugin from WordPress.org to a previous version
-with WP Rollback. It's as simple as using the plugin updater, but instead, you downgrade to a specific version. Forget
-the hassle of manual downloads and FTP uploads; this plugin streamlines the process for you.
+Effortlessly rollback (or downgrade, as some may call it) any theme or plugin from WordPress.org to a previous version with WP Rollback. It's as simple as using the plugin updater, but instead, you downgrade to a specific version. Forget the hassle of manual downloads and FTP uploads; this plugin streamlines the process for you.
 
 ## Important: Usage Disclaimer
 

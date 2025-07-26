@@ -2,7 +2,7 @@
 
 /**
  * @package WpRollback\Free\Rollbacks\ThemeRollback\Actions
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 declare(strict_types=1);
@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace WpRollback\Free\Rollbacks\ThemeRollback\Actions;
 
 /**
- * @since 1.0.0
+ * @since 3.0.0
  */
 class UpdateThemeList
 {

@@ -6,7 +6,7 @@
  * This file is responsible for registering and booting the service provider for plugin admin dashboard.
  *
  * @package WpRollback\Rollbacks
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 declare(strict_types=1);
@@ -34,13 +34,13 @@ use WpRollback\SharedCore\Rollbacks\ToolsPage\ToolsPage;
 /**
  * Class ServiceProvider.
  *
- * @since 1.0.0`
+ * @since 3.0.0`
  */
 class ServiceProvider implements ServiceProviderContract
 {
     /**
      * @inheritdoc
-     * @since 1.0.0
+     * @since 3.0.0
      * @throws BindingResolutionException
      */
     public function register(): void
@@ -78,7 +78,7 @@ class ServiceProvider implements ServiceProviderContract
 
     /**
      * @inheritDoc
-     * @since 1.0.0
+     * @since 3.0.0
      * @throws BindingResolutionException
      */
     public function boot(): void
@@ -97,7 +97,7 @@ class ServiceProvider implements ServiceProviderContract
 
 
     /**
-     * @since 1.0.0
+     * @since 3.0.0
      * @throws BindingResolutionException
      */
     private function bootToolsPage(): void
@@ -106,7 +106,7 @@ class ServiceProvider implements ServiceProviderContract
     }
 
     /**
-     * @since 1.0.0
+     * @since 3.0.0
      * @throws BindingResolutionException
      */
     private function bootPluginRollback(): void
@@ -124,7 +124,7 @@ class ServiceProvider implements ServiceProviderContract
     }
 
     /**
-     * @since 1.0.0
+     * @since 3.0.0
      * @return void
      * @throws BindingResolutionException
      */
@@ -137,7 +137,7 @@ class ServiceProvider implements ServiceProviderContract
     }
 
     /**
-     * @since 1.0.0
+     * @since 3.0.0
      * @throws BindingResolutionException
      */
     private function addMultiSiteSupport(): void
@@ -153,7 +153,7 @@ class ServiceProvider implements ServiceProviderContract
     /**
      * Register multisite menu.
      *
-     * @since 1.0.0
+     * @since 3.0.0
      * @throws BindingResolutionException
      */
     public static function registerMultisiteMenu(): void
