@@ -5,7 +5,7 @@ Requires at least: 6.5
 Donate Link: https://wprollback.com/
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 3.0.1
+Stable tag: 3.0.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -111,6 +111,15 @@ Yes! All strings are internationalized and ready to be translated. Simply use th
 This is the first version of this plugin. It is a tool for your convenience. Rollback at your own risk!
 
 == Changelog ==
+
+= 3.0.2 =
+* Improvement: Simplified theme rollback button display functionality - all themes now display rollback buttons without checking WordPress.org availability.
+* Improvement: Consolidated theme rollback JavaScript handlers between free and pro versions for better code maintainability.
+* Improvement: Removed visual distinction between WordPress.org and premium plugin rollback links for a more consistent UI.
+* Fix: Resolved fatal error on themes.php page caused by incorrect namespace references.
+
+= 3.0.1 =
+* Fix: Resolved an error with JetPack Sync and potentially other plugins that modify plugin data and return null.
 
 = 3.0.0 =
 * New: Added additional "WP Rollback" menu item under WP-Admin > Tools. 
