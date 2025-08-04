@@ -9,6 +9,7 @@
 
 import { ExternalLink, Icon, Button, Notice } from '@wordpress/components';
 import { __, sprintf } from '@wordpress/i18n';
+import { decodeEntities } from '@wordpress/html-entities';
 import { useRollbackContext } from '@wp-rollback/shared-core/context/RollbackContext';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from '@wordpress/element';
@@ -34,7 +35,7 @@ const FreeCompleteTemplate = ( { buttons } ) => {
     const successMessage = sprintf(
         /* translators: 1: Asset name 2: Asset version */
         __( '%1$s has been successfully rolled back to version %2$s.', 'wp-rollback' ),
-        `<strong>${ rollbackInfo.name }</strong>`,
+        `<strong>${ decodeEntities( rollbackInfo.name ) }</strong>`,
         `<strong>${ rollbackVersion }</strong>`
     );
 

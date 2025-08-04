@@ -5,7 +5,7 @@ Requires at least: 6.5
 Donate Link: https://wprollback.com/
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 3.0.2
+Stable tag: 3.0.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -111,6 +111,11 @@ Yes! All strings are internationalized and ready to be translated. Simply use th
 This is the first version of this plugin. It is a tool for your convenience. Rollback at your own risk!
 
 == Changelog ==
+
+= 3.0.3 =
+* Fix: Resolved fatal error when attempting to rollback plugins that return boolean false for requires_php field instead of a string value. This fix ensures proper type validation for WordPress requirement fields.
+* Fix: Plugin and theme names containing HTML entities (like &amp;, &lt;, etc.) now display correctly in rollback modals instead of showing raw HTML characters.
+
 
 = 3.0.2 =
 * Improvement: Simplified theme rollback button display functionality - all themes now display rollback buttons without checking WordPress.org availability.
