@@ -61,6 +61,20 @@ class PluginMeta
                 ),
                 esc_html__('Support', 'wp-rollback')
             ),
+            sprintf(
+                '<a href="%1$s" target="_blank" style="color: #6d28d9; font-weight: bold;">%2$s</a>',
+                esc_url(
+                    add_query_arg(
+                        [
+                            'utm_source'   => 'plugins-page',
+                            'utm_medium'   => 'plugin-row',
+                            'utm_campaign' => 'admin',
+                        ],
+                        'https://wprollback.com/pricing/'
+                    )
+                ),
+                esc_html__('Go Pro!', 'wp-rollback')
+            ),
         ];
 
         return array_merge($pluginMeta, $newMetaLinks);

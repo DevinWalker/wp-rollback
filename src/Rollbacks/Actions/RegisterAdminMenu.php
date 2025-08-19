@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace WpRollback\Free\Rollbacks\Actions;
 
-use WpRollback\Free\Rollbacks\ToolsPage\ToolsPage;
 use WpRollback\SharedCore\Rollbacks\Actions\BaseRegisterAdminMenu;
 
 /**
@@ -37,11 +36,4 @@ class RegisterAdminMenu extends BaseRegisterAdminMenu
         return __('WP Rollback', 'wp-rollback');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getToolsPageClass(): string
-    {
-        return ToolsPage::class;
-    }
 }

@@ -19,6 +19,7 @@ use WpRollback\SharedCore\Core\Contracts\ServiceProvider as ServiceProviderContr
 use WpRollback\Free\Rollbacks\Actions\RegisterAdminMenu;
 use WpRollback\Free\Rollbacks\PluginRollback\Actions\AddPluginRollbackLinks;
 use WpRollback\Free\Rollbacks\PluginRollback\Actions\PreCurrentActivePlugins;
+use WpRollback\Free\Rollbacks\ThemeRollback\Actions\AddMultisiteThemeRollbackLinks;
 use WpRollback\Free\Rollbacks\ThemeRollback\Actions\ThemeUpgrader;
 use WpRollback\Free\Rollbacks\ThemeRollback\Views\ThemeRollbackButton;
 use WpRollback\SharedCore\Core\SharedCore;
@@ -142,6 +143,18 @@ class ServiceProvider implements ServiceProviderContract
         Hooks::addAction('network_admin_menu', self::class, 'registerMultisiteMenu');
         
         Hooks::addFilter('network_admin_plugin_action_links', AddPluginRollbackLinks::class, '__invoke', 20, 4);
+        
+        // Register factory for AddMultisiteThemeRollbackLinks
+        // Note: This only applies in network admin - single sites use ThemeRollbackButton instead
+        Hooks::registerFactory(
+            AddMultisiteThemeRollbackLinks::class,
+            function () {
+                return SharedCore::container()->make(AddMultisiteThemeRollbackLinks::class);
+            }
+        );
+        
+        // Add theme rollback links in network admin themes table
+        Hooks::addFilter('theme_action_links', AddMultisiteThemeRollbackLinks::class, '__invoke', 20, 3);
     }
     
     /**

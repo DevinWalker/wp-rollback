@@ -11,6 +11,7 @@ namespace WpRollback\Free\Rollbacks\ThemeRollback\Views;
 
 use WpRollback\SharedCore\Core\Assets\AssetsManager;
 use WpRollback\SharedCore\Core\SharedCore;
+use WpRollback\SharedCore\Rollbacks\Traits\PluginHelpers;
 
 /**
  * Handles theme rollback button functionality and assets.
@@ -19,6 +20,7 @@ use WpRollback\SharedCore\Core\SharedCore;
  */
 class ThemeRollbackButton
 {
+    use PluginHelpers;
     /**
      * Register and enqueue theme rollback assets.
      *
@@ -29,6 +31,16 @@ class ThemeRollbackButton
         global $pagenow;
 
         if ('themes.php' !== $pagenow) {
+            return;
+        }
+
+        // Don't enqueue on network admin - themes use table view with action links there
+        if (is_network_admin()) {
+            return;
+        }
+
+        // Don't enqueue on individual sites if plugin is network activated
+        if ($this->isNetworkActivated()) {
             return;
         }
 
