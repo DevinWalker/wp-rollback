@@ -14,7 +14,6 @@ namespace WpRollback\Free\PluginSetup;
 use WpRollback\SharedCore\Core\Assets\AssetsManager;
 use WpRollback\SharedCore\Core\SharedCore;
 use WpRollback\SharedCore\Rollbacks\Registry\RollbackStepRegisterer;
-
 /**
  * Handles script and style registration for the free plugin.
  *

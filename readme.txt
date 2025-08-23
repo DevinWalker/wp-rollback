@@ -5,7 +5,7 @@ Requires at least: 6.5
 Donate Link: https://wprollback.com/
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 3.0.4
+Stable tag: 3.0.5
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -111,6 +111,12 @@ Yes! All strings are internationalized and ready to be translated. Simply use th
 This is the first version of this plugin. It is a tool for your convenience. Rollback at your own risk!
 
 == Changelog ==
+
+= 3.0.5 =
+* Fix: Resolved conflict where maintenance mode was interfering with external monitoring tools like Nagios, WP-CLI, and automated WordPress update checks. The maintenance page is now only shown to regular site visitors, allowing monitoring tools and admin processes to function normally.
+* Fix: Maintenance mode now only activates when rolling back active plugins or themes. Inactive plugins and themes no longer trigger maintenance mode unnecessarily.
+* Fix: Corrected an issue where the maintenance mode step wasn't displaying in the Free version's rollback progress UI due to incorrect service provider load order.
+* Improvement: Refactored rollback step registration for better code maintainability across Free and Pro versions, ensuring consistent behavior.
 
 = 3.0.4 =
 * New: Added maintenance mode support during rollback operations to prevent site access while files are being replaced, following WordPress Core update patterns.

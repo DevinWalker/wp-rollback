@@ -42,7 +42,7 @@ export const Dashboard = () => {
                             onClick={ () => {
                                 navigate( '/plugin-list' );
                             } }
-                            isPrimary
+                            variant="primary"
                         >
                             { __( 'Rollback a Plugin', 'wp-rollback' ) }
                         </Button>
@@ -64,7 +64,7 @@ export const Dashboard = () => {
                             onClick={ () => {
                                 navigate( '/theme-list' );
                             } }
-                            isPrimary
+                            variant="primary"
                         >
                             { __( 'Rollback a Theme', 'wp-rollback' ) }
                         </Button>

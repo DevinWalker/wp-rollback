@@ -50,8 +50,8 @@ class PluginSetup extends BasePluginSetup
      */
     protected array $serviceProviders = [
         \WpRollback\Free\Core\ServiceProvider::class,
-        \WpRollback\SharedCore\Rollbacks\ServiceProvider::class,
         \WpRollback\Free\Rollbacks\ServiceProvider::class,
+        \WpRollback\SharedCore\Rollbacks\ServiceProvider::class,
         \WpRollback\SharedCore\RestAPI\ServiceProvider::class,
     ];
 
