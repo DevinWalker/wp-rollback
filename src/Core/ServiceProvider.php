@@ -16,9 +16,9 @@ use WpRollback\SharedCore\Core\Cache;
 use WpRollback\SharedCore\Core\Exceptions\BindingResolutionException;
 use WpRollback\SharedCore\Core\Contracts\ServiceProvider as ServiceProviderContract;
 use WpRollback\Free\Core\Constants;
+use WpRollback\Free\Core\Request;
 use WpRollback\SharedCore\Core\SharedCore;
 use WpRollback\SharedCore\Core\BaseConstants;
-use WpRollback\SharedCore\Core\Request;
 use WpRollback\Free\PluginSetup\PluginScripts;
 
 /**
@@ -48,16 +48,17 @@ class ServiceProvider implements ServiceProviderContract
             return $constants;
         });
 
-        // Register Request with Constants dependency
+        // Register plugin-specific Request implementation
         SharedCore::container()->singleton(Request::class, function () use ($constants) {
             return new Request($constants);
         });
 
-        // Register other services using the same constants instance
+        // Register plugin-specific Cache implementation
         SharedCore::container()->singleton(Cache::class, function () use ($constants) {
             return new Cache($constants->getSlug());
         });
 
+        // Register plugin-specific DebugMode if needed
         SharedCore::container()->singleton(DebugMode::class, function () {
             return DebugMode::makeWithWpDebugConstant();
         });

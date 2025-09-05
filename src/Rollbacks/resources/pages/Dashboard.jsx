@@ -42,6 +42,7 @@ export const Dashboard = () => {
                             onClick={ () => {
                                 navigate( '/plugin-list' );
                             } }
+                            className="wpr-plugin-rollback-button"
                             variant="primary"
                         >
                             { __( 'Rollback a Plugin', 'wp-rollback' ) }
@@ -64,6 +65,7 @@ export const Dashboard = () => {
                             onClick={ () => {
                                 navigate( '/theme-list' );
                             } }
+                            className="wpr-theme-rollback-button"
                             variant="primary"
                         >
                             { __( 'Rollback a Theme', 'wp-rollback' ) }
@@ -81,7 +83,7 @@ export const Dashboard = () => {
                             'wp-rollback'
                         ) }
                     </p>
-                    <Button href="https://wprollback.com/pricing/" isPrimary>
+                    <Button href="https://wprollback.com/pricing/" variant="primary" className="wpr-upgrade-rollback-button">
                         { __( 'Upgrade to Pro', 'wp-rollback' ) }
                     </Button>
                 </CardBody>

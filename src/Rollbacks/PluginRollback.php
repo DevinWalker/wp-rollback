@@ -21,10 +21,10 @@ class PluginRollback {
     /**
      * Constructor
      *
-     * @param string $plugin_slug The plugin slug
+     * @param string $pluginSlug The plugin slug
      */
-    public function __construct(string $plugin_slug) {
-        $this->plugin_info = new PluginInfo($plugin_slug);
+    public function __construct(string $pluginSlug) {
+        $this->plugin_info = new PluginInfo($pluginSlug);
     }
 
     /**
@@ -48,16 +48,16 @@ class PluginRollback {
             );
         }
 
-        $current_version = $this->plugin_info->getCurrentVersion();
-        if ($current_version === $version) {
+        $currentVersion = $this->plugin_info->getCurrentVersion();
+        if ($currentVersion === $version) {
             return new \WP_Error(
                 'same_version',
                 __('Cannot rollback to the same version.', 'wp-rollback')
             );
         }
 
-        $available_versions = $this->plugin_info->getAvailableVersions();
-        if (!in_array($version, $available_versions, true)) {
+        $availableVersions = $this->plugin_info->getAvailableVersions();
+        if (!in_array($version, $availableVersions, true)) {
             return new \WP_Error(
                 'version_not_found',
                 __('The requested version is not available.', 'wp-rollback')

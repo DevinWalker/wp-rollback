@@ -14,7 +14,7 @@ const Header = () => {
             </div>
             <div className="wpr-header-content"></div>
             <div className="wpr-header-actions">
-                <ExternalLink href="https://wprollback.com/docs/">
+                <ExternalLink href="https://docs.wprollback.com/?utm_source=free-plugin&utm_medium=header&utm_campaign=documentation">
                     { __( 'Documentation', 'wp-rollback' ) }
                 </ExternalLink>
                 <ExternalLink href="https://wordpress.org/support/plugin/wp-rollback/">{ __( 'Support', 'wp-rollback' ) }</ExternalLink>

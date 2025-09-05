@@ -6,7 +6,9 @@
  * Description: Rollback (or forward) any WordPress.org plugin, theme or block like a boss.
  * Author: WP Rollback
  * Author URI: https://wprollback.com/
- * Version: 3.0.5
+ * Version: 3.0.6
+ * Requires at least: 6.5
+ * Requires PHP: 7.4
  * Text Domain: wp-rollback
  * Domain Path: /languages
  *
@@ -34,6 +36,9 @@ if (!defined('ABSPATH')) {
 // Load Composer autoloaders
 require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/vendor/vendor-prefixed/autoload.php';
+
+// Initialize SharedCore - This is lightweight and just marks it as initialized
+WpRollback\SharedCore\Core\SharedCore::initialize();
 
 // Initialize the plugin
 add_action('plugins_loaded', function () {

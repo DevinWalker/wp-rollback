@@ -5,7 +5,7 @@ Requires at least: 6.5
 Donate Link: https://wprollback.com/
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 3.0.5
+Stable tag: 3.0.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -39,13 +39,13 @@ WP Rollback was created to be as intuitive to the natural WordPress experience a
 
 **BUT!!**
 
-We do have documentation on the plugin [GitHub Wiki](https://github.com/impress-org/wp-rollback/wiki).
+We do have documentation. See [WP Rollback Documentation](https://docs.wprollback.com/).
 
 == Installation ==
 
 = Minimum Requirements =
 
-* WordPress 5.5 or greater
+* WordPress 6.5 or greater
 * PHP version 7.4 or greater
 * MySQL version 5.0 or greater
 
@@ -111,6 +111,10 @@ Yes! All strings are internationalized and ready to be translated. Simply use th
 This is the first version of this plugin. It is a tool for your convenience. Rollback at your own risk!
 
 == Changelog ==
+
+= 3.0.6 =
+* Enhancement: Premium plugin and theme archives are no longer recreated if an archive already exists for the current version. This improves performance during updates and rollbacks by skipping unnecessary backup operations.
+* Fix: Resolved critical issue where WooCommerce and other plugins with autoloaders would cause fatal errors during rollback. The plugin is now properly deactivated before deletion to prevent PHP errors when files are removed.
 
 = 3.0.5 =
 * Fix: Resolved conflict where maintenance mode was interfering with external monitoring tools like Nagios, WP-CLI, and automated WordPress update checks. The maintenance page is now only shown to regular site visitors, allowing monitoring tools and admin processes to function normally.

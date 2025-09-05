@@ -34,7 +34,6 @@ class Request extends SharedRequest
      */
     public function __construct(Constants $constants)
     {
-        parent::__construct();
         $this->constants = $constants;
     }
     

@@ -38,11 +38,11 @@ class PluginMeta
                 esc_url(
                     add_query_arg(
                         [
-                            'utm_source'   => 'plugins-page',
+                            'utm_source'   => 'free-plugin',
                             'utm_medium'   => 'plugin-row',
-                            'utm_campaign' => 'admin',
+                            'utm_campaign' => 'documentation',
                         ],
-                        'https://wprollback.com/documentation/'
+                        'https://docs.wprollback.com/'
                     )
                 ),
                 esc_html__('Documentation', 'wp-rollback')
@@ -52,9 +52,9 @@ class PluginMeta
                 esc_url(
                     add_query_arg(
                         [
-                            'utm_source'   => 'plugins-page',
+                            'utm_source'   => 'free-plugin',
                             'utm_medium'   => 'plugin-row',
-                            'utm_campaign' => 'admin',
+                            'utm_campaign' => 'support',
                         ],
                         'https://wprollback.com/support/'
                     )
@@ -66,9 +66,9 @@ class PluginMeta
                 esc_url(
                     add_query_arg(
                         [
-                            'utm_source'   => 'plugins-page',
+                            'utm_source'   => 'free-plugin',
                             'utm_medium'   => 'plugin-row',
-                            'utm_campaign' => 'admin',
+                            'utm_campaign' => 'go-pro',
                         ],
                         'https://wprollback.com/pricing/'
                     )
