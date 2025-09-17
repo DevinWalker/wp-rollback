@@ -5,7 +5,7 @@ Requires at least: 6.5
 Donate Link: https://wprollback.com/
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 3.0.6
+Stable tag: 3.0.7
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -33,13 +33,13 @@ Do you speak another language? Want to contribute in a meaningful way to WP Roll
 
 = Support and Documentation =
 
-We answer all support requests [on the WordPress.org support forum](https://wordpress.org/support/plugin/wp-rollback).
+We answer all free user support requests [on the WordPress.org support forum](https://wordpress.org/support/plugin/wp-rollback). For pro users, please submit your questions to [WP Rollback Pro support](https://wprollback.com/?utm_campaign=free-plugin&utm_medium=free-plugin&utm_source=readme).
 
-WP Rollback was created to be as intuitive to the natural WordPress experience as possible. There are is no dedicated settings page or options panel. We believe that once you activate WP Rollback, you'll quickly discover exactly how it works without question.
+WP Rollback was created to be as intuitive to the natural WordPress experience as possible. We believe that once you activate WP Rollback, you'll quickly discover exactly how it works without question.
 
 **BUT!!**
 
-We do have documentation. See [WP Rollback Documentation](https://docs.wprollback.com/).
+We do have documentation on our website. See [WP Rollback Documentation](https://docs.wprollback.com/?utm_source=free-plugin&utm_medium=readme&utm_campaign=documentation).
 
 == Installation ==
 
@@ -82,7 +82,7 @@ Nope. We warned you in **bold** print several times in many places. And our plug
 
 = Where is the complete documentation located? =
 
-The documentation for this plugin is located on our [Github Wiki](https://github.com/impress-org/wp-rollback/wiki). This is where we make regular updates.
+The documentation for this plugin is located on our the [WP Rollback site](https://docs.wprollback.com/?utm_source=free-plugin&utm_medium=readme&utm_campaign=documentation). This is where we make regular updates.
 
 = What's the difference between WP Rollback Free and Pro? =
 
@@ -90,7 +90,7 @@ WP Rollback Free provides essential rollback functionality for WordPress.org plu
 
 = Can this plugin be translated? =
 
-Yes! All strings are internationalized and ready to be translated. Simply use the languages/wp-rollback.pot file and your favorite translation tool. Once finished, please reach out to us on the WordPress.org forums or better yet, submit a pull request on the [GitHub Repo](https://github.com/impress-org/wp-rollback/).
+Yes! All strings are internationalized and ready to be translated. You can either use your favorite translation plugin, or [help translate the plugin on WordPress.org](https://translate.wordpress.org/projects/wp-plugins/wp-rollback/).
 
 == Screenshots ==
 
@@ -111,6 +111,9 @@ Yes! All strings are internationalized and ready to be translated. Simply use th
 This is the first version of this plugin. It is a tool for your convenience. Rollback at your own risk!
 
 == Changelog ==
+
+= 3.0.7 =
+* Updated the WP_Filesystem call in BackupService to set $allow_relaxed_file_ownership to true, enabling support for Group/World writable files. This change aims to prevent potential issues with file permissions during backup operations. Thanks to @hanno from WP.org support forums.
 
 = 3.0.6 =
 * Enhancement: Premium plugin and theme archives are no longer recreated if an archive already exists for the current version. This improves performance during updates and rollbacks by skipping unnecessary backup operations.
