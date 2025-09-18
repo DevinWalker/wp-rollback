@@ -5,7 +5,7 @@ Requires at least: 6.5
 Donate Link: https://wprollback.com/
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 3.0.7
+Stable tag: 3.0.8
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -112,8 +112,11 @@ This is the first version of this plugin. It is a tool for your convenience. Rol
 
 == Changelog ==
 
+= 3.0.8 =
+* Fix: Changed the filesystem type in BackupService from WP_Filesystem_Direct to WP_Filesystem_Base to allow for broader compatibility with different filesystem implementations.
+
 = 3.0.7 =
-* Updated the WP_Filesystem call in BackupService to set $allow_relaxed_file_ownership to true, enabling support for Group/World writable files. This change aims to prevent potential issues with file permissions during backup operations. Thanks to @hanno from WP.org support forums.
+* Fix: Updated the WP_Filesystem call in BackupService to set $allow_relaxed_file_ownership to true, enabling support for Group/World writable files. This change aims to prevent potential issues with file permissions during backup operations. Thanks to @hanno from WP.org support forums.
 
 = 3.0.6 =
 * Enhancement: Premium plugin and theme archives are no longer recreated if an archive already exists for the current version. This improves performance during updates and rollbacks by skipping unnecessary backup operations.
