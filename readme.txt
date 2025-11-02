@@ -112,6 +112,13 @@ This is the first version of this plugin. It is a tool for your convenience. Rol
 
 == Changelog ==
 
+= 3.0.9 =
+* New: Re-added "Trunk" as an available rollback version option for testing development versions.
+* New: Added support for pre-release versions including beta, alpha, and RC versions (e.g., 15.1-beta.2, 15.2-a.7, 2.5.0-RC1).
+* Enhancement: Improved version sorting algorithm to properly order pre-release versions alongside stable releases.
+* Tweak: Added smooth rotating animation to loading indicators for better visual feedback.
+* Tweak: Updated compatibility to WordPress 6.9.
+
 = 3.0.8 =
 * Fix: Changed the filesystem type in BackupService from WP_Filesystem_Direct to WP_Filesystem_Base to allow for broader compatibility with different filesystem implementations.
 
