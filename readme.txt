@@ -3,9 +3,9 @@ Contributors: dlocc, drrobotnik, webdevmattcrom
 Tags: rollback, revert, downgrade, version, plugins
 Requires at least: 6.5
 Donate Link: https://wprollback.com/
-Tested up to: 6.8
+Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 3.0.8
+Stable tag: 3.0.10
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -111,6 +111,9 @@ Yes! All strings are internationalized and ready to be translated. You can eithe
 This is the first version of this plugin. It is a tool for your convenience. Rollback at your own risk!
 
 == Changelog ==
+
+= 3.0.10 =
+* Fix: Resolved fatal error when Visual Composer page builder is active. The plugin now properly validates screen IDs to handle cases where page builders return non-standard screen ID values.
 
 = 3.0.9 =
 * New: Re-added "Trunk" as an available rollback version option for testing development versions.
