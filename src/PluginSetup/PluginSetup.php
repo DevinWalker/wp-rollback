@@ -15,7 +15,6 @@ use WpRollback\Free\Core\Constants;
 use WpRollback\SharedCore\Core\Contracts\ServiceProvider;
 use WpRollback\SharedCore\Core\Exceptions\Primitives\InvalidArgumentException;
 use WpRollback\Free\Core\Request;
-use WpRollback\Free\Dependencies\StellarWP\AdminNotices\AdminNotices;
 use WpRollback\SharedCore\Core\Hooks;
 use WpRollback\SharedCore\PluginSetup\PluginSetup as BasePluginSetup;
 use WpRollback\SharedCore\PluginSetup\PluginManager;
@@ -162,19 +161,13 @@ class PluginSetup extends BasePluginSetup
     }
 
     /**
-     * @since 3.0.0.
+     * Register third-party libraries.
+     *
+     * @since 3.0.0
      */
     protected function registerLibraries(): void
     {
-        // Ensure Constants is available
-        if (null === $this->constants) {
-            $this->constants = SharedCore::container()->make(Constants::class);
-        }
-        
-        AdminNotices::initialize(
-            'wp-rollback',
-            $this->constants->getPluginUrl() . '/vendor/vendor-prefixed/stellarwp/admin-notices'
-        );
+        // No third-party libraries to register
     }
     
     /**
