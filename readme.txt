@@ -5,7 +5,7 @@ Requires at least: 6.5
 Donate Link: https://wprollback.com/
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 3.0.11
+Stable tag: 3.0.12
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -111,6 +111,10 @@ Yes! All strings are internationalized and ready to be translated. You can eithe
 This is the first version of this plugin. It is a tool for your convenience. Rollback at your own risk!
 
 == Changelog ==
+
+= 3.0.12 =
+* Enhancement: Users can now reinstall the currently installed version of a plugin or theme. The rollback button now adapts its label based on the selected version — "Reinstall" when selecting the current version, "Rollback" when selecting an older version, and "Update" when selecting a newer version. Confirmation messaging updates accordingly for each action type.
+* Fix: Resolved critical issue where rolling back a plugin with an uninstall.php file or registered uninstall hook would trigger the plugin's uninstall routine, potentially deleting database tables, options, and other user data. Rollbacks now use direct filesystem deletion matching WordPress Core's Plugin_Upgrader behavior.
 
 = 3.0.11 =
 * Fix: Resolved fatal error that occurred on servers without the PHP ZipArchive extension when any plugin or theme was updated. The plugin now automatically uses WordPress Core's PclZip library as a fallback, ensuring backups work on all server configurations and updates never fail.

@@ -3,8 +3,8 @@ import { useUIText } from '@wp-rollback/shared-core/context/UITextContext';
 /**
  * Theme rollback button component
  *
- * @param {Object} props           Component properties
- * @param {string} props.theme     Theme slug
+ * @param {Object}  props             Component properties
+ * @param {string}  props.theme       Theme slug
  * @param {boolean} props.hasRollback Whether the theme has rollback available
  * @return {JSX.Element} The theme rollback button component
  */

@@ -19,7 +19,7 @@ export const displayVersion = version => {
  * Format a version with plugin name
  *
  * @param {string} version The version to format
- * @param {string} name Plugin name
+ * @param {string} name    Plugin name
  * @return {string} The formatted version with name
  */
 export const displayVersionWithName = ( version, name ) => {

@@ -11,14 +11,12 @@ import { ExternalLink, Icon, Button, Notice } from '@wordpress/components';
 import { __, sprintf } from '@wordpress/i18n';
 import { decodeEntities } from '@wordpress/html-entities';
 import { useRollbackContext } from '@wp-rollback/shared-core/context/RollbackContext';
-import { useNavigate } from 'react-router-dom';
 import { useEffect } from '@wordpress/element';
 import { check, starFilled, shield, backup, list, help } from '@wordpress/icons';
 import RollbackButtons from '@wp-rollback/shared-core/components/modals/RollbackButtons';
 
 const FreeCompleteTemplate = ( { buttons } ) => {
     const { rollbackInfo, rollbackVersion, setCurrentVersion } = useRollbackContext();
-    const navigate = useNavigate();
 
     // Update the current version to the rolled-back version.
     useEffect( () => {
@@ -59,7 +57,7 @@ const FreeCompleteTemplate = ( { buttons } ) => {
 
     return (
         <>
-            {/* Success Message */}
+            { /* Success Message */ }
             <Notice status="success" isDismissible={ false } className="wpr-success-notice">
                 <div className="wpr-success-notice__content">
                     <Icon icon={ check } size={ 48 } />
@@ -68,7 +66,7 @@ const FreeCompleteTemplate = ( { buttons } ) => {
             </Notice>
 
             <div className="wpr-modal-content">
-                {/* What's Next Section */}
+                { /* What's Next Section */ }
                 <div className="wpr-next-steps">
                     <h4 className="wpr-next-steps__heading">
                         <Icon icon={ help } size={ 20 } />
@@ -96,18 +94,21 @@ const FreeCompleteTemplate = ( { buttons } ) => {
                     </ol>
                 </div>
 
-                {/* Pro Features Upgrade Card */}
+                { /* Pro Features Upgrade Card */ }
                 <div className="wpr-pro-upgrade-card">
                     <div className="wpr-pro-upgrade-card__body">
                         <div className="wpr-pro-upgrade-card__header">
-                            <div style={{ fill: '#8b5cf6' }}><Icon icon={ starFilled } size={ 24 } /></div>
-                            <h3>
-                                { __( 'Upgrade to WP Rollback Pro', 'wp-rollback' ) }
-                            </h3>
+                            <div style={ { fill: '#8b5cf6' } }>
+                                <Icon icon={ starFilled } size={ 24 } />
+                            </div>
+                            <h3>{ __( 'Upgrade to WP Rollback Pro', 'wp-rollback' ) }</h3>
                         </div>
-                        
+
                         <p className="wpr-pro-upgrade-card__description">
-                            { __( 'Take your rollback management to the next level with professional features designed for serious WordPress sites.', 'wp-rollback' ) }
+                            { __(
+                                'Take your rollback management to the next level with professional features designed for serious WordPress sites.',
+                                'wp-rollback'
+                            ) }
                         </p>
 
                         <div className="wpr-pro-upgrade-card__features">
@@ -138,12 +139,10 @@ const FreeCompleteTemplate = ( { buttons } ) => {
                     </div>
                 </div>
 
-                {/* Help Section */}
+                { /* Help Section */ }
                 <div className="wpr-help-section">
-                    <p className="wpr-help-section__text">
-                        { __( 'Need help with your rollback?', 'wp-rollback' ) }
-                    </p>
-                    <ExternalLink href="https://wprollback.com/troubleshooting-guide/">
+                    <p className="wpr-help-section__text">{ __( 'Need help with your rollback?', 'wp-rollback' ) }</p>
+                    <ExternalLink href="https://docs.wprollback.com/troubleshooting">
                         { __( 'View our troubleshooting guide', 'wp-rollback' ) }
                     </ExternalLink>
                 </div>

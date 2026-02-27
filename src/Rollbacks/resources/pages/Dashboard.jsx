@@ -83,7 +83,11 @@ export const Dashboard = () => {
                             'wp-rollback'
                         ) }
                     </p>
-                    <Button href="https://wprollback.com/pricing/" variant="primary" className="wpr-upgrade-rollback-button">
+                    <Button
+                        href="https://wprollback.com/pricing/"
+                        variant="primary"
+                        className="wpr-upgrade-rollback-button"
+                    >
                         { __( 'Upgrade to Pro', 'wp-rollback' ) }
                     </Button>
                 </CardBody>

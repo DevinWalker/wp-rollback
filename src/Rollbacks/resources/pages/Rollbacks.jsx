@@ -20,15 +20,8 @@ import PremiumRollbackInlineUpsell from '../components/PremiumRollbackInlineUpse
  * @return {JSX.Element} The rollback page component content
  */
 const RollbacksContent = () => {
-    const { 
-        isLoading, 
-        error, 
-        rollbackInfo, 
-        isPremiumAsset,
-        rollbackVersion,
-        setRollbackVersion,
-        currentVersion
-    } = useRollbackContext();
+    const { isLoading, error, rollbackInfo, isPremiumAsset, rollbackVersion, setRollbackVersion, currentVersion } =
+        useRollbackContext();
 
     if ( isLoading ) {
         return (
@@ -54,26 +47,38 @@ const RollbacksContent = () => {
     if ( isPremiumAsset ) {
         return (
             <Layout className="wpr-rollback-page wpr-premium-rollback-page">
-                {/* Custom header for premium assets */}
+                { /* Custom header for premium assets */ }
                 <div className="wpr-subheader">
-                    <h1>{ __('Unlock Premium Rollbacks', 'wp-rollback') }</h1>
-                    <p>{ __('This premium asset requires WP Rollback Pro for safe version rollbacks.', 'wp-rollback') }</p>
+                    <h1>{ __( 'Unlock Premium Rollbacks', 'wp-rollback' ) }</h1>
+                    <p>
+                        { __(
+                            'This premium asset requires WP Rollback Pro for safe version rollbacks.',
+                            'wp-rollback'
+                        ) }
+                    </p>
                 </div>
-                
+
                 <div className="wpr-rollback-component-wrap">
                     <div className="wpr-premium-upsell">
-                        <Notice status="warning" isDismissible={false} className="wpr-premium-notice">
+                        <Notice status="warning" isDismissible={ false } className="wpr-premium-notice">
                             <p>
-                                <strong>{rollbackInfo?.name || slug}</strong> { __('is not available on WordPress.org and requires WP Rollback Pro for version control.', 'wp-rollback') }
+                                <strong>{ rollbackInfo?.name || slug }</strong>{ ' ' }
+                                { __(
+                                    'is not available on WordPress.org and requires WP Rollback Pro for version control.',
+                                    'wp-rollback'
+                                ) }
                             </p>
                         </Notice>
 
-                        {/* Show available versions if they exist - moved higher */}
+                        { /* Show available versions if they exist - moved higher */ }
                         { rollbackInfo?.versions && Object.keys( rollbackInfo.versions ).length > 0 && (
                             <div className="wpr-available-versions">
                                 <h3>{ __( 'Available Versions (Pro Feature)', 'wp-rollback' ) }</h3>
                                 <p className="wpr-versions-note">
-                                    { __( 'These versions would be available for rollback with WP Rollback Pro:', 'wp-rollback' ) }
+                                    { __(
+                                        'These versions would be available for rollback with WP Rollback Pro:',
+                                        'wp-rollback'
+                                    ) }
                                 </p>
                                 <VersionsList
                                     versions={ rollbackInfo.versions }
