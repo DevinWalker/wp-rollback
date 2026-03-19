@@ -2,7 +2,6 @@
  * Register Free Templates
  *
  * @package
- * @since 3.0.0
  */
 import { __ } from '@wordpress/i18n';
 import { Dashicon } from '@wordpress/components';
@@ -24,21 +23,14 @@ const registerFreeTemplates = templates => {
             confirm: {
                 title: __( 'Return to <type/> Screen', 'wp-rollback' ),
                 onClick: type => {
-                    // Handle both defined and undefined cases
                     const buttonUrl =
                         typeof type === 'string' && type === 'theme'
-                            ? `${ window.location.origin }/wp-admin/themes.php`
-                            : `${ window.location.origin }/wp-admin/plugins.php`;
+                            ? window.wprData?.themesUrl
+                            : window.wprData?.pluginsUrl;
 
                     window.location.href = buttonUrl;
                 },
                 isProcessing: false,
-            },
-            cancel: {
-                title: __( 'Upgrade to Pro', 'wp-rollback' ),
-                onClick: () => {
-                    window.location.href = 'https://wprollback.com/';
-                },
             },
         },
     };

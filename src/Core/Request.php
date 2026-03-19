@@ -6,7 +6,6 @@
  * This file extends the shared core Request functionality for the Free plugin.
  *
  * @package WpRollback\Free\Core
- * @since 3.0.0
  */
 
 declare(strict_types=1);
@@ -18,7 +17,6 @@ use WpRollback\SharedCore\Core\Request as SharedRequest;
 /**
  * Class Request
  *
- * @since 3.0.0
  */
 class Request extends SharedRequest
 {
@@ -44,7 +42,6 @@ class Request extends SharedRequest
      * @param string $action The action to check the nonce for
      * @param string $nonceName Optional custom nonce name
      *
-     * @since 3.0.0
      */
     public function hasValidNonce(string $action, string $nonceName = ''): bool
     {

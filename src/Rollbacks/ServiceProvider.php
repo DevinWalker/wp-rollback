@@ -6,7 +6,6 @@
  * This file is responsible for registering and booting the service provider for plugin admin dashboard.
  *
  * @package WpRollback\Rollbacks
- * @since 3.0.0
  */
 
 declare(strict_types=1);
@@ -25,17 +24,16 @@ use WpRollback\SharedCore\Core\SharedCore;
 use WpRollback\Free\Core\Constants;
 use WpRollback\SharedCore\Rollbacks\Registry\RollbackStepRegisterer;
 use WpRollback\Free\PluginSetup\PluginScripts;
+use WpRollback\SharedCore\Rollbacks\Admin\AdminPageHeaderLinks;
 
 /**
  * Class ServiceProvider.
  *
- * @since 3.0.0
  */
 class ServiceProvider implements ServiceProviderContract
 {
     /**
      * @inheritdoc
-     * @since 3.0.0
      * @throws BindingResolutionException
      */
     public function register(): void
@@ -47,6 +45,11 @@ class ServiceProvider implements ServiceProviderContract
 
         // Register PluginScripts
         SharedCore::container()->singleton(PluginScripts::class);
+
+        // Register AdminPageHeaderLinks with the free plugin slug
+        SharedCore::container()->singleton(AdminPageHeaderLinks::class, function ($container) {
+            return new AdminPageHeaderLinks($container->make(Constants::class)->getSlug());
+        });
         
         // Override the shared RollbackStepRegisterer to exclude ValidatePackage and add UpsellValidatePackage
         // This uses the base steps and modifies them for the free version
@@ -71,7 +74,6 @@ class ServiceProvider implements ServiceProviderContract
 
     /**
      * @inheritDoc
-     * @since 3.0.0
      * @throws BindingResolutionException
      */
     public function boot(): void
@@ -84,13 +86,15 @@ class ServiceProvider implements ServiceProviderContract
         // Initialize PluginScripts
         $scripts = SharedCore::container()->make(PluginScripts::class);
         $scripts->initialize();
+
+        // Inject page-level rollback links on plugins.php and themes.php
+        SharedCore::container()->make(AdminPageHeaderLinks::class)->initialize();
         
         // Note: Backup directory setup is now handled by the shared RollbackServiceProvider
     }
 
 
     /**
-     * @since 3.0.0
      * @throws BindingResolutionException
      */
     private function bootToolsPage(): void
@@ -99,7 +103,6 @@ class ServiceProvider implements ServiceProviderContract
     }
 
     /**
-     * @since 3.0.0
      * @throws BindingResolutionException
      */
     private function bootPluginRollback(): void
@@ -117,7 +120,6 @@ class ServiceProvider implements ServiceProviderContract
     }
 
     /**
-     * @since 3.0.0
      * @return void
      * @throws BindingResolutionException
      */
@@ -128,7 +130,6 @@ class ServiceProvider implements ServiceProviderContract
     }
 
     /**
-     * @since 3.0.0
      * @throws BindingResolutionException
      */
     private function addMultiSiteSupport(): void
@@ -154,7 +155,6 @@ class ServiceProvider implements ServiceProviderContract
     /**
      * Register multisite menu.
      *
-     * @since 3.0.0
      * @throws BindingResolutionException
      */
     public static function registerMultisiteMenu(): void

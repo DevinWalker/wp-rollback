@@ -6,7 +6,6 @@
  * This class is used to manage the application language.
  *
  * @package WpRollback\PluginSetup
- * @since 3.0.0
  */
 
 declare(strict_types=1);
@@ -19,12 +18,10 @@ use WpRollback\SharedCore\Core\SharedCore;
 /**
  * Class Language.
  *
- * @since 3.0.0
  */
 class Language
 {
     /**
-     * @since 3.0.0
      */
     public static function load(): void
     {
@@ -56,7 +53,6 @@ class Language
     /**
      * Return the plugin language dir relative path, e.g. "wp-rollback/languages/"
      *
-     * @since 3.0.0
      */
     public static function getRelativePath(Constants $constants): string
     {

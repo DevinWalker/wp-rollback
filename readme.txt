@@ -5,7 +5,7 @@ Requires at least: 6.5
 Donate Link: https://wprollback.com/
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 3.0.12
+Stable tag: 3.1.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -19,7 +19,7 @@ Quickly and easily rollback any theme or plugin from WordPress.org to any previo
 
 While it's considered best practice to always keep your WordPress plugins and themes updated, we understand there are times you may need to quickly revert to a previous version. This plugin makes that process as easy as a few mouse clicks. Simply select the version of the plugin or theme that you'd like to rollback to, confirm, and in a few moments you'll be using the version requested. No more fumbling to find the version, downloading, unzipping, FTPing, learning Subversion or hair pulling.
 
-For advanced features like premium plugin/theme support (Envato, Kadence Pro, Astra Pro, etc.), comprehensive activity logging, multisite network support, and priority support, consider upgrading to [WP Rollback Pro](https://wprollback.com/).
+For advanced features including rollback support for premium plugins and themes you already have licensed and installed (Elementor Pro, Gravity Forms, WooCommerce extensions, Kadence Pro, Astra Pro, GeneratePress Premium, Divi, Envato/ThemeForest products, and more), comprehensive activity logging, multisite network management, and priority support, consider upgrading to [WP Rollback Pro](https://wprollback.com/).
 
 = Muy Importante (Very Important): Always Test and Backup =
 
@@ -74,7 +74,9 @@ Safety largely depends on you. The WordPress website admin. We absolutely do NOT
 
 = Why isn't there a rollback button next to X plugin or theme? =
 
-WP Rollback only works with plugins or themes installed from the WordPress Repository. If you don't see the rollback link, then most likely that plugin or theme is not found on WordPress.org. This plugin does not support plugins from GitHub, ThemeForest, or other sources other than the WordPress.org Repo.
+WP Rollback (free) only works with plugins or themes hosted on the WordPress.org repository. If you don't see the rollback link, that plugin or theme is not available on WordPress.org and cannot be rolled back with the free version.
+
+If you need to roll back a premium plugin or theme that you are licensed to use, [WP Rollback Pro](https://wprollback.com/) supports that use case.
 
 = I rolled my [insert plugin name] back to version X.X and now my site is broken. This is your fault. =
 
@@ -86,7 +88,9 @@ The documentation for this plugin is located on our the [WP Rollback site](https
 
 = What's the difference between WP Rollback Free and Pro? =
 
-WP Rollback Free provides essential rollback functionality for WordPress.org plugins and themes. WP Rollback Pro adds powerful features including premium plugin/theme support (Gravity Forms, Elementor, Kadence Pro, Astra Pro, Divi, etc.), comprehensive activity logging, multisite network support, and priority support. [Learn more about Pro features](https://wprollback.com/).
+WP Rollback Free provides rollback functionality for any plugin or theme hosted on the WordPress.org repository.
+
+WP Rollback Pro adds support for rolling back premium plugins and themes that you already have a valid license for and have installed on your site. This is handled through Plugin Vault — a shared library of verified version archives contributed by Pro users. Pro also includes comprehensive activity logging, multisite network management, and priority support. [Learn more about Pro features](https://wprollback.com/).
 
 = Can this plugin be translated? =
 
@@ -111,6 +115,17 @@ Yes! All strings are internationalized and ready to be translated. You can eithe
 This is the first version of this plugin. It is a tool for your convenience. Rollback at your own risk!
 
 == Changelog ==
+
+= 3.1.0 =
+* Enhancement: Redesigned rollback confirmation modal — replaced the generic admin table with a visual version comparison showing the installed version and target version side by side, making the rollback action immediately clear at a glance.
+* Enhancement: Redesigned rollback progress modal — steps now display a shimmer skeleton before loading to prevent layout jump, running step messages appear in real-time, and the spinning header icon switches to a checkmark once all steps complete.
+* Enhancement: Duplicate step message text is no longer shown while a step is actively running; the detail message now only appears on completion with meaningful server-side feedback.
+* Enhancement: Added Lottie success animation to the rollback complete screen (Pro) along with redesigned "What's next?" step cards featuring contextual icons.
+* Fix: Rollback complete modal no longer shows a spurious scrollbar on the complete screen at typical viewport heights.
+
+= 3.0.13 =
+* New: Added "Rollback Plugins" and "Rollback Themes" quick-access links to the native WordPress plugins.php and themes.php page headers, appearing alongside the existing "Add New Plugin" / "Add New Theme" buttons for faster navigation to WP Rollback.
+* Fix: "Return to Plugin/Theme Screen" button after a completed rollback now redirects correctly when WordPress is installed in a subdirectory. The URL is now generated server-side via `admin_url()` instead of being constructed from `window.location.origin`, which omits the subdirectory path.
 
 = 3.0.12 =
 * Enhancement: Users can now reinstall the currently installed version of a plugin or theme. The rollback button now adapts its label based on the selected version — "Reinstall" when selecting the current version, "Rollback" when selecting an older version, and "Update" when selecting a newer version. Confirmation messaging updates accordingly for each action type.

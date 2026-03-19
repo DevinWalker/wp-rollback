@@ -7,7 +7,6 @@
  * promoting the pro version's enhanced security features.
  *
  * @package WpRollback\Free\Rollbacks\RollbackSteps
- * @since 3.0.0
  */
 
 declare(strict_types=1);
@@ -21,13 +20,11 @@ use WpRollback\SharedCore\Rollbacks\Contract\RollbackStepResult;
 /**
  * Upsell step that promotes pro validation features instead of actual validation
  *
- * @since 3.0.0
  */
 class UpsellValidatePackage implements RollbackStep
 {
     /**
      * @inheritdoc
-     * @since 3.0.0
      */
     public static function id(): string
     {
@@ -36,7 +33,6 @@ class UpsellValidatePackage implements RollbackStep
 
     /**
      * @inheritdoc
-     * @since 3.0.0
      */
     public function execute(RollbackApiRequestDTO $rollbackApiRequestDTO): RollbackStepResult
     {
@@ -85,7 +81,6 @@ class UpsellValidatePackage implements RollbackStep
 
     /**
      * @inheritdoc
-     * @since 3.0.0
      */
     public static function rollbackProcessingMessage(): string
     {

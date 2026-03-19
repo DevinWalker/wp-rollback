@@ -2,7 +2,6 @@
 
 /**
  * @package WpRollback\Free\Rollbacks\ThemeRollback\Views
- * @since 3.0.0
  */
 
 declare(strict_types=1);
@@ -16,7 +15,6 @@ use WpRollback\SharedCore\Rollbacks\Traits\PluginHelpers;
 /**
  * Handles theme rollback button functionality and assets.
  *
- * @since 3.0.0
  */
 class ThemeRollbackButton
 {
@@ -24,7 +22,6 @@ class ThemeRollbackButton
     /**
      * Register and enqueue theme rollback assets.
      *
-     * @since 3.0.0
      */
     public function __invoke(): void
     {

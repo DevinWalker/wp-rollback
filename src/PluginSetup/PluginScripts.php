@@ -4,7 +4,6 @@
  * Plugin Scripts
  *
  * @package WpRollback\Free\PluginSetup
- * @since 3.0.0
  */
 
 declare(strict_types=1);
@@ -17,14 +16,12 @@ use WpRollback\SharedCore\Rollbacks\Registry\RollbackStepRegisterer;
 /**
  * Handles script and style registration for the free plugin.
  *
- * @since 3.0.0
  */
 class PluginScripts
 {
     /**
      * Initialize scripts.
      *
-     * @since 3.0.0
      * @return void
      */
     public function initialize(): void
@@ -35,7 +32,6 @@ class PluginScripts
     /**
      * Enqueue plugin assets.
      *
-     * @since 3.0.0
      * @return void
      */
     public function enqueueAssets(): void
@@ -51,6 +47,8 @@ class PluginScripts
             'rollback_nonce' => wp_create_nonce('wpr_rollback_nonce'),
             'restApiNonce' => wp_create_nonce('wp_rest'),
             'adminUrl' => $adminUrl,
+            'pluginsUrl' => admin_url('plugins.php'),
+            'themesUrl' => admin_url('themes.php'),
             'restUrl' => esc_url_raw(rest_url()),
             'rollbackSteps' => $this->getRollbackSteps(),
         ]);
@@ -59,7 +57,6 @@ class PluginScripts
     /**
      * Get rollback steps data for script localization.
      *
-     * @since 3.0.0
      * @return array
      */
     protected function getRollbackSteps(): array

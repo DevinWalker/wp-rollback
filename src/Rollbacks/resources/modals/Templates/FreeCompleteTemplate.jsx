@@ -7,25 +7,31 @@
  * @return {JSX.Element} Complete template content
  */
 
-import { ExternalLink, Icon, Button, Notice } from '@wordpress/components';
+import { ExternalLink, Icon, Button } from '@wordpress/components';
 import { __, sprintf } from '@wordpress/i18n';
 import { decodeEntities } from '@wordpress/html-entities';
 import { useRollbackContext } from '@wp-rollback/shared-core/context/RollbackContext';
 import { useEffect } from '@wordpress/element';
-import { check, starFilled, shield, backup, list, help } from '@wordpress/icons';
+import { starFilled, backup, list, plugins } from '@wordpress/icons';
 import RollbackButtons from '@wp-rollback/shared-core/components/modals/RollbackButtons';
+import Lottie from 'lottie-react';
+import rollbackCompleteAnimation from '@wp-rollback/shared-core/animations/rollback-complete.json';
+
+const proFeatureChips = [
+    { icon: plugins, label: __( 'Premium plugins', 'wp-rollback' ) },
+    { icon: backup, label: __( 'Auto-archives', 'wp-rollback' ) },
+    { icon: list, label: __( 'Activity logs', 'wp-rollback' ) },
+];
 
 const FreeCompleteTemplate = ( { buttons } ) => {
     const { rollbackInfo, rollbackVersion, setCurrentVersion } = useRollbackContext();
 
-    // Update the current version to the rolled-back version.
     useEffect( () => {
         if ( rollbackVersion ) {
             setCurrentVersion( rollbackVersion );
         }
     }, [ rollbackVersion, setCurrentVersion ] );
 
-    // Don't render until we have the required data
     if ( ! rollbackInfo || ! rollbackVersion ) {
         return null;
     }
@@ -37,114 +43,62 @@ const FreeCompleteTemplate = ( { buttons } ) => {
         `<strong>${ rollbackVersion }</strong>`
     );
 
-    const proFeatures = [
-        {
-            icon: list,
-            title: __( 'Detailed Activity Logs', 'wp-rollback' ),
-            description: __( 'Track every rollback with comprehensive logs and notes', 'wp-rollback' ),
-        },
-        {
-            icon: backup,
-            title: __( 'Version Preservation', 'wp-rollback' ),
-            description: __( 'Preserve current versions of premium assets before updates', 'wp-rollback' ),
-        },
-        {
-            icon: shield,
-            title: __( 'Priority Support', 'wp-rollback' ),
-            description: __( 'Get expert help when you need it most', 'wp-rollback' ),
-        },
-    ];
-
     return (
         <>
-            { /* Success Message */ }
-            <Notice status="success" isDismissible={ false } className="wpr-success-notice">
-                <div className="wpr-success-notice__content">
-                    <Icon icon={ check } size={ 48 } />
-                    <div dangerouslySetInnerHTML={ { __html: successMessage } } />
+            { /* Hero — same as Pro: Lottie + title + message */ }
+            <div className="wpr-complete-hero">
+                <div className="wpr-complete-hero__animation">
+                    <Lottie
+                        animationData={ rollbackCompleteAnimation }
+                        loop={ false }
+                        autoplay={ true }
+                        style={ { width: 120, height: 120 } }
+                    />
                 </div>
-            </Notice>
+                <h3 className="wpr-complete-hero__title">{ __( 'Rollback Complete', 'wp-rollback' ) }</h3>
+                <p className="wpr-complete-hero__message" dangerouslySetInnerHTML={ { __html: successMessage } } />
+            </div>
 
             <div className="wpr-modal-content">
-                { /* What's Next Section */ }
-                <div className="wpr-next-steps">
-                    <h4 className="wpr-next-steps__heading">
-                        <Icon icon={ help } size={ 20 } />
-                        { __( "What's next?", 'wp-rollback' ) }
-                    </h4>
-                    <ol className="wpr-next-steps__list">
-                        <li>
-                            { __(
-                                'Check your website to verify the rollback resolved any visual or functional issues',
-                                'wp-rollback'
-                            ) }
-                        </li>
-                        <li>
-                            { __(
-                                "If you rolled back due to an error message, review your error logs to confirm it's resolved",
-                                'wp-rollback'
-                            ) }
-                        </li>
-                        <li>
-                            { __(
-                                'Test key functionality on your site to ensure everything works as expected',
-                                'wp-rollback'
-                            ) }
-                        </li>
-                    </ol>
-                </div>
-
-                { /* Pro Features Upgrade Card */ }
+                { /* Pro upsell card */ }
                 <div className="wpr-pro-upgrade-card">
-                    <div className="wpr-pro-upgrade-card__body">
-                        <div className="wpr-pro-upgrade-card__header">
-                            <div style={ { fill: '#8b5cf6' } }>
-                                <Icon icon={ starFilled } size={ 24 } />
-                            </div>
-                            <h3>{ __( 'Upgrade to WP Rollback Pro', 'wp-rollback' ) }</h3>
-                        </div>
-
-                        <p className="wpr-pro-upgrade-card__description">
-                            { __(
-                                'Take your rollback management to the next level with professional features designed for serious WordPress sites.',
-                                'wp-rollback'
-                            ) }
-                        </p>
-
-                        <div className="wpr-pro-upgrade-card__features">
-                            { proFeatures.map( ( feature, index ) => (
-                                <div key={ index } className="wpr-pro-upgrade-card__feature">
-                                    <Icon icon={ feature.icon } size={ 20 } />
-                                    <div className="wpr-pro-upgrade-card__feature-content">
-                                        <h5>{ feature.title }</h5>
-                                        <p>{ feature.description }</p>
-                                    </div>
-                                </div>
-                            ) ) }
-                        </div>
-
-                        <div className="wpr-pro-upgrade-card__actions">
-                            <Button
-                                variant="secondary"
-                                onClick={ () => {
-                                    window.open( 'https://wprollback.com/pricing/', '_blank' );
-                                } }
-                            >
-                                { __( 'Upgrade Now', 'wp-rollback' ) }
-                            </Button>
-                            <ExternalLink href="https://wprollback.com/features/">
-                                { __( 'Learn more', 'wp-rollback' ) }
-                            </ExternalLink>
-                        </div>
+                    <div className="wpr-pro-upgrade-card__eyebrow">
+                        <Icon icon={ starFilled } size={ 13 } style={ { fill: '#fbbf24' } } />
+                        { __( 'WP Rollback Pro', 'wp-rollback' ) }
                     </div>
-                </div>
 
-                { /* Help Section */ }
-                <div className="wpr-help-section">
-                    <p className="wpr-help-section__text">{ __( 'Need help with your rollback?', 'wp-rollback' ) }</p>
-                    <ExternalLink href="https://docs.wprollback.com/troubleshooting">
-                        { __( 'View our troubleshooting guide', 'wp-rollback' ) }
-                    </ExternalLink>
+                    <h3 className="wpr-pro-upgrade-card__headline">
+                        { __( 'Rollback any plugin — not just WordPress.org.', 'wp-rollback' ) }
+                    </h3>
+
+                    <p className="wpr-pro-upgrade-card__description">
+                        { __(
+                            "Pro archives your version before every update and supports premium plugins like Elementor, Gravity Forms, and WooCommerce. Next time something breaks, you're one click from safety.",
+                            'wp-rollback'
+                        ) }
+                    </p>
+
+                    <div className="wpr-pro-upgrade-card__chips">
+                        { proFeatureChips.map( ( chip, index ) => (
+                            <span key={ index } className="wpr-pro-upgrade-chip">
+                                <Icon icon={ chip.icon } size={ 14 } style={ { fill: 'rgba(255, 255, 255, 0.85)' } } />
+                                { chip.label }
+                            </span>
+                        ) ) }
+                    </div>
+
+                    <div className="wpr-pro-upgrade-card__actions">
+                        <Button
+                            variant="primary"
+                            className="wpr-pro-upgrade-card__cta"
+                            onClick={ () => window.open( 'https://wprollback.com/pricing/', '_blank' ) }
+                        >
+                            { __( 'Upgrade Now', 'wp-rollback' ) }
+                        </Button>
+                        <ExternalLink href="https://wprollback.com/features/">
+                            { __( 'See all Pro features', 'wp-rollback' ) }
+                        </ExternalLink>
+                    </div>
                 </div>
 
                 <RollbackButtons buttons={ buttons } />

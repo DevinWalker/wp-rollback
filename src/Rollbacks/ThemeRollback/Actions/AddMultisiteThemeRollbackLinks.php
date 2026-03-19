@@ -8,7 +8,6 @@
  * This is specifically for multisite installations.
  *
  * @package WpRollback\Free\Rollbacks\ThemeRollback\Actions
- * @since 3.0.0
  */
 
 declare(strict_types=1);
@@ -21,7 +20,6 @@ use WpRollback\Free\Core\Constants;
 /**
  * Class AddMultisiteThemeRollbackLinks
  *
- * @since 3.0.0
  */
 class AddMultisiteThemeRollbackLinks extends SharedAddMultisiteThemeRollbackLinks
 {
