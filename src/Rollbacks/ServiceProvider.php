@@ -25,6 +25,7 @@ use WpRollback\Free\Core\Constants;
 use WpRollback\SharedCore\Rollbacks\Registry\RollbackStepRegisterer;
 use WpRollback\Free\PluginSetup\PluginScripts;
 use WpRollback\SharedCore\Rollbacks\Admin\AdminPageHeaderLinks;
+use WpRollback\SharedCore\Rollbacks\Admin\AdminFooter;
 
 /**
  * Class ServiceProvider.
@@ -49,6 +50,11 @@ class ServiceProvider implements ServiceProviderContract
         // Register AdminPageHeaderLinks with the free plugin slug
         SharedCore::container()->singleton(AdminPageHeaderLinks::class, function ($container) {
             return new AdminPageHeaderLinks($container->make(Constants::class)->getSlug());
+        });
+
+        // Register AdminFooter with the free plugin constants for version info
+        SharedCore::container()->singleton(AdminFooter::class, function ($container) {
+            return new AdminFooter($container->make(Constants::class));
         });
         
         // Override the shared RollbackStepRegisterer to exclude ValidatePackage and add UpsellValidatePackage
@@ -89,6 +95,9 @@ class ServiceProvider implements ServiceProviderContract
 
         // Inject page-level rollback links on plugins.php and themes.php
         SharedCore::container()->make(AdminPageHeaderLinks::class)->initialize();
+
+        // Replace the wp-admin footer on WP Rollback pages
+        SharedCore::container()->make(AdminFooter::class)->initialize();
         
         // Note: Backup directory setup is now handled by the shared RollbackServiceProvider
     }

@@ -3,9 +3,9 @@ Contributors: dlocc, drrobotnik, webdevmattcrom
 Tags: rollback, revert, downgrade, version, plugins
 Requires at least: 6.5
 Donate Link: https://wprollback.com/
-Tested up to: 6.9
+Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 3.1.0
+Stable tag: 3.1.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -115,6 +115,10 @@ Yes! All strings are internationalized and ready to be translated. You can eithe
 This is the first version of this plugin. It is a tool for your convenience. Rollback at your own risk!
 
 == Changelog ==
+
+= 3.1.1 =
+* New: WordPress Command Palette integration — press Cmd+K (Mac) or Ctrl+K (Windows) from any admin page and type "Rollback" to instantly find and navigate to any installed plugin or theme rollback. Type "Rollback plugin" to filter to plugins only, or "Rollback theme" for themes only.
+* Enhancement: The default WordPress admin footer is now replaced with subtle WP Rollback branding on all WP Rollback pages — the left side shows "Thank you for using WP Rollback" and the right side shows the current plugin version.
 
 = 3.1.0 =
 * Enhancement: Redesigned rollback confirmation modal — replaced the generic admin table with a visual version comparison showing the installed version and target version side by side, making the rollback action immediately clear at a glance.

@@ -23,7 +23,7 @@ class Constants extends BaseConstants
     {
         parent::__construct(
             'wp-rollback',    // Text domain
-            '3.1.0',          // Version
+            '3.1.1',          // Version
             'wp-rollback',    // Slug
             'wp-rollback-nonce', // Nonce
             self::findPluginFile('wp-rollback', __FILE__) // Plugin file path

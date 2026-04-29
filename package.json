@@ -22,6 +22,7 @@
     "@wordpress/icons": "^10.14.0",
     "@wordpress/plugins": "^7.15.1",
     "@wordpress/url": "^3.49.0",
+    "lottie-react": "^2.4.1",
     "node-svn-ultimate": "^1.2.1",
     "react-router-dom": "^7.1.1",
     "@wp-rollback/shared-core": "workspace:*"
