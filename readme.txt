@@ -5,7 +5,7 @@ Requires at least: 6.5
 Donate Link: https://wprollback.com/
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 3.1.1
+Stable tag: 3.1.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -115,6 +115,9 @@ Yes! All strings are internationalized and ready to be translated. You can eithe
 This is the first version of this plugin. It is a tool for your convenience. Rollback at your own risk!
 
 == Changelog ==
+
+= 3.1.2 =
+* Fix: Resolved a fatal `TypeError` thrown from the `admin_footer_text` filter when another plugin or theme passes a non-string value (such as `null`) into the footer text chain. This affected sites running Classic Editor and other admin-customizing plugins, where the WP Rollback admin footer hook could blank out or partially break admin screens. The footer filter callbacks now safely accept and normalize any input type.
 
 = 3.1.1 =
 * New: WordPress Command Palette integration — press Cmd+K (Mac) or Ctrl+K (Windows) from any admin page and type "Rollback" to instantly find and navigate to any installed plugin or theme rollback. Type "Rollback plugin" to filter to plugins only, or "Rollback theme" for themes only.
