@@ -1,240 +1,353 @@
-// Premium Upsell Styles
-.wpr-premium-rollback-page {
+@use "../../../../../shared-core/src/Frontend/styles/variables" as *;
+@use "shared" as *;
 
-    .wpr-rollback-component-wrap {
-        border: 0;
+// Premium Upsell Styles (a premium plugin or theme opened in the free plugin)
+// Fill colour is baked in so the icon needs no CSS mask.
+$premium-lock-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23757575' d='M17 10h-1V7a4 4 0 0 0-8 0v3H7a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1Zm-7.5-3a2.5 2.5 0 0 1 5 0v3h-5V7Z'/%3E%3C/svg%3E");
+
+@mixin premium-lock {
+    content: "";
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    margin-left: 10px;
+    background: $premium-lock-icon center / contain no-repeat;
+}
+
+.wpr-premium-upsell {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    color: $color-headings;
+
+    h2,
+    h3 {
+        margin: 0;
+        padding: 0;
+        font-weight: 600;
+        color: $color-headings;
     }
 
-    // Custom subheader for premium assets
-    .wpr-subheader {
-        margin-bottom: 2rem;
-        
-        h1 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: #1d2327;
+    p {
+        margin: 0;
+    }
+
+    &__columns {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: stretch;
+        gap: 24px;
+    }
+
+    &__versions {
+        flex: 999 1 440px;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    &__asset {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px 16px;
+        padding: 16px 24px;
+        border-bottom: 1px solid $border-color;
+
+        h2 {
+            font-size: 16px;
+            line-height: 1.4;
         }
-        
+
         p {
-            color: #646970;
-            font-size: 1rem;
-            margin: 0;
+            font-size: 13px;
+            color: $free-muted;
+        }
+    }
+
+    &__asset-text {
+        flex-grow: 1;
+    }
+
+    &__lock-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 2px 10px 2px 6px;
+        border-radius: 999px;
+        background: $free-tint;
+        color: var(--wp-admin-theme-color-darker-20);
+        font-size: 12px;
+        font-weight: 500;
+
+        svg {
+            fill: currentcolor;
+        }
+    }
+
+    // The versions this site already knows about (installed and local backups), shown locked.
+    // Six rows fit without scrolling (the free plugin keeps five backups); longer lists scroll.
+    .wpr-versions-container {
+        min-height: 0;
+        max-height: 296px;
+    }
+
+    .wpr-version-wrap {
+        background: #fff;
+        pointer-events: none;
+
+        &.wpr-active-row {
+            background: #f6f7f7;
+        }
+    }
+
+    .wpr-version-radio-wrap {
+        label {
+            padding: 13px 24px;
+        }
+
+        span.wpr-version-lineitem {
+            margin-left: 14px;
+            font-size: 15px;
+            color: $free-muted;
+        }
+    }
+
+    // The installed version has no lock, so its badge keeps the same column as the others.
+    .wpr-version-wrap:has(.wpr-version-source--installed) label {
+        padding-right: 50px;
+
+        span.wpr-version-lineitem {
+            color: $color-headings;
+        }
+    }
+
+    // Kept as its own rule: a browser without :has() drops it, and the padding above, together.
+    .wpr-version-wrap:not(:has(.wpr-version-source--installed)) label::after {
+        @include premium-lock;
+    }
+
+    &__vault-row::after {
+        @include premium-lock;
+    }
+
+    // Placeholders for Plugin Vault versions: the free plugin never fetches them.
+    &__vault-row {
+        display: flex;
+        align-items: center;
+        padding: 13px 24px;
+        border-bottom: 1px solid $border-color;
+
+        .wpr-version-source {
+            margin-left: auto;
+        }
+    }
+
+    &__vault-radio {
+        flex-shrink: 0;
+        width: 16px;
+        height: 16px;
+        box-sizing: border-box;
+        border: 1px solid var(--wpr-gray-400);
+        border-radius: 50%;
+        background: var(--wpr-gray-100);
+    }
+
+    &__vault-bar {
+        width: 54px;
+        height: 10px;
+        margin-left: 14px;
+        border-radius: 5px;
+        background: var(--wpr-gray-300);
+    }
+
+    // Fills whatever height the card has left, fading out, so the list reads as "and more".
+    &__vault-rows {
+        flex: 1 1 0;
+        min-height: 172px;
+        overflow: hidden;
+        mask-image: linear-gradient(#000 55%, transparent);
+    }
+
+    // Explains Plugin Vault right under the rows that stand in for it.
+    &__vault-info {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        padding: 16px 24px;
+        border-top: 1px solid $border-color;
+        background: #f6f7f7;
+
+        h3 {
+            margin-bottom: 2px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        p {
+            margin-bottom: 6px;
+            font-size: 13px;
+            color: $free-muted;
+            text-wrap: pretty;
+        }
+
+        // stylelint-disable-next-line selector-class-pattern
+        .components-external-link {
+            color: var(--wp-admin-theme-color);
+        }
+    }
+
+    &__vault-info-icon {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        background: $free-tint;
+        color: var(--wp-admin-theme-color-darker-20);
+
+        svg {
+            fill: currentcolor;
+        }
+    }
+
+    &__pro {
+        flex: 1 1 320px;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__pro-body {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        padding: 24px;
+
+        h2 {
+            margin-bottom: 8px;
+            font-size: 20px;
+            line-height: 1.25;
+            text-wrap: balance;
+        }
+
+        p {
+            font-size: 14px;
+            color: $free-muted;
+        }
+    }
+
+    &__actions {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .wpr-premium-cta {
+            justify-content: center;
+        }
+    }
+
+    &__links {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 4px 16px;
+
+        // stylelint-disable-next-line selector-class-pattern
+        .components-external-link {
+            color: var(--wp-admin-theme-color);
+        }
+    }
+
+    &__guarantee {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 14px 16px;
+        border: 1px solid color-mix(in srgb, var(--wp-admin-theme-color) 30%, #fff);
+        border-radius: 6px;
+        background: $free-tint-subtle;
+
+        svg {
+            flex-shrink: 0;
+            fill: var(--wp-admin-theme-color);
+        }
+
+        strong,
+        span {
+            display: block;
+        }
+
+        strong {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        span {
+            font-size: 13px;
+            color: $free-muted;
+        }
+    }
+
+    &__features-header {
+        padding: 14px 24px;
+        border-bottom: 1px solid $border-color;
+
+        h2 {
+            font-size: 14px;
             line-height: 1.5;
         }
     }
 
-    .wpr-premium-upsell {
-        background: #fff;
-        border: 1px solid #ddd;
-        padding: 1.5rem;
-        margin-bottom: 1.5rem;
-    }
-
-    .wpr-premium-notice {
-        margin-bottom: 1.5rem;
-        
-        .components-notice__content {
-            margin: 0;
-            
-            p {
-                margin: 0;
-                font-size: 16px;
-            }
-        }
-    }
-
-    // Available Versions Section (moved higher)
-    .wpr-available-versions {
-        background: #f6f7f7;
-        border: 1px solid #ddd;
-        padding: 1.25rem;
-        margin-bottom: 1.5rem;
-        margin-left: -1.5rem;
-        margin-right: -1.5rem;
-        border-right: 0;
-        border-left: 0;
-
-        h3 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: #1d2327;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-
-            &::before {
-                content: '🔒';
-                font-size: 0.9rem;
-            }
-        }
-
-        .wpr-versions-container {
-            min-height: 0;
-        }
-
-        .wpr-versions-note {
-            color: #646970;
-            margin-bottom: 1rem;
-            font-style: italic;
-            font-size: 0.9rem;
-        }
-
-        // Disabled versions list styling
-        .wpr-version-option {
-            opacity: 0.6;
-            pointer-events: none;
-            position: relative;
-
-            &::after {
-                content: '🔒 Pro';
-                position: absolute;
-                right: 1rem;
-                top: 50%;
-                transform: translateY(-50%);
-                background: #646970;
-                color: white;
-                padding: 0.2rem 0.5rem;
-                font-size: 0.7rem;
-                font-weight: 500;
-            }
-        }
-    }
-
-    .wpr-premium-features {
-        margin-bottom: 1.5rem;
-
-        h3 {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: #1d2327;
-            text-align: center;
-        }
-    }
-
-    .wpr-premium-features-grid {
+    &__features-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 0.75rem;
-        margin-bottom: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
+        gap: 24px 32px;
+        padding: 24px;
     }
 
-    .wpr-premium-feature-card {
-        border: 1px solid #ddd;
-        transition: border-color 0.2s ease;
-        background: #fff;
-
-        &:hover {
-            border-color: #135e96;
-        }
-    }
-
-    .wpr-premium-feature-card-body {
-        padding: 1.25rem;
-    }
-
-    .wpr-premium-feature-icon {
-        width: 30px;
-        height: 30px;
-        background: #f0f6fc;
-        border: 1px solid #e3f0f9;
-        border-radius: 100%;
+    &__feature {
         display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
+        align-items: flex-start;
+        gap: 14px;
 
-        .components-icon {
-            color: #135e96;
-        }
-    }
-
-    .wpr-premium-feature-title {
-        font-size: 0.95rem;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-        color: #1d2327;
-        line-height: 1.3;
-    }
-
-    .wpr-premium-feature-description {
-        color: #646970;
-        line-height: 1.4;
-        margin: 0;
-        font-size: 0.85rem;
-    }
-
-    .wpr-premium-guarantee {
-        margin-bottom: 1.5rem;
-        
-        .wpr-premium-guarantee-card {
-            background: #f0f6fc;
-            border: 1px solid #cfe5f6;
-            color: #1d2327;
-        }
-        
-        .wpr-premium-guarantee-card-body {
-            padding: 1.25rem;
-        }
-            
-        h4 {
-            color: #135e96;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            font-size: 1rem;
-        }
-        
-        p {
-            color: #646970;
-            margin: 0;
+        h3 {
+            margin-bottom: 2px;
+            font-size: 14px;
             line-height: 1.4;
-            font-size: 0.9rem;
         }
-        
-        .components-icon {
-            color: #135e96;
+
+        p {
+            font-size: 13px;
+            color: $free-muted;
         }
     }
 
-    .wpr-premium-actions {
-        text-align: center;
+    &__feature-icon {
+        flex-shrink: 0;
         display: flex;
-        gap: 0.75rem;
-        justify-content: center;
         align-items: center;
-        flex-wrap: wrap;
-    }
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        background: var(--wp-admin-theme-color);
+        color: #fff;
 
-    // Responsive Design
-    @media (max-width: 768px) {
-        .wpr-subheader {
-            margin-bottom: 1.5rem;
-            
-            h1 {
-                font-size: 1.3rem;
-            }
-            
-            p {
-                font-size: 0.95rem;
-            }
-        }
-        
-        .wpr-premium-upsell {
-            padding: 1rem;
-        }
-        
-        .wpr-premium-features-grid {
-            grid-template-columns: 1fr;
-        }
-        
-        .wpr-premium-actions {
-            flex-direction: column;
+        svg {
+            fill: currentcolor;
         }
 
-        .wpr-available-versions {
-            padding: 1rem;
+        &--indigo {
+            background: #6f62f0;
+        }
+
+        &--purple {
+            background: #8f5fe8;
         }
     }
-} 
+}

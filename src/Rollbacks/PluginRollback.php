@@ -52,7 +52,7 @@ class PluginRollback {
         if ($currentVersion === $version) {
             return new \WP_Error(
                 'same_version',
-                __('Cannot rollback to the same version.', 'wp-rollback')
+                __('Cannot roll back to the same version.', 'wp-rollback')
             );
         }
 

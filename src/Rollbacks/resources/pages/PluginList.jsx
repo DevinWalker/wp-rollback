@@ -19,7 +19,7 @@ export const PluginList = () => {
         <Layout>
             <div className="wpr-subheader">
                 <h1>{ __( 'Plugins', 'wp-rollback' ) }</h1>
-                <p>{ __( 'Select a plugin below to rollback to a previous version.', 'wp-rollback' ) }</p>
+                <p>{ __( 'Select a plugin below to roll back to a previous version.', 'wp-rollback' ) }</p>
             </div>
 
             <div className="wpr-plugin-list">

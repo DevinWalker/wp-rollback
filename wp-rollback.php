@@ -3,10 +3,10 @@
 /**
  * Plugin Name: WP Rollback
  * Plugin URI: https://wprollback.com/
- * Description: Rollback (or forward) any WordPress.org plugin, theme or block like a boss.
+ * Description: Roll back (or forward) any WordPress.org plugin, theme or block like a boss.
  * Author: WP Rollback
  * Author URI: https://wprollback.com/
- * Version: 3.1.2
+ * Version: 3.2.0
  * Requires at least: 6.5
  * Requires PHP: 7.4
  * Text Domain: wp-rollback
@@ -28,6 +28,10 @@
 
 declare(strict_types=1);
 
+use WpRollback\Free\PluginSetup\OutdatedProNotice;
+use WpRollback\Free\PluginSetup\PluginSetup;
+use WpRollback\SharedCore\Core\SharedCore;
+
 // Exit if accessed directly.
 if (!defined('ABSPATH')) {
     exit;
@@ -38,10 +42,33 @@ require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/vendor/vendor-prefixed/autoload.php';
 
 // Initialize SharedCore - This is lightweight and just marks it as initialized
-WpRollback\SharedCore\Core\SharedCore::initialize();
+SharedCore::initialize();
+
+// Lifecycle hooks must be registered here, not in PluginSetup::boot(): the
+// activation request loads this file after plugins_loaded has already fired, so
+// boot() never runs during activation.
+//
+// Every use of PluginSetup below is behind the OutdatedProNotice check.
+// Next to WP Rollback Pro 1.4.2 or older, loading that class is a fatal error,
+// including from these hooks, which would make WP Rollback impossible to deactivate.
+register_activation_hook(__FILE__, static function (): void {
+    if (!OutdatedProNotice::isSharedCoreOutdated()) {
+        PluginSetup::activatePlugin();
+    }
+});
+register_deactivation_hook(__FILE__, static function (): void {
+    if (!OutdatedProNotice::isSharedCoreOutdated()) {
+        PluginSetup::deactivatePlugin();
+    }
+});
 
 // Initialize the plugin
 add_action('plugins_loaded', function () {
-    $pluginSetup = new WpRollback\Free\PluginSetup\PluginSetup();
+    if (OutdatedProNotice::isSharedCoreOutdated()) {
+        (new OutdatedProNotice(plugin_basename(__FILE__)))->register();
+        return;
+    }
+
+    $pluginSetup = new PluginSetup();
     $pluginSetup->boot();
 }, 5);

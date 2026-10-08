@@ -18,7 +18,7 @@ export const ThemeList = () => {
         <Layout>
             <div className="wpr-subheader">
                 <h1>{ __( 'Themes', 'wp-rollback' ) }</h1>
-                <p>{ __( 'Select a theme below to rollback to a previous version.', 'wp-rollback' ) }</p>
+                <p>{ __( 'Select a theme below to roll back to a previous version.', 'wp-rollback' ) }</p>
             </div>
 
             <div className="wpr-theme-list">

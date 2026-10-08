@@ -1,43 +1,43 @@
 {
-  "name": "wp-rollback",
-  "version": "3.0.0",
-  "author": "WP Rollback",
-  "description": "Rollback (or forward) any WordPress.org plugin, theme, or block like a boss.",
-  "homepage": "https://wprollback.com",
-  "license": "GPL-2.0-or-later",
-  "scripts": {
-    "build": "wp-scripts build",
-    "dev-build": "wp-scripts start",
-    "generate:pot": "php -d xdebug.mode=off -d memory_limit=-1 \"$(which wp)\" i18n make-pot . languages/wp-rollback.pot --include=\"src,wp-rollback.php,build/*.js\" --exclude=\"**/resources\"",
-    "plugin-zip": "wp-scripts plugin-zip",
-    "rm-modules": "rm -rf node_modules"
-  },
-  "dependencies": {
-    "@wordpress/components": "^29.7.0",
-    "@wordpress/dataviews": "^4.11.1",
-    "@wordpress/element": "^6.21.0",
-    "@wordpress/hooks": "^4.17.0",
-    "@wordpress/html-entities": "^4.16.0",
-    "@wordpress/i18n": "^5.14.0",
-    "@wordpress/icons": "^10.14.0",
-    "@wordpress/plugins": "^7.15.1",
-    "@wordpress/url": "^3.49.0",
-    "lottie-react": "^2.4.1",
-    "node-svn-ultimate": "^1.2.1",
-    "react-router-dom": "^7.1.1",
-    "@wp-rollback/shared-core": "workspace:*"
-  },
-  "files": [
-    "build",
-    "languages",
-    "vendor",
-    "wp-rollback.php",
-    "readme.txt",
-    "README.md",
-    "src"
-  ],
-  "devDependencies": {
-    "@wordpress/browserslist-config": "^6.34.0",
-    "@wordpress/scripts": "^30.27.0"
-  }
+    "name": "wp-rollback",
+    "version": "3.0.0",
+    "author": "WP Rollback",
+    "description": "Rollback (or forward) any WordPress.org plugin, theme, or block like a boss.",
+    "homepage": "https://wprollback.com",
+    "license": "GPL-2.0-or-later",
+    "scripts": {
+        "build": "wp-scripts build",
+        "dev-build": "wp-scripts start",
+        "generate:pot": "bash ../../bin/generate-pot.sh free",
+        "plugin-zip": "wp-scripts plugin-zip",
+        "rm-modules": "rm -rf node_modules"
+    },
+    "dependencies": {
+        "@wordpress/components": "^29.7.0",
+        "@wordpress/dataviews": "^4.11.1",
+        "@wordpress/element": "^6.21.0",
+        "@wordpress/hooks": "^4.17.0",
+        "@wordpress/html-entities": "^4.16.0",
+        "@wordpress/i18n": "^5.14.0",
+        "@wordpress/icons": "^10.14.0",
+        "@wordpress/plugins": "^7.15.1",
+        "@wordpress/url": "^3.49.0",
+        "lottie-react": "^2.4.1",
+        "node-svn-ultimate": "^1.2.1",
+        "react-router-dom": "^7.1.1",
+        "@wp-rollback/shared-core": "workspace:*"
+    },
+    "files": [
+        "build",
+        "languages",
+        "vendor",
+        "wp-rollback.php",
+        "uninstall.php",
+        "readme.txt",
+        "README.md",
+        "src"
+    ],
+    "devDependencies": {
+        "@wordpress/browserslist-config": "^6.34.0"
+    }
 }

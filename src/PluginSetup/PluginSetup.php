@@ -11,8 +11,6 @@ declare(strict_types=1);
 namespace WpRollback\Free\PluginSetup;
 
 use WpRollback\Free\Core\Constants;
-use WpRollback\SharedCore\Core\Contracts\ServiceProvider;
-use WpRollback\SharedCore\Core\Exceptions\Primitives\InvalidArgumentException;
 use WpRollback\Free\Core\Request;
 use WpRollback\SharedCore\Core\Hooks;
 use WpRollback\SharedCore\PluginSetup\PluginSetup as BasePluginSetup;
@@ -39,12 +37,19 @@ class PluginSetup extends BasePluginSetup
     protected ?Constants $constants = null;
 
     /**
-     * This is a list of service providers that will be loaded into the application.
+     * List of pre-boot service providers loaded before/during boot.
+     *
+     */
+    protected array $preBootServiceProviders = [
+        \WpRollback\SharedCore\Core\ServiceProvider::class,
+        \WpRollback\Free\Core\ServiceProvider::class,
+    ];
+
+    /**
+     * List of main service providers loaded during init.
      *
      */
     protected array $serviceProviders = [
-        \WpRollback\SharedCore\Core\ServiceProvider::class,
-        \WpRollback\Free\Core\ServiceProvider::class,
         \WpRollback\Free\Rollbacks\ServiceProvider::class,
         \WpRollback\SharedCore\Rollbacks\ServiceProvider::class,
         \WpRollback\SharedCore\RestAPI\ServiceProvider::class,
@@ -58,16 +63,37 @@ class PluginSetup extends BasePluginSetup
      */
     public function boot(): void
     {
+        // Load pre-boot service providers early so core bindings & Constants are registered prior to boot
+        $this->loadPreBootServiceProviders();
+
         // Get the Constants instance
         $this->constants = SharedCore::container()->make(Constants::class);
-        
+
         Hooks::addAction('plugins_loaded', self::class, 'init');
 
-        register_activation_hook($this->constants->getPluginFile(), [PluginManager::class, 'activate']);
-        register_deactivation_hook($this->constants->getPluginFile(), [PluginManager::class, 'deactivate']);
-
         // Add plugin meta
-        Hooks::addFilter( 'plugin_row_meta', PluginMeta::class, 'addPluginRowMeta', 10, 2 );
+        Hooks::addFilter('plugin_row_meta', PluginMeta::class, 'addPluginRowMeta', 10, 2);
+    }
+
+    /**
+     * Static activation method called by WordPress activation hook.
+     *
+     * Registered at the top level of wp-rollback.php, not from boot(): the
+     * activation request loads the plugin file after plugins_loaded has fired,
+     * so boot() never runs during activation.
+     */
+    public static function activatePlugin(): void
+    {
+        PluginManager::activate(SharedCore::container()->make(Constants::class));
+    }
+
+    /**
+     * Static deactivation method. Clears the report cron events (best practice
+     * for a clean uninstall).
+     */
+    public static function deactivatePlugin(): void
+    {
+        PluginManager::deactivate(SharedCore::container()->make(Constants::class));
     }
 
     /**
@@ -90,6 +116,8 @@ class PluginSetup extends BasePluginSetup
         $this->setupLanguage();
         $this->registerLibraries();
         $this->loadServiceProviders();
+
+        PluginManager::handleVersionUpdates();
 
         // Initialize scripts after service providers are loaded
         $scripts = SharedCore::container()->make(PluginScripts::class);
@@ -115,41 +143,6 @@ class PluginSetup extends BasePluginSetup
     }
 
     /**
-     * This function is used to load service providers.
-     *
-     */
-    protected function loadServiceProviders(): void
-    {
-        if ($this->providersLoaded) {
-            return;
-        }
-
-        $providers = [];
-
-        foreach ($this->serviceProviders as $serviceProvider) {
-            if (! is_subclass_of($serviceProvider, ServiceProvider::class)) {
-                throw new InvalidArgumentException(
-                // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
-                    "$serviceProvider class must implement the ServiceProvider interface"
-                );
-            }
-
-            /** @var ServiceProvider $serviceProvider */
-            $serviceProvider = new $serviceProvider();
-
-            $serviceProvider->register();
-
-            $providers[] = $serviceProvider;
-        }
-
-        foreach ($providers as $serviceProvider) {
-            $serviceProvider->boot();
-        }
-
-        $this->providersLoaded = true;
-    }
-
-    /**
      * Register third-party libraries.
      *
      */
@@ -157,7 +150,7 @@ class PluginSetup extends BasePluginSetup
     {
         // No third-party libraries to register
     }
-    
+
     /**
      * Get the Constants instance
      *
@@ -169,7 +162,7 @@ class PluginSetup extends BasePluginSetup
         if (null === $this->constants) {
             $this->constants = SharedCore::container()->make(Constants::class);
         }
-        
+
         return $this->constants;
     }
 }

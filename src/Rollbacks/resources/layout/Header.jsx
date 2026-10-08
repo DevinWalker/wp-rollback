@@ -25,7 +25,7 @@ const Header = () => {
                     target="_blank"
                     icon={ <Icon icon={ starFilled } /> }
                     iconSize={ 16 }
-                    variant={ 'primary' }
+                    variant={ 'secondary' }
                 >
                     { __( 'Upgrade to Pro', 'wp-rollback' ) }
                 </Button>

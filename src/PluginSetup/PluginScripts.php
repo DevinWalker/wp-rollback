@@ -53,6 +53,8 @@ class PluginScripts
             'themesUrl' => admin_url('themes.php'),
             'restUrl' => esc_url_raw(rest_url()),
             'rollbackSteps' => $this->getRollbackSteps(),
+            'dateFormat' => get_option('date_format', 'F j, Y'),
+            'timeFormat' => get_option('time_format', 'g:i a'),
         ]);
     }
 

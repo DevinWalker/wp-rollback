@@ -10,6 +10,7 @@ import { Dashboard } from './pages/Dashboard';
 import { PluginList } from './pages/PluginList';
 import { Rollbacks as RollbackPage } from './pages/Rollbacks';
 import { ThemeList } from './pages/ThemeList';
+import MigrationsPage from './pages/MigrationsPage';
 
 /**
  * Routes Component - Main router for WP Rollback Free Plugin
@@ -23,6 +24,7 @@ const Routes = () => {
             <Route path="plugin-list" element={ <PluginList /> } />
             <Route path="theme-list" element={ <ThemeList /> } />
             <Route path="rollback/:type/:slug" element={ <RollbackPage /> } />
+            <Route path="migrations" element={ <MigrationsPage /> } />
 
             { /* When no routes match, redirect to dashboard */ }
             <Route path="*" element={ <Navigate to="/" replace /> } />

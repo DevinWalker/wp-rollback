@@ -1,0 +1,187 @@
+@use "../../../../../shared-core/src/Frontend/styles/variables" as *;
+@use "shared" as *;
+
+// Dashboard (main screen) Styles
+
+.wpr-dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    color: $color-headings;
+
+    h2 {
+        padding: 0;
+        font-weight: 600;
+        color: $color-headings;
+    }
+
+    &__options {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+        gap: 24px;
+    }
+
+    &__option {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        padding: 24px;
+    }
+
+    &__option-heading {
+        display: flex;
+        align-items: flex-start;
+        gap: 16px;
+
+        h2 {
+            margin: 0 0 2px;
+            font-size: 16px;
+            line-height: 1.4;
+        }
+
+        p {
+            margin: 0;
+            font-size: 13px;
+            color: $free-muted;
+        }
+    }
+
+    &__pro-body {
+        display: grid;
+        grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+        align-items: center;
+        gap: 24px 48px;
+        padding: 24px;
+
+        @media (max-width: 782px) {
+            grid-template-columns: minmax(0, 1fr);
+        }
+    }
+
+    &__pro-pitch {
+        .wpr-pro-card__illustration {
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            margin: 0 0 12px;
+            font-size: 22px;
+            line-height: 1.25;
+            text-wrap: balance;
+        }
+
+        p {
+            margin: 0;
+            font-size: 14px;
+            color: $free-muted;
+        }
+    }
+
+    &__pro-actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px 20px;
+        margin-top: 20px;
+
+        // stylelint-disable-next-line selector-class-pattern
+        .components-external-link {
+            font-weight: 500;
+            color: var(--wp-admin-theme-color);
+        }
+    }
+
+    &__pro-guarantee {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 12px;
+        font-size: 12px;
+        color: $free-muted;
+
+        svg {
+            fill: currentcolor;
+        }
+    }
+
+    &__compare {
+        width: 100%;
+        // Separate borders so the highlighted Pro column can have rounded ends.
+        border-collapse: separate;
+        border-spacing: 0;
+
+        th,
+        td {
+            padding: 7px 0;
+            line-height: 1.4;
+            border-top: 1px solid $border-color;
+            vertical-align: middle;
+        }
+
+        thead th {
+            padding: 8px 0;
+            border-top: 0;
+            font-size: 12px;
+            font-weight: 500;
+            text-align: center;
+            color: $free-muted;
+        }
+
+        tbody th {
+            font-weight: 400;
+            text-align: left;
+        }
+
+        td {
+            width: 56px;
+            text-align: center;
+            color: $color-headings;
+
+            svg {
+                display: block;
+                margin: 0 auto;
+                fill: currentcolor;
+            }
+        }
+    }
+
+    &__compare-title,
+    &__compare-description {
+        display: block;
+    }
+
+    &__compare-title {
+        font-size: 13px;
+        font-weight: 500;
+    }
+
+    &__compare-description {
+        font-size: 12px;
+        color: $free-muted;
+    }
+
+    &__compare-dash {
+        display: block;
+        width: 8px;
+        height: 2px;
+        margin: 0 auto;
+        border-radius: 1px;
+        background: var(--wpr-gray-700);
+    }
+
+    & &__compare-pro {
+        border-top-color: $free-tint;
+        background: $free-tint-subtle;
+        font-weight: 600;
+        color: var(--wp-admin-theme-color);
+    }
+
+    & thead &__compare-pro {
+        border-radius: 6px 6px 0 0;
+    }
+
+    & tbody tr:last-child &__compare-pro {
+        border-radius: 0 0 6px 6px;
+    }
+}

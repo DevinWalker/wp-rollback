@@ -1,20 +1,50 @@
 // Import shared core variables and mixins using relative paths
 @use "../../../../../shared-core/src/Frontend/styles/variables" as *;
 @use "../../../../../shared-core/src/Frontend/styles/mixins" as *;
+@use "shared" as *;
 @use "@wordpress/dataviews/build-style/style.css";
 
 // Import component-specific styles
 @use "free-complete-template";
 @use "premium-upsell";
+@use "dashboard";
 
 .wpr-complete-template {
     margin-bottom: 25px;
 }
 
-.wpr-rollback-options { 
-    margin-bottom: 25px;
+// stylelint-disable-next-line selector-class-pattern
+.dataviews-wrapper {
+    background-color: #fff;
 }
 
-.dataviews-wrapper {
-    background-color: #FFF;
+.wpr-tools-content,
+.wpr-rollback-page {
+    max-width: $container-width;
+    margin: 0 auto;
+    padding: 24px 28px 32px;
+
+    // Page heading and supporting text, shared by every free screen. Nested under the page
+    // containers so it outranks shared-core's base .wpr-subheader rules whatever the stylesheet order.
+    .wpr-subheader {
+        margin: 0 0 24px;
+        text-align: left;
+
+        h1 {
+            margin: 0 0 4px;
+            padding: 0;
+            font-size: 23px;
+            font-weight: 600;
+            line-height: 1.3;
+            color: $color-headings;
+        }
+
+        p {
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.5;
+            color: $free-muted;
+            text-wrap: pretty;
+        }
+    }
 }

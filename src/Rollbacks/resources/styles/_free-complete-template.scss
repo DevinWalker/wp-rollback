@@ -12,7 +12,7 @@
 
     // Decorative background circle
     &::after {
-        content: '';
+        content: "";
         position: absolute;
         top: -40px;
         right: -40px;
@@ -63,6 +63,7 @@
         align-items: center;
         gap: 14px;
 
+        // stylelint-disable-next-line selector-class-pattern
         .wpr-pro-upgrade-card__cta.components-button {
             background: #fff !important;
             border-color: #fff !important;
@@ -80,10 +81,13 @@
             }
 
             &:focus {
-                box-shadow: 0 0 0 2px #4338ca, 0 0 0 4px rgba(255, 255, 255, 0.5) !important;
+                box-shadow:
+                    0 0 0 2px #4338ca,
+                    0 0 0 4px rgba(255, 255, 255, 0.5) !important;
             }
         }
 
+        // stylelint-disable-next-line selector-class-pattern
         .components-external-link {
             font-size: 13px;
             color: rgba(255, 255, 255, 0.85) !important;
@@ -115,7 +119,6 @@
     border: 1px solid rgba(255, 255, 255, 0.22);
     border-radius: 20px;
     white-space: nowrap;
-
 }
 
 // Modal content padding
@@ -124,7 +127,7 @@
 }
 
 // Responsive
-@media ( max-width: 600px ) {
+@media (max-width: 600px) {
     .wpr-pro-upgrade-card__chips {
         flex-direction: column;
     }

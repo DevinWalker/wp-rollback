@@ -1,129 +1,247 @@
 /**
  * External dependencies.
  */
-import { __ } from '@wordpress/i18n';
-import { Button, Icon, Flex, FlexItem } from '@wordpress/components';
-import { starFilled, shield, backup, info, list } from '@wordpress/icons';
+import { __, _n, sprintf } from '@wordpress/i18n';
+import { decodeEntities } from '@wordpress/html-entities';
+import { Button, Dashicon, ExternalLink, Icon } from '@wordpress/components';
+import { backup, brush, cloud, code, comment, envelope, list, lock, plugins, shield } from '@wordpress/icons';
 import { useRollbackContext } from '@wp-rollback/shared-core/context/RollbackContext';
+import VersionsList from '@wp-rollback/shared-core/components/Rollbacks/VersionsList';
+import { getVersionSource } from '@wp-rollback/shared-core/utils';
+import IllustrationPremiumRollback from './IllustrationPremiumRollback';
+
+const UPGRADE_URL =
+    'https://wprollback.com/pricing/?utm_source=free-plugin&utm_medium=rollback-upsell&utm_campaign=premium-rollback';
+const FEATURES_URL =
+    'https://wprollback.com/features/?utm_source=free-plugin&utm_medium=rollback-upsell&utm_campaign=premium-rollback';
+
+const VAULT_DOCS_URL =
+    'https://docs.wprollback.com/plugin-vault?utm_source=free-plugin&utm_medium=rollback-upsell&utm_campaign=plugin-vault';
+
+// Placeholder rows standing in for Plugin Vault versions, which only Pro can list.
+// More than fit: the list clips and fades them to fill the card.
+const VAULT_PLACEHOLDER_ROWS = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ];
 
 /**
- * PremiumRollbackInlineUpsell component provides an inline upsell experience within the rollback view
+ * PremiumRollbackInlineUpsell component shows the versions this site already
+ * knows about for a premium plugin or theme, locked, beside the Pro upgrade.
  *
  * @return {JSX.Element} The premium rollback inline upsell component
  */
 const PremiumRollbackInlineUpsell = () => {
-    const { handleCancel } = useRollbackContext();
+    const { type, rollbackInfo, rollbackVersion, setRollbackVersion, currentVersion, handleCancel } =
+        useRollbackContext();
 
-    const handleUpgrade = () => {
-        window.open(
-            'https://wprollback.com/pricing/?utm_source=free-plugin&utm_medium=rollback-upsell&utm_campaign=premium-rollback',
-            '_blank'
+    const assetName = decodeEntities( rollbackInfo?.name || rollbackInfo?.slug || '' );
+    const versions = rollbackInfo?.versions || {};
+    const versionKeys = Object.keys( versions );
+    const localBackups = versionKeys.filter(
+        version => version !== currentVersion && getVersionSource( versions[ version ] ) === 'local'
+    ).length;
+
+    let installedSummary = '';
+
+    if ( currentVersion && localBackups > 0 ) {
+        installedSummary = sprintf(
+            // translators: 1: installed version number, 2: number of local backups.
+            _n(
+                'Version %1$s installed · %2$d local backup',
+                'Version %1$s installed · %2$d local backups',
+                localBackups,
+                'wp-rollback'
+            ),
+            currentVersion,
+            localBackups
         );
-    };
+    } else if ( currentVersion ) {
+        // translators: %s: version number.
+        installedSummary = sprintf( __( 'Version %s installed', 'wp-rollback' ), currentVersion );
+    }
 
     const features = [
         {
+            icon: cloud,
+            title: __( 'Plugin Vault', 'wp-rollback' ),
+            description: __(
+                'Verified earlier versions of premium plugins and themes you hold a license for.',
+                'wp-rollback'
+            ),
+        },
+        {
             icon: backup,
-            title: __( 'Premium Plugin & Theme Rollbacks', 'wp-rollback' ),
-            description: __(
-                'Roll back any premium plugin or theme from any marketplace - not just WordPress.org.',
-                'wp-rollback'
-            ),
+            tone: 'indigo',
+            title: __( 'Automatic backups', 'wp-rollback' ),
+            description: __( 'The current version is archived before each update, ready to restore.', 'wp-rollback' ),
         },
         {
-            icon: shield,
-            title: __( 'Version Preservation', 'wp-rollback' ),
-            description: __(
-                'For premium assets, creates a zip archive of the current version and stores the archive.',
-                'wp-rollback'
-            ),
-        },
-        {
-            icon: info,
-            title: __( 'Rollback Notes & Documentation', 'wp-rollback' ),
-            description: __(
-                'Add detailed notes to each rollback for better team coordination and change tracking.',
-                'wp-rollback'
-            ),
+            icon: comment,
+            tone: 'purple',
+            title: __( 'Rollback notes', 'wp-rollback' ),
+            description: __( 'Record why you rolled back so your team knows what happened.', 'wp-rollback' ),
         },
         {
             icon: list,
-            title: __( 'Advanced Activity Logging', 'wp-rollback' ),
-            description: __(
-                'Complete audit trail of all rollbacks with timestamps, user tracking, and detailed logs.',
-                'wp-rollback'
-            ),
+            title: __( 'Activity log', 'wp-rollback' ),
+            description: __( 'See who rolled back what, and when, across the site.', 'wp-rollback' ),
+        },
+        {
+            icon: envelope,
+            tone: 'indigo',
+            title: __( 'Status report emails', 'wp-rollback' ),
+            description: __( 'A regular summary of rollbacks and backups, sent to your inbox.', 'wp-rollback' ),
+        },
+        {
+            icon: code,
+            tone: 'purple',
+            title: __( 'WP-CLI and Abilities API', 'wp-rollback' ),
+            description: __( 'Run rollbacks from the command line or let AI agents do it.', 'wp-rollback' ),
         },
     ];
 
     return (
-        <>
-            <div className="wpr-premium-features">
-                <h3>{ __( 'Why Upgrade to WP Rollback Pro?', 'wp-rollback' ) }</h3>
-                <div className="wpr-premium-features-grid">
-                    { features.map( ( feature, index ) => (
-                        <div key={ index } className="wpr-premium-feature-card">
-                            <div className="wpr-premium-feature-card-body">
-                                <Flex align="flex-start" gap={ 8 } justify="flex-start">
-                                    <FlexItem>
-                                        <div className="wpr-premium-feature-icon">
-                                            <Icon icon={ feature.icon } size={ 20 } />
-                                        </div>
-                                    </FlexItem>
-                                    <FlexItem>
-                                        <h4 className="wpr-premium-feature-title">{ feature.title }</h4>
-                                        <p className="wpr-premium-feature-description">{ feature.description }</p>
-                                    </FlexItem>
-                                </Flex>
+        <div className="wpr-premium-upsell">
+            <div className="wpr-premium-upsell__columns">
+                <section
+                    className="wpr-card wpr-premium-upsell__versions"
+                    aria-label={ __( 'Available versions', 'wp-rollback' ) }
+                >
+                    <div className="wpr-premium-upsell__asset">
+                        <div className="wpr-icon-tile">
+                            <Icon icon={ type === 'theme' ? brush : plugins } />
+                        </div>
+                        <div className="wpr-premium-upsell__asset-text">
+                            <h2>{ assetName }</h2>
+                            { installedSummary && <p>{ installedSummary }</p> }
+                        </div>
+                        <span className="wpr-premium-upsell__lock-badge">
+                            <Icon icon={ lock } size={ 16 } />
+                            { __( 'Pro feature', 'wp-rollback' ) }
+                        </span>
+                    </div>
+
+                    { ( currentVersion || versionKeys.length > 0 ) && (
+                        <VersionsList
+                            versions={ versions }
+                            rollbackVersion={ rollbackVersion }
+                            setRollbackVersion={ setRollbackVersion }
+                            currentVersion={ currentVersion }
+                            disabled={ true }
+                        />
+                    ) }
+
+                    <div className="wpr-premium-upsell__vault-rows" aria-hidden="true">
+                        { VAULT_PLACEHOLDER_ROWS.map( row => (
+                            <div key={ row } className="wpr-premium-upsell__vault-row">
+                                <span className="wpr-premium-upsell__vault-radio" />
+                                <span className="wpr-premium-upsell__vault-bar" />
+                                <span className="wpr-version-source wpr-version-source--vault">
+                                    <Dashicon icon="cloud" />
+                                    { __( 'Vault', 'wp-rollback' ) }
+                                </span>
+                            </div>
+                        ) ) }
+                    </div>
+
+                    <div className="wpr-premium-upsell__vault-info">
+                        <div className="wpr-premium-upsell__vault-info-icon">
+                            <Icon icon={ cloud } />
+                        </div>
+                        <div>
+                            <h3>{ __( 'What is Plugin Vault?', 'wp-rollback' ) }</h3>
+                            <p>
+                                { sprintf(
+                                    // translators: %s: plugin or theme name.
+                                    __(
+                                        "A shared library of earlier versions of premium plugins and themes, contributed by Pro sites and verified before they're stored and again before they're installed. Pro checks it for %s. You need your own valid license for anything you roll back.",
+                                        'wp-rollback'
+                                    ),
+                                    assetName
+                                ) }
+                            </p>
+                            <ExternalLink href={ VAULT_DOCS_URL }>
+                                { __( 'Learn more about Plugin Vault', 'wp-rollback' ) }
+                            </ExternalLink>
+                        </div>
+                    </div>
+                </section>
+
+                <aside className="wpr-card wpr-premium-upsell__pro">
+                    <div className="wpr-pro-card__header">
+                        <span>{ __( 'WP Rollback Pro', 'wp-rollback' ) }</span>
+                        <span className="wpr-pro-card__badge">{ __( 'Upgrade', 'wp-rollback' ) }</span>
+                    </div>
+                    <div className="wpr-premium-upsell__pro-body">
+                        <div className="wpr-pro-card__illustration">
+                            <IllustrationPremiumRollback />
+                        </div>
+                        <div>
+                            <h2>
+                                { sprintf(
+                                    // translators: %s: plugin or theme name.
+                                    __( 'Roll back %s to an earlier version', 'wp-rollback' ),
+                                    assetName
+                                ) }
+                            </h2>
+                            <p>
+                                { __(
+                                    'Pro installs verified versions from Plugin Vault or your own backups, and saves a fresh backup before every update.',
+                                    'wp-rollback'
+                                ) }
+                            </p>
+                        </div>
+                        <div className="wpr-premium-upsell__actions">
+                            <Button
+                                variant="primary"
+                                href={ UPGRADE_URL }
+                                target="_blank"
+                                className="wpr-premium-cta"
+                                __next40pxDefaultSize
+                            >
+                                { __( 'Upgrade to Pro', 'wp-rollback' ) }
+                            </Button>
+                            <div className="wpr-premium-upsell__links">
+                                <Button variant="link" onClick={ handleCancel }>
+                                    { __( 'Go back', 'wp-rollback' ) }
+                                </Button>
+                                <ExternalLink href={ FEATURES_URL }>
+                                    { __( 'See all Pro features', 'wp-rollback' ) }
+                                </ExternalLink>
+                            </div>
+                        </div>
+                        <div className="wpr-premium-upsell__guarantee">
+                            <Icon icon={ shield } size={ 32 } />
+                            <div>
+                                <strong>{ __( '30-day money-back guarantee', 'wp-rollback' ) }</strong>
+                                <span>{ __( 'Try Pro risk-free. Full refund within 30 days.', 'wp-rollback' ) }</span>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+
+            <section className="wpr-card wpr-premium-upsell__features">
+                <div className="wpr-premium-upsell__features-header">
+                    <h2>{ __( 'What you get with Pro', 'wp-rollback' ) }</h2>
+                </div>
+                <div className="wpr-premium-upsell__features-grid">
+                    { features.map( feature => (
+                        <div key={ feature.title } className="wpr-premium-upsell__feature">
+                            <div
+                                className={ `wpr-premium-upsell__feature-icon${
+                                    feature.tone ? ` wpr-premium-upsell__feature-icon--${ feature.tone }` : ''
+                                }` }
+                            >
+                                <Icon icon={ feature.icon } />
+                            </div>
+                            <div>
+                                <h3>{ feature.title }</h3>
+                                <p>{ feature.description }</p>
                             </div>
                         </div>
                     ) ) }
                 </div>
-            </div>
-
-            <div className="wpr-premium-guarantee">
-                <div className="wpr-premium-guarantee-card">
-                    <div className="wpr-premium-guarantee-card-body">
-                        <Flex align="center" gap={ 4 }>
-                            <FlexItem>
-                                <Icon icon={ shield } size={ 24 } />
-                            </FlexItem>
-                            <FlexItem>
-                                <h4>{ __( '30-Day Money-Back Guarantee', 'wp-rollback' ) }</h4>
-                                <p>
-                                    { __(
-                                        "Try WP Rollback Pro risk-free. If you're not completely satisfied, get your money back within 30 days.",
-                                        'wp-rollback'
-                                    ) }
-                                </p>
-                            </FlexItem>
-                        </Flex>
-                    </div>
-                </div>
-            </div>
-
-            <div className="wpr-premium-actions">
-                <Button
-                    variant="primary"
-                    size="large"
-                    icon={ <Icon icon={ starFilled } /> }
-                    onClick={ handleUpgrade }
-                    className="wpr-premium-cta"
-                >
-                    { __( 'Upgrade to WP Rollback Pro', 'wp-rollback' ) }
-                </Button>
-                <Button variant="secondary" size="large" onClick={ handleCancel }>
-                    { __( 'Go Back', 'wp-rollback' ) }
-                </Button>
-                <Button
-                    variant="link"
-                    href="https://wprollback.com/features/?utm_source=free-plugin&utm_medium=rollback-upsell&utm_campaign=premium-rollback"
-                    target="_blank"
-                >
-                    { __( 'Learn More About Pro Features', 'wp-rollback' ) }
-                </Button>
-            </div>
-        </>
+            </section>
+        </div>
     );
 };
 

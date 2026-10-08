@@ -11,7 +11,6 @@ import { ExternalLink, Icon, Button } from '@wordpress/components';
 import { __, sprintf } from '@wordpress/i18n';
 import { decodeEntities } from '@wordpress/html-entities';
 import { useRollbackContext } from '@wp-rollback/shared-core/context/RollbackContext';
-import { useEffect } from '@wordpress/element';
 import { starFilled, backup, list, plugins } from '@wordpress/icons';
 import RollbackButtons from '@wp-rollback/shared-core/components/modals/RollbackButtons';
 import Lottie from 'lottie-react';
@@ -24,13 +23,7 @@ const proFeatureChips = [
 ];
 
 const FreeCompleteTemplate = ( { buttons } ) => {
-    const { rollbackInfo, rollbackVersion, setCurrentVersion } = useRollbackContext();
-
-    useEffect( () => {
-        if ( rollbackVersion ) {
-            setCurrentVersion( rollbackVersion );
-        }
-    }, [ rollbackVersion, setCurrentVersion ] );
+    const { rollbackInfo, rollbackVersion } = useRollbackContext();
 
     if ( ! rollbackInfo || ! rollbackVersion ) {
         return null;
@@ -68,7 +61,7 @@ const FreeCompleteTemplate = ( { buttons } ) => {
                     </div>
 
                     <h3 className="wpr-pro-upgrade-card__headline">
-                        { __( 'Rollback any plugin — not just WordPress.org.', 'wp-rollback' ) }
+                        { __( 'Roll back any plugin — not just WordPress.org.', 'wp-rollback' ) }
                     </h3>
 
                     <p className="wpr-pro-upgrade-card__description">
